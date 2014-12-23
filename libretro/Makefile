@@ -67,6 +67,15 @@ ifeq ($(OSX_LT_MAVERICKS),"YES")
    CXX +=  -miphoneos-version-min=5.0
    PLATFORM_DEFINES += -miphoneos-version-min=5.0
 endif
+else ifeq ($(platform), theos_ios)
+DEPLOYMENT_IOSVERSION = 5.0
+TARGET = iphone:latest:$(DEPLOYMENT_IOSVERSION)
+ARCHS = armv7 armv7s
+TARGET_IPHONEOS_DEPLOYMENT_VERSION=$(DEPLOYMENT_IOSVERSION)
+THEOS_BUILD_DIR := objs
+include $(THEOS)/makefiles/common.mk
+
+LIBRARY_NAME = $(TARGET_NAME)_libretro_ios
 else ifeq ($(platform), qnx)
 	TARGET := $(TARGET_NAME)_libretro_qnx.so
 	fpic := -fPIC
@@ -152,14 +161,12 @@ else
    SHARED := -shared -static-libgcc -static-libstdc++ -Wl,-no-undefined -Wl,-version-script=link.T
 endif
 
-all: $(TARGET)
-
 ifeq ($(DEBUG), 1)
    CFLAGS += -O0 -g
    CXXFLAGS += -O0 -g
 else
-   CFLAGS += -O3
-   CXXFLAGS += -O3
+   CFLAGS += -O3 -DNDEBUG
+   CXXFLAGS += -O3 -DNDEBUG
 endif
 
 CORE_DIR := ..
@@ -168,28 +175,35 @@ include Makefile.common
 
 OBJECTS := $(SOURCES_CXX:.cpp=.o)
 
-DEFINES := -D__LIBRETRO__ $(PLATFORM_DEFINES) -Wall -Wno-multichar -Wno-unused-variable -Wno-sign-compare -DNDEBUG \
+DEFINES := -D__LIBRETRO__ $(PLATFORM_DEFINES) -Wall -Wno-multichar -Wno-unused-variable -Wno-sign-compare \
 	-DSTD_AUTO_FILE_WRITER=Std_File_Writer \
 	-DSTD_AUTO_FILE_READER=Std_File_Reader \
 	-DSTD_AUTO_FILE_COMP_READER=Std_File_Reader \
 	-DSTD_AUTO_FILE_COMP_WRITER=Std_File_Writer
 
-CFLAGS += $(fpic) $(DEFINES) -std=gnu99
+CFLAGS += $(fpic) $(DEFINES)
 CXXFLAGS += $(fpic) $(DEFINES)
-
-
-$(TARGET): $(OBJECTS)
-ifeq ($(STATIC_LINKING), 1)
-	$(AR) rcs $@ $(OBJECTS)
-else
-	$(CXX) -o $@ $(SHARED) $(OBJECTS) $(LDFLAGS) $(LIBS)
-endif
 
 %.o: %.cpp
 	$(CXX) -c -o $@ $< $(CXXFLAGS) $(INCFLAGS)
 
 %.o: %.c
 	$(CXX) -c -o $@ $< $(CXXFLAGS) $(INCFLAGS)
+
+ifeq ($(platform), theos_ios)
+COMMON_FLAGS := -DIOS -DARM $(COMMON_DEFINES) $(INCFLAGS) -I$(THEOS_INCLUDE_PATH) -Wno-error
+$(LIBRARY_NAME)_CFLAGS += $(CFLAGS) $(COMMON_FLAGS)
+$(LIBRARY_NAME)_CXXFLAGS += $(CXXFLAGS) $(COMMON_FLAGS)
+${LIBRARY_NAME}_FILES = $(SOURCES_CXX) $(SOURCES_C)
+include $(THEOS_MAKE_PATH)/library.mk
+else
+all: $(TARGET)
+$(TARGET): $(OBJECTS)
+ifeq ($(STATIC_LINKING), 1)
+	$(AR) rcs $@ $(OBJECTS)
+else
+	$(CXX) -o $@ $(SHARED) $(OBJECTS) $(LDFLAGS) $(LIBS)
+endif
 
 clean-objs:
 	rm -f $(OBJECTS)
@@ -199,4 +213,4 @@ clean:
 	rm -f $(TARGET)
 
 .PHONY: clean clean-objs
-
+endif
