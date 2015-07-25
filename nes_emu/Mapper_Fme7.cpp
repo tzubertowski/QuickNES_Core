@@ -160,8 +160,8 @@ void Mapper_Fme7::write_irq( nes_time_t time, int index, int data )
 	{
 	case 0x0D:
 		irq_mode = data;
-		if ( (irq_mode & 0x81) != 0x81 )
-			irq_pending = false;
+      irq_pending = false;
+      irq_changed()
 		break;
 
 	case 0x0E:
@@ -172,9 +172,6 @@ void Mapper_Fme7::write_irq( nes_time_t time, int index, int data )
 		irq_count = data << 8 | (irq_count & 0xFF);
 		break;
 	}
-	
-	if ( (irq_mode & 0x81) == 0x81 )
-		irq_changed();
 }
 
 void Mapper_Fme7::write_register( int index, int data )
