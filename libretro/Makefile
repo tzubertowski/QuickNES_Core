@@ -126,6 +126,15 @@ else ifeq ($(platform), psp1)
 	PLATFORM_DEFINES := -DPSP -G0 -DLSB_FIRST
 	STATIC_LINKING = 1
 
+# Vita
+else ifeq ($(platform), vita)
+	TARGET := $(TARGET_NAME)_libretro_vita.a
+	CC = arm-vita-eabi-gcc$(EXE_EXT)
+	CXX = arm-vita-eabi-g++$(EXE_EXT)
+	AR = arm-vita-eabi-ar$(EXE_EXT)
+	PLATFORM_DEFINES := -DVITA -DLSB_FIRST
+	STATIC_LINKING = 1
+
 # Xbox 360
 else ifeq ($(platform), xenon)
 	TARGET := $(TARGET_NAME)_libretro_xenon360.a
