@@ -49,7 +49,7 @@ else ifeq ($(platform), osx)
 	OSXVER = `sw_vers -productVersion | cut -d. -f 2`
 	OSX_LT_MAVERICKS = `(( $(OSXVER) <= 9)) && echo "YES"`
 	ifeq ($(OSX_LT_MAVERICKS),"YES")
-		fpic += -mmacosx-version-min=10.5
+		fpic += -mmacosx-version-min=10.2
 	endif
 
 # iOS
