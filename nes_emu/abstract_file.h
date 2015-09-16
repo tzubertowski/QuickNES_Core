@@ -90,9 +90,6 @@ class Auto_File_Reader {
 public:
 	Auto_File_Reader()                      : data(  0 ), path( 0 ) { }
 	Auto_File_Reader( Data_Reader& r )      : data( &r ), path( 0 ) { }
-#ifndef DISABLE_AUTO_FILE
-	Auto_File_Reader( const char* path_ )   : data(  0 ), path( path_ ) { }
-#endif
 	Auto_File_Reader( Auto_File_Reader const& );
 	Auto_File_Reader& operator = ( Auto_File_Reader const& );
 	~Auto_File_Reader();
@@ -110,9 +107,6 @@ class Auto_File_Writer {
 public:
 	Auto_File_Writer()                      : data(  0 ), path( 0 ) { }
 	Auto_File_Writer( Data_Writer& r )      : data( &r ), path( 0 ) { }
-#ifndef DISABLE_AUTO_FILE
-	Auto_File_Writer( const char* path_ )   : data(  0 ), path( path_ ) { }
-#endif
 	Auto_File_Writer( Auto_File_Writer const& );
 	Auto_File_Writer& operator = ( Auto_File_Writer const& );
 	~Auto_File_Writer();

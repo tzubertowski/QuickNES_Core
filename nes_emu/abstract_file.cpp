@@ -161,17 +161,7 @@ error_t Null_Writer::write( const void*, long )
 
 const char* Auto_File_Reader::open()
 {
-	#ifdef DISABLE_AUTO_FILE
-		return 0;
-	#else
-		if ( data )
-			return 0;
-		STD_AUTO_FILE_READER* d = new STD_AUTO_FILE_READER;
-		if ( !d )
-			RAISE_ERROR( "Out of memory" );
-		data = d;
-		return d->open( path );
-	#endif
+   return 0;
 }
 
 Auto_File_Reader::~Auto_File_Reader()
@@ -184,38 +174,14 @@ Auto_File_Reader::~Auto_File_Reader()
 
 const char* Auto_File_Writer::open()
 {
-	#ifdef DISABLE_AUTO_FILE
-		return 0;
-	#else
-		if ( data )
-			return 0;
-		STD_AUTO_FILE_WRITER* d = new STD_AUTO_FILE_WRITER;
-		if ( !d )
-			RAISE_ERROR( "Out of memory" );
-		data = d;
-		return d->open( path );
-	#endif
+   return 0;
 }
 
 const char* Auto_File_Writer::open_comp( int level )
 {
-	#ifdef DISABLE_AUTO_FILE
-		return 0;
-	#else
-		if ( data )
-			return 0;
-		STD_AUTO_FILE_COMP_WRITER* d = new STD_AUTO_FILE_COMP_WRITER;
-		if ( !d )
-			RAISE_ERROR( "Out of memory" );
-		data = d;
-		return d->open( path, level );
-	#endif
+   return 0;
 }
 
 Auto_File_Writer::~Auto_File_Writer()
 {
-	#ifndef DISABLE_AUTO_FILE
-		if ( path )
-			delete data;
-	#endif
 }
