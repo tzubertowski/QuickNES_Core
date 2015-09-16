@@ -145,18 +145,5 @@ inline Auto_File_Writer& Auto_File_Writer::operator = ( Auto_File_Writer const& 
 }
 inline Auto_File_Writer::Auto_File_Writer( Auto_File_Writer const& r ) { *this = r; }
 
-#ifndef __LIBRETRO__
-class Gzip_File_Writer : public Data_Writer {
-	void* file_;
-public:
-	Gzip_File_Writer();
-	~Gzip_File_Writer();
-	
-	error_t open( const char*, int compression = -1 );
-	error_t write( const void*, long );
-	void close();
-};
-#endif
-
 #endif
 
