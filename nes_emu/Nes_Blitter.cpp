@@ -58,7 +58,7 @@ void Nes_Blitter::blit( Nes_Emu& emu, void* out, long out_pitch )
 		burst_phase = (burst_phase + 1) % nes_ntsc_burst_count;
 		
 		// assemble two 16-bit pixels into a 32-bit int for better performance
-		#if BLARGG_BIG_ENDIAN
+		#ifdef MSB_FIRST
 			#define COMBINE_PIXELS right |= left << 16;
 		#else
 			#define COMBINE_PIXELS right <<= 16; right |= left;
