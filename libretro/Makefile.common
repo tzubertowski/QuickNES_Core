@@ -21,9 +21,6 @@ SOURCES_CXX := \
 	$(CORE_DIR)/nes_emu/Nes_Effects_Buffer.cpp \
 	$(CORE_DIR)/nes_emu/Nes_Emu.cpp \
 	$(CORE_DIR)/nes_emu/Nes_File.cpp \
-	$(CORE_DIR)/nes_emu/Nes_Film.cpp \
-	$(CORE_DIR)/nes_emu/Nes_Film_Data.cpp \
-	$(CORE_DIR)/nes_emu/Nes_Film_Packer.cpp \
 	$(CORE_DIR)/nes_emu/Nes_Fme7_Apu.cpp \
 	$(CORE_DIR)/nes_emu/Nes_Mapper.cpp \
 	$(CORE_DIR)/nes_emu/nes_mappers.cpp \
@@ -34,7 +31,6 @@ SOURCES_CXX := \
 	$(CORE_DIR)/nes_emu/Nes_Ppu.cpp \
 	$(CORE_DIR)/nes_emu/Nes_Ppu_Impl.cpp \
 	$(CORE_DIR)/nes_emu/Nes_Ppu_Rendering.cpp \
-	$(CORE_DIR)/nes_emu/Nes_Recorder.cpp \
 	$(CORE_DIR)/nes_emu/Nes_State.cpp \
 	$(CORE_DIR)/nes_emu/nes_util.cpp \
 	$(CORE_DIR)/nes_emu/Nes_Vrc6_Apu.cpp \
