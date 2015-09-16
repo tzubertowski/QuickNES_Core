@@ -231,34 +231,6 @@ private:
 	void* const user_data;
 };
 
-
-#ifdef HAVE_ZLIB_H
-
-// Reads file compressed with gzip (or uncompressed)
-class Gzip_File_Reader : public File_Reader {
-public:
-
-	// Opens possibly gzipped file
-	blargg_err_t open( const char path [] );
-	
-	// Closes file if one was open
-	void close();
-
-// Implementation
-public:
-	Gzip_File_Reader();
-	~Gzip_File_Reader();
-	
-protected:
-	virtual blargg_err_t read_v( void*, int );
-	virtual blargg_err_t seek_v( int );
-	
-private:
-	// void* so "zlib.h" doesn't have to be included here
-	void* file_;
-};
-#endif
-
 char* blargg_to_utf8( const blargg_wchar_t* );
 blargg_wchar_t* blargg_to_wide( const char* );
 
