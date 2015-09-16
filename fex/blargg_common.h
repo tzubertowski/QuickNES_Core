@@ -155,46 +155,6 @@ interface, I override operator new to use malloc. */
 	#define BLARGG_NEW new (std::nothrow)
 #endif
 
-	class blargg_vector_ {
-	protected:
-		void* begin_;
-		size_t size_;
-		void init();
-		blargg_err_t resize_( size_t n, size_t elem_size );
-	public:
-		size_t size() const { return size_; }
-		void clear();
-	};
-
-// Very lightweight vector for POD types (no constructor/destructor)
-template<class T>
-class blargg_vector : public blargg_vector_ {
-	union T_must_be_pod { T t; }; // fails if T is not POD
-public:
-	blargg_vector()         { init(); }
-	~blargg_vector()        { clear(); }
-	
-	blargg_err_t resize( size_t n ) { return resize_( n, sizeof (T) ); }
-	
-	      T* begin()       { return static_cast<T*> (begin_); }
-	const T* begin() const { return static_cast<T*> (begin_); }
-	
-	      T* end()         { return static_cast<T*> (begin_) + size_; }
-	const T* end()   const { return static_cast<T*> (begin_) + size_; }
-	
-	T& operator [] ( size_t n )
-	{
-		assert( n < size_ );
-		return static_cast<T*> (begin_) [n];
-	}
-	
-	const T& operator [] ( size_t n ) const
-	{
-		assert( n < size_ );
-		return static_cast<T*> (begin_) [n];
-	}
-};
-
 // Callback function with user data.
 // blargg_callback<T> set_callback; // for user, this acts like...
 // void set_callback( T func, void* user_data = NULL ); // ...this
