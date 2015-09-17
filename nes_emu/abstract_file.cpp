@@ -139,24 +139,8 @@ error_t Null_Writer::write( const void*, long )
 	#define STD_AUTO_FILE_WRITER Std_File_Writer
 #endif
 
-#ifdef HAVE_ZLIB_H
-	#ifndef STD_AUTO_FILE_READER
-		#define STD_AUTO_FILE_READER Gzip_File_Reader
-	#endif
-
-	#ifndef STD_AUTO_FILE_COMP_WRITER
-		#define STD_AUTO_FILE_COMP_WRITER Gzip_File_Writer
-	#endif
-
-#else
-	#ifndef STD_AUTO_FILE_READER
-		#define STD_AUTO_FILE_READER Std_File_Reader
-	#endif
-
-	#ifndef STD_AUTO_FILE_COMP_WRITER
-		#define STD_AUTO_FILE_COMP_WRITER Std_File_Writer
-	#endif
-
+#ifndef STD_AUTO_FILE_READER
+#define STD_AUTO_FILE_READER Std_File_Reader
 #endif
 
 const char* Auto_File_Reader::open()
