@@ -18,9 +18,6 @@ public:
 	// Load iNES ROM file
 	blargg_err_t load_ines_rom( Data_Reader& );
 	
-	// Load iNES ROM file and apply IPS patch
-	blargg_err_t load_patched_ines_rom( Data_Reader&, Data_Reader& ips_patch );
-	
 	// to do: support UNIF?
 	
 	// True if a ROM is currently loaded

@@ -19,13 +19,6 @@ public:
 	blargg_err_t load_ines( Auto_File_Reader );
 	static const char not_ines_file [];
 	
-	// Load iNES file and apply IPS patch
-	blargg_err_t load_patched_ines( Auto_File_Reader, Auto_File_Reader ips_patch );
-
-	// Apply IPS patches to specific parts
-	blargg_err_t apply_ips_to_prg( Auto_File_Reader ips_patch );
-	blargg_err_t apply_ips_to_chr( Auto_File_Reader ips_patch );
-	
 	// to do: support UNIF?
 	
 	// True if data is currently loaded
