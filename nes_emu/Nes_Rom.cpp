@@ -61,7 +61,7 @@ blargg_err_t Nes_Rom::resize_prg( long size )
 		prg_ = (byte*) p;
 		prg_size_ = size;
 	}
-	return blargg_success;
+   return 0;
 }
 
 blargg_err_t Nes_Rom::resize_chr( long size )
@@ -73,7 +73,7 @@ blargg_err_t Nes_Rom::resize_chr( long size )
 		chr_ = (byte*) p;
 		chr_size_ = size;
 	}
-	return blargg_success;
+   return 0;
 }
 
 // iNES reading
@@ -110,5 +110,5 @@ blargg_err_t Nes_Rom::load_ines_rom( Data_Reader& in )
 	BLARGG_RETURN_ERR( in.read( prg(), prg_size() ) );
 	BLARGG_RETURN_ERR( in.read( chr(), chr_size() ) );
 	
-	return blargg_success;
+   return 0;
 }
