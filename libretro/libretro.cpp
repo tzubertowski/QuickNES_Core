@@ -14,6 +14,7 @@ void retro_init(void)
 {
    delete emu;
    emu = new Nes_Emu;
+   register_optional_mappers();
 }
 
 void retro_deinit(void)
