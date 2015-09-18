@@ -406,9 +406,6 @@ inline int Nes_Ppu_Impl::read_2007( int addr )
 
 int Nes_Ppu::read( unsigned addr, nes_time_t time )
 {
-	if ( addr & ~0x2007 )
-		dprintf( "Read from mirrored PPU register 0x%04X\n", addr );
-	
 	switch ( addr & 7 )
 	{
 		// status
@@ -441,7 +438,7 @@ int Nes_Ppu::read( unsigned addr, nes_time_t time )
 		}
 		
 		default:
-			dprintf( "Read from unimplemented PPU register 0x%04X\n", addr );
+              /* Read from unimplemented PPU register */
 			break;
 	}
 
@@ -454,9 +451,6 @@ int Nes_Ppu::read( unsigned addr, nes_time_t time )
 
 void Nes_Ppu::write( nes_time_t time, unsigned addr, int data )
 {
-	if ( addr & ~0x2007 )
-		dprintf( "Wrote to mirrored PPU register 0x%04X\n", addr );
-	
 	switch ( addr & 7 )
 	{
 		case 0:{// control
@@ -568,7 +562,7 @@ void Nes_Ppu::write( nes_time_t time, unsigned addr, int data )
 			break;
 		
 		default:
-			dprintf( "Wrote to unimplemented PPU register 0x%04X\n", addr );
+         /* Wrote to unimplemented PPU register */
 			break;
 	}
 

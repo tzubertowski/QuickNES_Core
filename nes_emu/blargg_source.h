@@ -15,18 +15,6 @@ global namespace with unprefixed names. */
 #include <string.h> /* memcpy(), memset(), memmove() */
 #include <stddef.h> /* offsetof() */
 
-/* The following four macros are for debugging only. Some or all might be
-defined to do nothing, depending on the circumstances. Described is what
-happens when a particular macro is defined to do something. When defined to
-do nothing, the macros do NOT evaluate their argument(s). */
-
-/* Like printf() except output goes to debugging console/file.
-
-void dprintf( const char format [], ... ); */
-static inline void blargg_dprintf_( const char [], ... ) { }
-#undef  dprintf
-#define dprintf (1) ? (void) 0 : blargg_dprintf_
-
 /* If expr yields non-NULL error string, returns it from current function,
 otherwise continues normally. */
 #undef  RETURN_ERR

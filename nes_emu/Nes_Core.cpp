@@ -54,12 +54,6 @@ const char * Nes_Core::init()
 
 void Nes_Core::close()
 {
-	// check that nothing modified unmapped page
-	#ifndef NDEBUG
-		//if ( cart && mem_differs( impl->unmapped_page, unmapped_fill, sizeof impl->unmapped_page ) )
-		//  dprintf( "Unmapped code page was written to\n" );
-	#endif
-	
 	cart = NULL;
 	delete mapper;
 	mapper = NULL;
@@ -217,16 +211,6 @@ static nes_addr_t last_unmapped_addr;
 
 void Nes_Core::log_unmapped( nes_addr_t addr, int data )
 {
-	#if !defined (NDEBUG) && 0
-		if ( last_unmapped_addr != addr )
-		{
-			last_unmapped_addr = addr;
-			if ( data < 0 )
-				dprintf( "Read unmapped %04X\n", addr );
-			else
-				dprintf( "Write unmapped %04X <- %02X\n", addr, data );
-		}
-	#endif
 }
 
 inline void Nes_Core::cpu_adjust_time( int n )
@@ -457,7 +441,7 @@ nes_time_t Nes_Core::emulate_frame_()
 				
 				if ( !(ppu.w2000 & 0x80 & ppu.r2002) )
 				{
-					dprintf( "vectored NMI at end of frame\n" );
+               /* vectored NMI at end of frame */
 					vector_interrupt( 0xFFFA );
 					present += 7;
 				}
@@ -473,7 +457,7 @@ nes_time_t Nes_Core::emulate_frame_()
 					(ppu.nmi_time() >= 0x10000 || (ppu.w2000 & 0x80 & ppu.r2002)) )
 				return present;
 			
-			dprintf( "Executing extra instructions for frame\n" );
+         /* Executing extra instructions for frame */
 			extra_instructions++; // execute one more instruction
 		}
 		
@@ -493,7 +477,7 @@ nes_time_t Nes_Core::emulate_frame_()
 		{
 			if ( last_result != cpu::result_cli )
 			{
-				//dprintf( "%6d IRQ vectored\n", present );
+            /* IRQ vectored */
 				mapper->run_until( present );
 				vector_interrupt( 0xFFFE );
 			}

@@ -42,11 +42,10 @@ public:
 		counter_just_clocked = 0;
 		next_time = 0;
 		mirror = 1;
+
+      /* Cart specified vertical mirroring */
 		if ( cart().mirroring() & 1 )
-		{
 			mirror = 0;
-			//dprintf( "cart specified vertical mirroring\n" );
-		}
 	}
 	
 	void update_chr_banks();
@@ -167,8 +166,8 @@ void Mapper_Mmc3::write_irq( nes_addr_t addr, int data )
 		break;
 	
 	case 0xC001:
-		if ( counter_just_clocked == 1 )
-			dprintf( "MMC3 IRQ counter pathological behavior triggered\n" );
+      /* MMC3 IRQ counter pathological behavior triggered if
+       * counter_just_clocked is 1*/
 		counter_just_clocked = 2;
 		irq_ctr = 0;
 		break;
