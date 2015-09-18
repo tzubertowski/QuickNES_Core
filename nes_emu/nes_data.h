@@ -31,7 +31,7 @@ typedef long nes_tag_t;
 #endif
 #endif
 
-typedef BOOST::uint8_t byte;
+typedef uint8_t byte;
 
 // Binary format of save state blocks. All multi-byte values are stored in little-endian.
 
@@ -47,8 +47,8 @@ nes_tag_t const cart_checksum_tag = FOUR_CHAR('csum');
 
 struct nes_block_t
 {
-	BOOST::uint32_t tag; // ** stored in big-endian
-	BOOST::uint32_t size;
+	uint32_t tag; // ** stored in big-endian
+	uint32_t size;
 	
 	void swap();
 };
@@ -59,10 +59,10 @@ nes_tag_t const group_end_tag = FOUR_CHAR('gend'); // group end block has this t
 
 struct nes_state_t
 {
-	BOOST::uint16_t timestamp; // CPU clocks * 15 (for NTSC)
+	uint16_t timestamp; // CPU clocks * 15 (for NTSC)
 	byte pal;
 	byte unused [1];
-	BOOST::uint32_t frame_count; // number of frames emulated since power-up
+	uint32_t frame_count; // number of frames emulated since power-up
 	
 	enum { tag = FOUR_CHAR('TIME') };
 	void swap();
@@ -71,7 +71,7 @@ BOOST_STATIC_ASSERT( sizeof (nes_state_t) == 8 );
 
 struct joypad_state_t
 {
-	BOOST::uint32_t joypad_latches [2]; // joypad 1 & 2 shift registers
+	uint32_t joypad_latches [2]; // joypad 1 & 2 shift registers
 	byte w4016;             // strobe
 	byte unused [3];
 	
@@ -97,7 +97,7 @@ struct mapper_state_t
 
 struct cpu_state_t
 {
-	BOOST::uint16_t pc;
+	uint16_t pc;
 	byte s;
 	byte p;
 	byte a;
@@ -118,13 +118,13 @@ struct ppu_state_t
 	byte w2003;                 // sprite ram addr
 	byte r2007;                 // vram read buffer
 	byte second_write;          // next write to $2005/$2006 is second since last $2002 read
-	BOOST::uint16_t vram_addr;  // loopy_v
-	BOOST::uint16_t vram_temp;  // loopy_t
+	uint16_t vram_addr;  // loopy_v
+	uint16_t vram_temp;  // loopy_t
 	byte pixel_x;               // fine-scroll (0-7)
 	byte unused;
 	byte palette [0x20];        // entries $10, $14, $18, $1c should be ignored
-	BOOST::uint16_t decay_low;
-	BOOST::uint16_t decay_high;
+	uint16_t decay_low;
+	uint16_t decay_high;
 	byte open_bus;
 	byte unused2[3];
 	

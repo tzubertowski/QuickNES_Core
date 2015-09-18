@@ -24,10 +24,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA */
 
 struct namco106_state_t
 {
-	BOOST::uint8_t regs [16];
-	BOOST::uint16_t irq_ctr;
-	BOOST::uint8_t irq_pending;
-	BOOST::uint8_t unused1 [1]; 
+	uint8_t regs [16];
+	uint16_t irq_ctr;
+	uint8_t irq_pending;
+	uint8_t unused1 [1]; 
 };
 BOOST_STATIC_ASSERT( sizeof (namco106_state_t) == 20 );
 

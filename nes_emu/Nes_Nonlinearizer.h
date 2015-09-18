@@ -35,7 +35,7 @@ private:
 	Blip_Buffer buf;
 	Blip_Buffer tnd;
 	long accum;
-	BOOST::uint16_t table [half * 2];
+	uint16_t table [half * 2];
 	
 	void make_nonlinear( long );
 };

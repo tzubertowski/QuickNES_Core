@@ -81,12 +81,12 @@ blargg_err_t Nes_Cart::resize_chr( long size )
 // iNES reading
 
 struct ines_header_t {
-	BOOST::uint8_t signature [4];
-	BOOST::uint8_t prg_count; // number of 16K PRG banks
-	BOOST::uint8_t chr_count; // number of 8K CHR banks
-	BOOST::uint8_t flags;     // MMMM FTBV Mapper low, Four-screen, Trainer, Battery, V mirror
-	BOOST::uint8_t flags2;    // MMMM --XX Mapper high 4 bits
-	BOOST::uint8_t zero [8];  // if zero [7] is non-zero, treat flags2 as zero
+	uint8_t signature [4];
+	uint8_t prg_count; // number of 16K PRG banks
+	uint8_t chr_count; // number of 8K CHR banks
+	uint8_t flags;     // MMMM FTBV Mapper low, Four-screen, Trainer, Battery, V mirror
+	uint8_t flags2;    // MMMM --XX Mapper high 4 bits
+	uint8_t zero [8];  // if zero [7] is non-zero, treat flags2 as zero
 };
 BOOST_STATIC_ASSERT( sizeof (ines_header_t) == 16 );
 

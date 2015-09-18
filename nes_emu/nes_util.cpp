@@ -118,7 +118,7 @@ int game_genie_patch_t::apply( Nes_Cart& cart ) const
 	// patch each bank (not very good, since it might patch banks that never occupy
 	// that address)
 	int mask = (compare_with >= 0 ? ~0 : 0);
-	BOOST::uint8_t* p = cart.prg() + addr % bank_size;
+	uint8_t* p = cart.prg() + addr % bank_size;
 	int count = 0;
 	for ( int n = cart.prg_size() / bank_size; n--; p += bank_size )
 	{

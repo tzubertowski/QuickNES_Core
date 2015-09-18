@@ -39,7 +39,7 @@ Nes_Ppu_Impl::Nes_Ppu_Impl()
 		static unsigned char b  [19] = { 0 };
 		static unsigned char b2 [19] = { 1,2,3,4,0,5,6,7,8,0,9,0,1,2,0,3,4,5,6 };
 		for ( int i = 0; i < 19; i += 5 )
-			*(volatile BOOST::uint32_t*) &b [i] = *(volatile BOOST::uint32_t*) &b2 [i];
+			*(volatile uint32_t*) &b [i] = *(volatile uint32_t*) &b2 [i];
 	#endif
 }
 
@@ -173,7 +173,7 @@ void Nes_Ppu_Impl::load_state( Nes_State_ const& in )
 	}
 }
 
-static BOOST::uint8_t const initial_palette [0x20] =
+static uint8_t const initial_palette [0x20] =
 {
 	0x0f,0x01,0x00,0x01,0x00,0x02,0x02,0x0D,0x08,0x10,0x08,0x24,0x00,0x00,0x04,0x2C,
 	0x00,0x01,0x34,0x03,0x00,0x04,0x00,0x14,0x00,0x3A,0x00,0x02,0x00,0x20,0x2C,0x08
@@ -353,7 +353,7 @@ struct calc_sprite_max_scanlines
 {
 	static unsigned long func( byte const* sprites, byte* scanlines, int begin )
 	{
-		typedef BOOST::uint32_t uint32_t;
+		typedef uint32_t uint32_t;
 		
 		unsigned long any_hits = 0;
 		unsigned long const offset = 0x01010101 + zero;

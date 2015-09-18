@@ -67,7 +67,7 @@ BLARGG_DEF_MIN_MAX( unsigned long )
 BLARGG_DEF_MIN_MAX( float )
 BLARGG_DEF_MIN_MAX( double )
 #if __WORDSIZE != 64
-BLARGG_DEF_MIN_MAX( BOOST::uint64_t )
+BLARGG_DEF_MIN_MAX( uint64_t )
 #endif
 
 // typedef unsigned char byte;

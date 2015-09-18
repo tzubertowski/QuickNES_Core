@@ -11,8 +11,7 @@ class Nes_State_;
 
 class Nes_Ppu_Impl : public ppu_state_t {
 public:
-	typedef BOOST::uint8_t byte;
-	typedef BOOST::uint32_t uint32_t;
+	typedef uint8_t byte;
 	
 	Nes_Ppu_Impl();
 	~Nes_Ppu_Impl();
@@ -57,7 +56,7 @@ public:
 		byte nt_ram [nt_ram_size];
 		byte chr_ram [chr_addr_size];
 		union {
-			BOOST::uint32_t clip_buf [256 * 2];
+			uint32_t clip_buf [256 * 2];
 			byte mini_offscreen [buffer_width * mini_offscreen_height];
 		};
 	};

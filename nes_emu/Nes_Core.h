@@ -38,12 +38,12 @@ public: private: friend class Nes_Emu;
 	struct impl_t
 	{
 		enum { sram_size = 0x2000 };
-		BOOST::uint8_t sram [sram_size];
+		uint8_t sram [sram_size];
 		Nes_Apu apu;
 		
 		// extra byte allows CPU to always read operand of instruction, which
 		// might go past end of data
-		BOOST::uint8_t unmapped_page [::Nes_Cpu::page_size + 1];
+		uint8_t unmapped_page [::Nes_Cpu::page_size + 1];
 	};
 	impl_t* impl; // keep large arrays separate
 	unsigned long error_count;

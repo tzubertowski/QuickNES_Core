@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA */
 
 #include BLARGG_SOURCE_BEGIN
 
-typedef BOOST::uint8_t byte;
+typedef uint8_t byte;
 
 Nes_Snapshot_Array::Nes_Snapshot_Array()
 {

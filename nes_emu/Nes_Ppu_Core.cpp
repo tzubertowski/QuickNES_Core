@@ -31,7 +31,7 @@ inline const T& min( const T& x, const T& y )
 	return y;
 }
 
-typedef BOOST::uint8_t byte;
+typedef uint8_t byte;
 
 ppu_time_t const ppu_overclock = 3; // PPU clocks for each CPU clock
 ppu_time_t const scanline_duration = 341;
@@ -233,7 +233,7 @@ void Nes_Ppu::write( nes_time_t time, unsigned addr, int data )
 			if ( a < 0x2000 )
 			{
 				a = map_chr_addr( a );
-				BOOST::uint8_t& b = impl->chr_ram [a];
+				uint8_t& b = impl->chr_ram [a];
 				if ( (b ^ data) & chr_write_mask )
 				{
 					b = data;

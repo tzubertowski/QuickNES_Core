@@ -13,7 +13,7 @@ class Nes_Nonlinearizer {
 private:
 	enum { table_bits = 11 };
 	enum { table_size = 1 << table_bits };
-	BOOST::int16_t table [table_size];
+	int16_t table [table_size];
 	Nes_Apu* apu;
 	long accum;
 	long prev;

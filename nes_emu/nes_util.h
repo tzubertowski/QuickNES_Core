@@ -6,7 +6,9 @@
 #ifndef NES_UTIL_H
 #define NES_UTIL_H
 
+#include <stdint.h>
 #include "blargg_common.h"
+
 class Nes_Emu;
 class Nes_Cart;
 
@@ -66,7 +68,7 @@ public:
 	int change_value( int new_value );
 	
 private:
-	typedef BOOST::uint8_t byte;
+	typedef uint8_t byte;
 	Nes_Emu* emu;
 	int original_value;
 	int changed_value;

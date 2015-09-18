@@ -36,7 +36,7 @@ struct vrc6_state_t
 	byte irq_mode;
 	
 	// internal state
-	BOOST::uint16_t next_time;
+	uint16_t next_time;
 	byte irq_pending;
 	byte unused;
 	

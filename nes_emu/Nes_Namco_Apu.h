@@ -6,6 +6,7 @@
 #ifndef NES_NAMCO_APU_H
 #define NES_NAMCO_APU_H
 
+#include <stdint.h>
 #include "Nes_Apu.h"
 
 struct namco_state_t;
@@ -55,24 +56,24 @@ private:
 	int addr_reg;
 	
 	enum { reg_count = 0x80 };
-	BOOST::uint8_t reg [reg_count];
+	uint8_t reg [reg_count];
 	Blip_Synth<blip_good_quality,15> synth;
 	
-	BOOST::uint8_t& access();
+	uint8_t& access();
 	void run_until( nes_time_t );
 };
 /*
 struct namco_state_t
 {
-	BOOST::uint8_t regs [0x80];
-	BOOST::uint8_t addr;
-	BOOST::uint8_t unused;
-	BOOST::uint8_t positions [8];
-	BOOST::uint32_t delays [8];
+	uint8_t regs [0x80];
+	uint8_t addr;
+	uint8_t unused;
+	uint8_t positions [8];
+	uint32_t delays [8];
 };
 */
 
-inline BOOST::uint8_t& Nes_Namco_Apu::access()
+inline uint8_t& Nes_Namco_Apu::access()
 {
 	int addr = addr_reg & 0x7f;
 	if ( addr_reg & 0x80 )

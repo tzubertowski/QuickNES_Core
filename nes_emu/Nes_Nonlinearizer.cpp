@@ -95,7 +95,7 @@ void Nes_Nonlinearizer::make_nonlinear( long count )
 	
 	#define ENTRY( s ) (table [((s) >> shift) & entry_mask])
 	
-	BOOST::uint16_t* p = tnd.buffer_;
+	uint16_t* p = tnd.buffer_;
 	unsigned prev = ENTRY( accum );
 	long accum = this->accum;
 	
@@ -139,7 +139,7 @@ long Nes_Nonlinearizer::read_samples( blip_sample_t* out, long count )
 			nonlin.next( nonlin_bass );
 			*out++ = s;
 			
-			if ( (BOOST::int16_t) s != s )
+			if ( (int16_t) s != s )
 				out [-1] = 0x7FFF - (s >> 24);
 		}
 		

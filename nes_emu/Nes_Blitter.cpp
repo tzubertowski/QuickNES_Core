@@ -43,7 +43,7 @@ void Nes_Blitter::blit( Nes_Emu& emu, void* out, long out_pitch )
 		unsigned char* line_in = in;
 		in += in_pitch;
 		
-		BOOST::uint32_t* line_out = (BOOST::uint32_t*) out;
+		uint32_t* line_out = (uint32_t*) out;
 		out = (char*) out + out_pitch;
 		
 		NES_NTSC_BEGIN_ROW( ntsc, burst_phase,

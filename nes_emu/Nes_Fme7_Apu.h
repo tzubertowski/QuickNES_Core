@@ -6,16 +6,17 @@
 #ifndef NES_FME7_APU_H
 #define NES_FME7_APU_H
 
+#include <stdint.h>
 #include "blargg_common.h"
 #include "Blip_Buffer.h"
 
 struct fme7_apu_state_t
 {
 	enum { reg_count = 14 };
-	BOOST::uint8_t regs [reg_count];
-	BOOST::uint8_t phases [3]; // 0 or 1
-	BOOST::uint8_t latch;
-	BOOST::uint16_t delays [3]; // a, b, c
+	uint8_t regs [reg_count];
+	uint8_t phases [3]; // 0 or 1
+	uint8_t latch;
+	uint16_t delays [3]; // a, b, c
 };
 BOOST_STATIC_ASSERT( sizeof (fme7_apu_state_t) == 24 );
 

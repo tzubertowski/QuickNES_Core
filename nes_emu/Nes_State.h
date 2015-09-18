@@ -59,7 +59,7 @@ public:
 	enum { spr_ram_size = 0x100 };
 	enum { nametable_max = 0x800 };
 	enum { chr_max = 0x2000 };
-	BOOST::uint8_t *ram, *sram, *spr_ram, *nametable, *chr;
+	uint8_t *ram, *sram, *spr_ram, *nametable, *chr;
 	nes_state_t             nes;
 	Nes_Cpu::registers_t*   cpu;
 	joypad_state_t*         joypad;
@@ -99,11 +99,11 @@ private:
 	apu_state_t             apu;
 	ppu_state_t             ppu;
 	mapper_state_t          mapper;
-	BOOST::uint8_t ram [ram_size];
-	BOOST::uint8_t sram [sram_max];
-	BOOST::uint8_t spr_ram [spr_ram_size];
-	BOOST::uint8_t nametable [nametable_max];
-	BOOST::uint8_t chr [chr_max];
+	uint8_t ram [ram_size];
+	uint8_t sram [sram_max];
+	uint8_t spr_ram [spr_ram_size];
+	uint8_t nametable [nametable_max];
+	uint8_t chr [chr_max];
 	
 	friend class Nes_Emu;
 	friend class Nes_State_Writer;

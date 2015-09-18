@@ -41,64 +41,11 @@
 	const bool false = 0;
 #endif
 
+#include <new>
 // BLARGG_NEW is used in place of 'new' to create objects. By default, plain new is used.
 // To prevent an exception if out of memory, #define BLARGG_NEW new (std::nothrow)
 #ifndef BLARGG_NEW
-	#define BLARGG_NEW new
-#endif
-
-// BOOST::int8_t etc.
-
-// HAVE_STDINT_H: If defined, use <stdint.h> for int8_t etc.
-#if defined (HAVE_STDINT_H)
-	#include <stdint.h>
-	#define BOOST
-
-// HAVE_INTTYPES_H: If defined, use <stdint.h> for int8_t etc.
-#elif defined (HAVE_INTTYPES_H)
-	#include <inttypes.h>
-	#define BOOST
-
-#else
-	struct BOOST
-	{
-		#if UCHAR_MAX == 0xFF && SCHAR_MAX == 0x7F
-			typedef signed char     int8_t;
-			typedef unsigned char   uint8_t;
-		#else
-			// No suitable 8-bit type available
-			typedef struct see_blargg_common_h int8_t;
-			typedef struct see_blargg_common_h uint8_t;
-		#endif
-		
-		#if USHRT_MAX == 0xFFFF
-			typedef short           int16_t;
-			typedef unsigned short  uint16_t;
-		#else
-			// No suitable 16-bit type available
-			typedef struct see_blargg_common_h int16_t;
-			typedef struct see_blargg_common_h uint16_t;
-		#endif
-		
-		#if ULONG_MAX == 0xFFFFFFFF
-			typedef long            int32_t;
-			typedef unsigned long   uint32_t;
-		#elif UINT_MAX == 0xFFFFFFFF
-			typedef int             int32_t;
-			typedef unsigned int    uint32_t;
-		#else
-			// No suitable 32-bit type available
-			typedef struct see_blargg_common_h int32_t;
-			typedef struct see_blargg_common_h uint32_t;
-		#endif
-	};
-#endif
-
-#ifdef _WIN32
-typedef wchar_t blargg_wchar_t;
-#else
-#include <stdint.h>
-typedef uint16_t blargg_wchar_t;
+#define BLARGG_NEW new (std::nothrow)
 #endif
 
 // BOOST_STATIC_ASSERT( expr ): Generates compile error if expr is 0.
@@ -138,26 +85,6 @@ OR overrides operator new in my classes. The former is best since clients
 creating objects will get standard exceptions on failure, but that causes it
 to require the standard C++ library. So, when the client is using the C
 interface, I override operator new to use malloc. */
-
-// BLARGG_DISABLE_NOTHROW is put inside classes
-#ifndef BLARGG_DISABLE_NOTHROW
-	// throw spec mandatory in ISO C++ if NULL can be returned
-	#if __cplusplus >= 199711 || __GNUC__ >= 3 || _MSC_VER >= 1300
-		#define BLARGG_THROWS_NOTHING throw ()
-	#else
-		#define BLARGG_THROWS_NOTHING
-	#endif
-
-	#define BLARGG_DISABLE_NOTHROW \
-		void* operator new ( size_t s ) BLARGG_THROWS_NOTHING { return malloc( s ); }\
-		void operator delete( void* p ) BLARGG_THROWS_NOTHING { free( p ); }
-
-	#define BLARGG_NEW new
-#else
-	// BLARGG_NEW is used in place of new in library code
-	#include <new>
-	#define BLARGG_NEW new (std::nothrow)
-#endif
 
 #endif
 

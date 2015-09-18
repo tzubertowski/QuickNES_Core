@@ -111,7 +111,7 @@ long Nes_Buffer::read_samples( blip_sample_t* out, long count )
 			nonlin.next( nonlin_bass );
 			*out++ = s;
 			
-			if ( (BOOST::int16_t) s != s )
+			if ( (int16_t) s != s )
 				out [-1] = 0x7FFF - (s >> 24);
 		}
 		

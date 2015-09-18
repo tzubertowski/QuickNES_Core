@@ -144,7 +144,7 @@ blargg_err_t Nes_Emu::emulate_frame( int joypad1, int joypad2 )
 		f->palette [254] = 0x30;
 		f->palette [255] = 0x0F;
 		if ( host_pixels )
-			emu.ppu.host_pixels = (BOOST::uint8_t*) host_pixels +
+			emu.ppu.host_pixels = (uint8_t*) host_pixels +
 					emu.ppu.host_row_bytes * f->top;
 		
 		if ( sound_buf->samples_avail() )

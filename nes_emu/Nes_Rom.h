@@ -10,7 +10,7 @@
 #include "abstract_file.h"
 
 class Nes_Rom {
-	typedef BOOST::uint8_t byte;
+	typedef uint8_t byte;
 public:
 	Nes_Rom();
 	~Nes_Rom();

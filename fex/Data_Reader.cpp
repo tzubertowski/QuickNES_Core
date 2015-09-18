@@ -41,7 +41,7 @@ const char * Data_Reader::read( void* p, int n )
 
 const char * Data_Reader::read_avail( void* p, int* n_ )
 {
-	int n = min( (BOOST::uint64_t)(*n_), remain() );
+	int n = min( (uint64_t)(*n_), remain() );
 	*n_ = 0;
 	
 	if ( n < 0 )
@@ -101,7 +101,7 @@ const char * Data_Reader::skip( int n )
 
 // File_Reader
 
-const char * File_Reader::seek( BOOST::uint64_t n )
+const char * File_Reader::seek( uint64_t n )
 {
 	if ( n < 0 )
 		return blargg_err_caller;
@@ -119,7 +119,7 @@ const char * File_Reader::seek( BOOST::uint64_t n )
 	return err;
 }
 
-const char * File_Reader::skip_v( BOOST::uint64_t n )
+const char * File_Reader::skip_v( uint64_t n )
 {
 	return seek_v( tell() + n );
 }

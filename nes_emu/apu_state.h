@@ -6,11 +6,12 @@
 #ifndef APU_STATE_H
 #define APU_STATE_H
 
+#include <stdint.h>
 #include "blargg_common.h"
 
 struct apu_state_t
 {
-	typedef BOOST::uint8_t byte;
+	typedef uint8_t byte;
 	
 	typedef byte env_t [3];
 	/*struct env_t {
@@ -23,13 +24,13 @@ struct apu_state_t
 		byte w40xx [0x14]; // $4000-$4013
 		byte w4015; // enables
 		byte w4017; // mode
-		BOOST::uint16_t frame_delay;
+		uint16_t frame_delay;
 		byte frame_step;
 		byte irq_flag;
 	} apu;
 	
 	struct square_t {
-		BOOST::uint16_t delay;
+		uint16_t delay;
 		env_t env;
 		byte length_counter;
 		byte phase;
@@ -42,7 +43,7 @@ struct apu_state_t
 	square_t square2;
 	
 	struct triangle_t {
-		BOOST::uint16_t delay;
+		uint16_t delay;
 		byte length_counter;
 		byte phase;
 		byte linear_counter;
@@ -50,16 +51,16 @@ struct apu_state_t
 	} triangle;
 	
 	struct noise_t {
-		BOOST::uint16_t delay;
+		uint16_t delay;
 		env_t env;
 		byte length_counter;
-		BOOST::uint16_t shift_reg;
+		uint16_t shift_reg;
 	} noise;
 	
 	struct dmc_t {
-		BOOST::uint16_t delay;
-		BOOST::uint16_t remain;
-		BOOST::uint16_t addr;
+		uint16_t delay;
+		uint16_t remain;
+		uint16_t addr;
 		byte buf;
 		byte bits_remain;
 		byte bits;

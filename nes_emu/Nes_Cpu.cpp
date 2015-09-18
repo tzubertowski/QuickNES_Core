@@ -288,11 +288,11 @@ imm##op:                                \
 #define BRANCH( cond )      \
 {                           \
 	pc++;                   \
-	int offset = (BOOST::int8_t) data;  \
+	int offset = (int8_t) data;  \
 	int extra_clock = (pc & 0xFF) + offset; \
 	if ( !(cond) ) goto dec_clock_loop; \
 	pc += offset;       \
-	pc = BOOST::uint16_t( pc ); \
+	pc = uint16_t( pc ); \
 	clock_count += (extra_clock >> 8) & 1;  \
 	goto loop;          \
 }
@@ -434,7 +434,7 @@ imm##op:                                \
 		HANDLE_PAGE_CROSSING( data );
 		int temp = data;
 		data += msb * 0x100;
-		a = nz = READ_PROG( BOOST::uint16_t( data ) );
+		a = nz = READ_PROG( uint16_t( data ) );
 		if ( (unsigned) (data - 0x2000) >= 0x6000 )
 			goto loop;
 		if ( temp & 0x100 )
@@ -451,7 +451,7 @@ imm##op:                                \
 		HANDLE_PAGE_CROSSING( data );
 		int temp = data;
 		data += msb * 0x100;
-		a = nz = READ_PROG( BOOST::uint16_t( data ) );
+		a = nz = READ_PROG( uint16_t( data ) );
 		if ( (unsigned) (data - 0x2000) >= 0x6000 )
 			goto loop;
 		if ( temp & 0x100 )
@@ -654,7 +654,7 @@ imm##op:                                \
 	ARITH_ADDR_MODES( 0x65 ) // ADC
 	adc_imm: {
 		int carry = (c >> 8) & 1;
-		int ov = (a ^ 0x80) + carry + (BOOST::int8_t) data; // sign-extend
+		int ov = (a ^ 0x80) + carry + (int8_t) data; // sign-extend
 		status &= ~st_v;
 		status |= (ov >> 2) & 0x40;
 		c = nz = a + data + carry;

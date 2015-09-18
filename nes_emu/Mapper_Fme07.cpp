@@ -25,12 +25,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA */
 struct fme07_state_t
 {
 	// first 16 bytes in register order
-	BOOST::uint8_t regs [13];
-	BOOST::uint8_t irq_mode;
-	BOOST::uint16_t irq_count;
+	uint8_t regs [13];
+	uint8_t irq_mode;
+	uint16_t irq_count;
 	
-	BOOST::uint8_t command;
-	BOOST::uint8_t irq_pending;
+	uint8_t command;
+	uint8_t irq_pending;
 	fme07_snapshot_t sound_state; // only used when saving/restoring state
 	
 	void swap();

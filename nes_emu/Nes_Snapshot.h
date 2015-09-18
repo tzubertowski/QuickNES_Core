@@ -110,19 +110,19 @@ private:
 	mapper_state_t mapper;
 	bool mapper_valid;
 	
-	BOOST::uint8_t ram [0x800];
+	uint8_t ram [0x800];
 	bool ram_valid;
 	
-	BOOST::uint8_t sram [0x2000];
+	uint8_t sram [0x2000];
 	int sram_size;
 	
-	BOOST::uint8_t spr_ram [0x100];
+	uint8_t spr_ram [0x100];
 	bool spr_ram_valid;
 	
-	BOOST::uint8_t nametable [0x1000];
+	uint8_t nametable [0x1000];
 	int nametable_size;
 	
-	BOOST::uint8_t chr [0x2000];
+	uint8_t chr [0x2000];
 	int chr_size;
 	
 	friend class Nes_Emu;

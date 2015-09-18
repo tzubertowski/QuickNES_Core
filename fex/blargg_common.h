@@ -68,54 +68,10 @@ we strip it out unless BLARGG_LEGACY is true. */
 	#define BLARGG_DEPRECATED(      text )
 #endif
 
-/* BOOST::int8_t, BOOST::int32_t, etc.
-I used BOOST since I originally was going to allow use of the boost library
-for prividing the definitions. If I'm defining them, they must be scoped or
-else they could conflict with the standard ones at global scope. Even if
-HAVE_STDINT_H isn't defined, I can't assume the typedefs won't exist at
-global scope already. */
-#if defined (HAVE_STDINT_H) || \
-		UCHAR_MAX != 0xFF || USHRT_MAX != 0xFFFF || UINT_MAX != 0xFFFFFFFF
-	#include <stdint.h>
-	#define BOOST
-#else
-	struct BOOST
-	{
-		typedef signed char        int8_t;
-		typedef unsigned char     uint8_t;
-		typedef short             int16_t;
-		typedef unsigned short   uint16_t;
-		typedef int               int32_t;
-		typedef unsigned int     uint32_t;
-		typedef __int64           int64_t;
-		typedef unsigned __int64 uint64_t;
-	};
-#endif
-
-/* My code is not written with exceptions in mind, so either uses new (nothrow)
-OR overrides operator new in my classes. The former is best since clients
-creating objects will get standard exceptions on failure, but that causes it
-to require the standard C++ library. So, when the client is using the C
-interface, I override operator new to use malloc. */
-
-// BLARGG_DISABLE_NOTHROW is put inside classes
-#ifndef BLARGG_DISABLE_NOTHROW
-	// throw spec mandatory in ISO C++ if NULL can be returned
-	#if __cplusplus >= 199711 || __GNUC__ >= 3 || _MSC_VER >= 1300
-		#define BLARGG_THROWS_NOTHING throw ()
-	#else
-		#define BLARGG_THROWS_NOTHING
-	#endif
-
-	#define BLARGG_DISABLE_NOTHROW \
-		void* operator new ( size_t s ) BLARGG_THROWS_NOTHING { return malloc( s ); }\
-		void operator delete( void* p ) BLARGG_THROWS_NOTHING { free( p ); }
-
-	#define BLARGG_NEW new
-#else
-	// BLARGG_NEW is used in place of new in library code
-	#include <new>
-	#define BLARGG_NEW new (std::nothrow)
+// BLARGG_NEW is used in place of new in library code
+#include <new>
+#ifndef BLARGG_NEW
+#define BLARGG_NEW new (std::nothrow)
 #endif
 
 // Callback function with user data.
