@@ -50,25 +50,4 @@ BLARGG_DEF_MIN_MAX( double )
 BLARGG_DEF_MIN_MAX( uint64_t )
 #endif
 
-// typedef unsigned char byte;
-typedef unsigned char blargg_byte;
-#undef  byte
-#define byte blargg_byte
-
-#ifndef BLARGG_EXPORT
-	#if defined (_WIN32) && BLARGG_BUILD_DLL
-		#define BLARGG_EXPORT __declspec(dllexport)
-	#elif defined (__GNUC__)
-		// can always set visibility, even when not building DLL
-		#define BLARGG_EXPORT __attribute__ ((visibility ("default")))
-	#else
-		#define BLARGG_EXPORT
-	#endif
-#endif
-
-#if BLARGG_LEGACY
-	#define BLARGG_CHECK_ALLOC CHECK_ALLOC
-	#define BLARGG_RETURN_ERR  RETURN_ERR
-#endif
-
 #endif
