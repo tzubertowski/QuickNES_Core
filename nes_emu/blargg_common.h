@@ -51,23 +51,6 @@ arithmetic on smaller types. */
 // User configuration can override the above macros if necessary
 #include "blargg_config.h"
 
-/* BLARGG_DEPRECATED [_TEXT] for any declarations/text to be removed in a
-future version. In GCC, we can let the compiler warn. In other compilers,
-we strip it out unless BLARGG_LEGACY is true. */
-#if BLARGG_LEGACY
-	// Allow old client code to work without warnings
-	#define BLARGG_DEPRECATED_TEXT( text ) text
-	#define BLARGG_DEPRECATED(      text ) text
-#elif __GNUC__ >= 4
-	// In GCC, we can mark declarations and let the compiler warn
-	#define BLARGG_DEPRECATED_TEXT( text ) text
-	#define BLARGG_DEPRECATED(      text ) __attribute__ ((deprecated)) text
-#else
-	// By default, deprecated items are removed, to avoid use in new code
-	#define BLARGG_DEPRECATED_TEXT( text )
-	#define BLARGG_DEPRECATED(      text )
-#endif
-
 // BLARGG_NEW is used in place of new in library code
 #include <new>
 #ifndef BLARGG_NEW
@@ -86,25 +69,6 @@ we strip it out unless BLARGG_LEGACY is true. */
 #define BOOST_STATIC_ASSERT( expr ) \
    void blargg_failed_( int (*arg) [2 / !!(expr) - 1] [__LINE__] )
 #endif
-#endif
-
-// Callback function with user data.
-// blargg_callback<T> set_callback; // for user, this acts like...
-// void set_callback( T func, void* user_data = NULL ); // ...this
-// To call function, do set_callback.f( .. set_callback.data ... );
-template<class T>
-struct blargg_callback
-{
-	T f;
-	void* data;
-	blargg_callback() { f = NULL; }
-	void operator () ( T callback, void* user_data = NULL ) { f = callback; data = user_data; }
-};
-
-BLARGG_DEPRECATED( typedef signed   int blargg_long; )
-BLARGG_DEPRECATED( typedef unsigned int blargg_ulong; )
-#if BLARGG_LEGACY
-	#define BOOST_STATIC_ASSERT BLARGG_STATIC_ASSERT
 #endif
 
 #endif
