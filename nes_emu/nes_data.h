@@ -37,6 +37,7 @@ typedef BOOST::uint8_t byte;
 
 nes_tag_t const state_file_tag = FOUR_CHAR('NESS');
 
+nes_tag_t const movie_file_tag = FOUR_CHAR('NMOV');
 
 // Name of cartridge file in 8-bit characters (UTF-8 preferred) with ".nes" etc *removed*,
 // no NUL termination. Yes: "Castlevania (U)". No: "Strider (U).nes".
@@ -56,6 +57,21 @@ BOOST_STATIC_ASSERT( sizeof (nes_block_t) == 8 );
 
 unsigned long const group_begin_size = 0xffffffff; // group block has this size
 nes_tag_t const group_end_tag = FOUR_CHAR('gend'); // group end block has this tag
+
+struct movie_info_t
+{
+	BOOST::uint32_t begin;
+	BOOST::uint32_t length;
+	BOOST::uint16_t period;
+	BOOST::uint16_t extra;
+	byte joypad_count;
+	byte has_joypad_sync;
+	byte unused [2];
+	
+	enum { tag = FOUR_CHAR('INFO') };
+	void swap();
+};
+BOOST_STATIC_ASSERT( sizeof (movie_info_t) == 16 );
 
 struct nes_state_t
 {

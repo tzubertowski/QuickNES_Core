@@ -64,3 +64,12 @@ void joypad_state_t::swap()
 	SWAP_LE( joypad_latches [0] );
 	SWAP_LE( joypad_latches [1] );
 }
+
+void movie_info_t::swap()
+{
+	SWAP_LE( begin );
+	SWAP_LE( length );
+	SWAP_LE( period );
+	SWAP_LE( extra );
+}
+
