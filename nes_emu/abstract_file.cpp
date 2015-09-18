@@ -135,14 +135,6 @@ error_t Null_Writer::write( const void*, long )
 
 // Auto_File_Reader
 
-#ifndef STD_AUTO_FILE_WRITER
-	#define STD_AUTO_FILE_WRITER Std_File_Writer
-#endif
-
-#ifndef STD_AUTO_FILE_READER
-#define STD_AUTO_FILE_READER Std_File_Reader
-#endif
-
 const char* Auto_File_Reader::open()
 {
    return 0;
