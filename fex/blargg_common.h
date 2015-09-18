@@ -10,13 +10,6 @@
 #include <assert.h>
 #include <limits.h>
 
-typedef const char* blargg_err_t; // 0 on success, otherwise error string
-
-/* BLARGG_4CHAR('a','b','c','d') = 'abcd' (four character integer constant).
-I don't just use 'abcd' because that's implementation-dependent. */
-#define BLARGG_4CHAR( a, b, c, d ) \
-	((a&0xFF)*0x1000000 + (b&0xFF)*0x10000 + (c&0xFF)*0x100 + (d&0xFF))
-
 /* BLARGG_STATIC_ASSERT( expr ): Generates compile error if expr is 0.
 Can be used at file, function, or class scope. */
 #ifdef _MSC_VER

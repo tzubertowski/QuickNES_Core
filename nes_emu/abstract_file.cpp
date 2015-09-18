@@ -22,9 +22,7 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 
-typedef blargg_err_t error_t;
-
-error_t Data_Writer::write( const void*, long ) { return 0; }
+const char *Data_Writer::write( const void*, long ) { return 0; }
 
 // Mem_Writer
 
@@ -50,7 +48,7 @@ Mem_Writer::~Mem_Writer()
 		free( data_ );
 }
 
-error_t Mem_Writer::write( const void* p, long s )
+const char *Mem_Writer::write( const void* p, long s )
 {
 	long remain = allocated - size_;
 	if ( s > remain )

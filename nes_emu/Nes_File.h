@@ -29,7 +29,7 @@ public:
 	blargg_err_t write_block_header( nes_tag_t, long size );
 	
 	// Write data to current block
-	error_t write( void const*, long );
+	const char *write( void const*, long );
 	
 	// End tagged group
 	blargg_err_t end_group();

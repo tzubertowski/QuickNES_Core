@@ -16,10 +16,8 @@ public:
 	Data_Writer() { }
 	virtual ~Data_Writer() { }
 	
-	typedef blargg_err_t error_t;
-	
 	// Write 'n' bytes. NULL on success, otherwise error string.
-	virtual error_t write( const void*, long n ) = 0;
+	virtual const char *write( const void*, long n ) = 0;
 	
 private:
 	// noncopyable
@@ -41,7 +39,7 @@ public:
 	// error if more than 'size' data is written, otherwise ignores any excess.
 	Mem_Writer( void*, long size, int ignore_excess = 0 );
 	
-	error_t write( const void*, long );
+	const char *write( const void*, long );
 	
 	// Pointer to beginning of written data
 	char* data() { return data_; }

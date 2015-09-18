@@ -32,7 +32,7 @@ blargg_err_def_t blargg_err_file_type    = BLARGG_ERR_FILE_TYPE;
 blargg_err_def_t blargg_err_file_feature = BLARGG_ERR_FILE_FEATURE;
 blargg_err_def_t blargg_err_file_corrupt = BLARGG_ERR_FILE_CORRUPT;
 
-const char* blargg_err_str( blargg_err_t err )
+const char* blargg_err_str( const char *err )
 {
 	if ( !err )
 		return "";
@@ -43,7 +43,7 @@ const char* blargg_err_str( blargg_err_t err )
 	return err;
 }
 
-bool blargg_is_err_type( blargg_err_t err, const char type [] )
+bool blargg_is_err_type( const char *err, const char type [] )
 {
 	if ( err )
 	{
@@ -62,7 +62,7 @@ bool blargg_is_err_type( blargg_err_t err, const char type [] )
 	return false;
 }
 
-const char* blargg_err_details( blargg_err_t err )
+const char* blargg_err_details( const char *err )
 {
 	const char* p = err;
 	if ( !p )
@@ -87,7 +87,7 @@ const char* blargg_err_details( blargg_err_t err )
 	return p;
 }
 
-int blargg_err_to_code( blargg_err_t err, blargg_err_to_code_t const codes [] )
+int blargg_err_to_code( const char *err, blargg_err_to_code_t const codes [] )
 {
 	if ( !err )
 		return 0;
@@ -98,7 +98,7 @@ int blargg_err_to_code( blargg_err_t err, blargg_err_to_code_t const codes [] )
 	return codes->code;
 }
 
-blargg_err_t blargg_code_to_err( int code, blargg_err_to_code_t const codes [] )
+const char *blargg_code_to_err( int code, blargg_err_to_code_t const codes [] )
 {
 	if ( !code )
 		return 0;

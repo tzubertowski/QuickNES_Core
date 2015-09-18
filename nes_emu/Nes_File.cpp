@@ -64,7 +64,7 @@ blargg_err_t Nes_File_Writer::write_block_header( nes_tag_t tag, long size )
 	return write_header( tag, size );
 }
 
-Nes_File_Writer::error_t Nes_File_Writer::write( void const* p, long s )
+const char *Nes_File_Writer::write( void const* p, long s )
 {
 	write_remain -= s;
 	return out->write( p, s );

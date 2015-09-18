@@ -21,7 +21,7 @@ Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA */
 
 // Data_Reader
 
-blargg_err_t Data_Reader::read( void* p, int n )
+const char * Data_Reader::read( void* p, int n )
 {
 	assert( n >= 0 );
 	
@@ -34,14 +34,14 @@ blargg_err_t Data_Reader::read( void* p, int n )
 	if ( n > remain() )
 		return blargg_err_file_eof;
 	
-	blargg_err_t err = read_v( p, n );
+	const char * err = read_v( p, n );
 	if ( !err )
 		remain_ -= n;
 	
 	return err;
 }
 
-blargg_err_t Data_Reader::read_avail( void* p, int* n_ )
+const char * Data_Reader::read_avail( void* p, int* n_ )
 {
 	assert( *n_ >= 0 );
 	
@@ -54,7 +54,7 @@ blargg_err_t Data_Reader::read_avail( void* p, int* n_ )
 	if ( n <= 0 )
 		return 0;
 	
-	blargg_err_t err = read_v( p, n );
+	const char * err = read_v( p, n );
 	if ( !err )
 	{
 		remain_ -= n;
@@ -64,15 +64,15 @@ blargg_err_t Data_Reader::read_avail( void* p, int* n_ )
 	return err;
 }
 
-blargg_err_t Data_Reader::read_avail( void* p, long* n )
+const char * Data_Reader::read_avail( void* p, long* n )
 {
 	int i = STATIC_CAST(int, *n);
-	blargg_err_t err = read_avail( p, &i );
+	const char * err = read_avail( p, &i );
 	*n = i;
 	return err;
 }
 
-blargg_err_t Data_Reader::skip_v( int count )
+const char * Data_Reader::skip_v( int count )
 {
 	char buf [512];
 	while ( count )
@@ -84,7 +84,7 @@ blargg_err_t Data_Reader::skip_v( int count )
 	return 0;
 }
 
-blargg_err_t Data_Reader::skip( int n )
+const char * Data_Reader::skip( int n )
 {
 	assert( n >= 0 );
 	
@@ -97,7 +97,7 @@ blargg_err_t Data_Reader::skip( int n )
 	if ( n > remain() )
 		return blargg_err_file_eof;
 	
-	blargg_err_t err = skip_v( n );
+	const char * err = skip_v( n );
 	if ( !err )
 		remain_ -= n;
 	
@@ -107,7 +107,7 @@ blargg_err_t Data_Reader::skip( int n )
 
 // File_Reader
 
-blargg_err_t File_Reader::seek( BOOST::uint64_t n )
+const char * File_Reader::seek( BOOST::uint64_t n )
 {
 	assert( n >= 0 );
 	
@@ -120,14 +120,14 @@ blargg_err_t File_Reader::seek( BOOST::uint64_t n )
 	if ( n > size() )
 		return blargg_err_file_eof;
 	
-	blargg_err_t err = seek_v( n );
+	const char * err = seek_v( n );
 	if ( !err )
 		set_tell( n );
 	
 	return err;
 }
 
-blargg_err_t File_Reader::skip_v( BOOST::uint64_t n )
+const char * File_Reader::skip_v( BOOST::uint64_t n )
 {
 	return seek_v( tell() + n );
 }
@@ -140,13 +140,13 @@ Mem_File_Reader::Mem_File_Reader( const void* p, long s ) :
 	set_size( s );
 }
 
-blargg_err_t Mem_File_Reader::read_v( void* p, int s )
+const char * Mem_File_Reader::read_v( void* p, int s )
 {
 	memcpy( p, begin + tell(), s );
 	return 0;
 }
 
-blargg_err_t Mem_File_Reader::seek_v( int )
+const char * Mem_File_Reader::seek_v( int )
 {
 	return 0;
 }

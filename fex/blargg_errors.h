@@ -31,13 +31,13 @@ extern blargg_err_def_t blargg_err_file_feature;
 extern blargg_err_def_t blargg_err_file_corrupt;
 
 // C string describing error, or "" if err == NULL
-const char* blargg_err_str( blargg_err_t err );
+const char* blargg_err_str( const char *err );
 
 // True iff error is of given type, or false if err == NULL
-bool blargg_is_err_type( blargg_err_t, const char type [] );
+bool blargg_is_err_type( const char *, const char type [] );
 
 // Details of error without describing main cause, or "" if err == NULL
-const char* blargg_err_details( blargg_err_t err );
+const char* blargg_err_details( const char *err );
 
 // Converts error string to integer code using mapping table. Calls blargg_is_err_type()
 // for each str and returns code on first match. Returns 0 if err == NULL.
@@ -45,11 +45,11 @@ struct blargg_err_to_code_t {
 	const char* str;
 	int code;
 };
-int blargg_err_to_code( blargg_err_t err, blargg_err_to_code_t const [] );
+int blargg_err_to_code( const char *err, blargg_err_to_code_t const [] );
 
 // Converts error code back to string. If code == 0, returns NULL. If not in table,
 // returns blargg_err_generic.
-blargg_err_t blargg_code_to_err( int code, blargg_err_to_code_t const [] );
+const char *blargg_code_to_err( int code, blargg_err_to_code_t const [] );
 
 // Generates error string literal with details of cause
 #define BLARGG_ERR( type, str ) (type "; " str)

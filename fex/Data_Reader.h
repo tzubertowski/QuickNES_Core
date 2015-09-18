@@ -21,18 +21,18 @@ public:
 
 	// Reads min(*n,remain()) bytes and sets *n to this number, thus trying to read more
 	// tham remain() bytes doesn't result in error, just *n being set to remain().
-	blargg_err_t read_avail( void* p, int* n );
-	blargg_err_t read_avail( void* p, long* n );
+	const char * read_avail( void* p, int* n );
+	const char * read_avail( void* p, long* n );
 
 	// Reads exactly n bytes, or returns error if they couldn't ALL be read.
 	// Reading past end of file results in blargg_err_file_eof.
-	blargg_err_t read( void* p, int n );
+	const char * read( void* p, int n );
 
 	// Number of bytes remaining until end of file
 	BOOST::uint64_t remain() const                              { return remain_; }
 
 	// Reads and discards n bytes. Skipping past end of file results in blargg_err_file_eof.
-	blargg_err_t skip( int n );
+	const char * skip( int n );
 	
 	virtual ~Data_Reader() { }
 
@@ -50,12 +50,12 @@ protected:
 	
 	// Do same as read(). Guaranteed that 0 < n <= remain(). Value of remain() is updated
 	// AFTER this call succeeds, not before. set_remain() should NOT be called from this.
-	virtual blargg_err_t read_v( void*, int n )     BLARGG_PURE( { (void)n; return 0; } )
+	virtual const char * read_v( void*, int n )     BLARGG_PURE( { (void)n; return 0; } )
 	
 	// Do same as skip(). Guaranteed that 0 < n <= remain(). Default just reads data
 	// and discards it. Value of remain() is updated AFTER this call succeeds, not
 	// before. set_remain() should NOT be called from this.
-	virtual blargg_err_t skip_v( int n );
+	virtual const char * skip_v( int n );
 
 // Implementation
 public:
@@ -77,7 +77,7 @@ public:
 	BOOST::uint64_t tell() const                    { return size_ - remain(); }
 
 	// Goes to new position
-	blargg_err_t seek( BOOST::uint64_t );
+	const char * seek( BOOST::uint64_t );
 
 // Derived interface
 protected:
@@ -91,13 +91,13 @@ protected:
 	
 	// Do same as seek(). Guaranteed that 0 <= n <= size().  Value of tell() is updated
 	// AFTER this call succeeds, not before. set_* functions should NOT be called from this.
-	virtual blargg_err_t seek_v( BOOST::uint64_t n ) BLARGG_PURE( { (void)n; return 0; } )
+	virtual const char * seek_v( BOOST::uint64_t n ) BLARGG_PURE( { (void)n; return 0; } )
 	
 // Implementation
 protected:
 	File_Reader()                       : size_( 0 ) { }
 	
-	virtual blargg_err_t skip_v( BOOST::uint64_t );
+	virtual const char * skip_v( BOOST::uint64_t );
 
 private:
 	BOOST::uint64_t size_;
@@ -114,8 +114,8 @@ public:
 
 // Implementation
 protected:
-	virtual blargg_err_t read_v( void*, int );
-	virtual blargg_err_t seek_v( int );
+	virtual const char * read_v( void*, int );
+	virtual const char * seek_v( int );
 
 private:
 	const char* const begin;
