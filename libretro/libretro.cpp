@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "Nes_Emu.h"
-#include "fex/Data_Reader.h"
+#include "Data_Reader.h"
 #include "abstract_file.h"
 
 static Nes_Emu *emu;

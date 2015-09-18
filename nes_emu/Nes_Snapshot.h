@@ -21,7 +21,7 @@ public:
 	~Nes_Snapshot_Array();
 	
 	// Change size of array
-	blargg_err_t resize( int new_size );
+	const char * resize( int new_size );
 	
 	// Current size of array
 	int size() const;
@@ -37,13 +37,13 @@ private:
 class Nes_Snapshot_Writer : public Nes_File_Writer {
 public:
 	// See Nes_File.h
-	blargg_err_t begin( Data_Writer* );
+	const char * begin( Data_Writer* );
 	
 	// Write snapshot of current emulator state and finish writing file
-	blargg_err_t end( Nes_Emu const& );
+	const char * end( Nes_Emu const& );
 	
 	// Write snapshot and finish writing file
-	blargg_err_t end( Nes_Snapshot const& );
+	const char * end( Nes_Snapshot const& );
 };
 
 class Nes_Snapshot_Reader : public Nes_File_Reader {
@@ -53,10 +53,10 @@ public:
 	
 	// Optionally read snapshot into designated location instead of
 	// internal snapshot.
-	blargg_err_t begin( Data_Reader*, Nes_Snapshot* out = NULL );
+	const char * begin( Data_Reader*, Nes_Snapshot* out = NULL );
 	
 	// See Nes_File.h
-	blargg_err_t next_block();
+	const char * next_block();
 	
 	// Snapshot valid after all blocks have been read
 	Nes_Snapshot const& snapshot() const;
@@ -80,16 +80,16 @@ public:
 	frame_count_t timestamp() const;
 	
 	// Write snapshot to file
-	blargg_err_t write( Data_Writer& ) const;
+	const char * write( Data_Writer& ) const;
 	
 	// Read snapshot from file
-	blargg_err_t read( Data_Reader& );
+	const char * read( Data_Reader& );
 	
 	// End of general interface
 public:
-	blargg_err_t write_blocks( Nes_File_Writer& ) const;
+	const char * write_blocks( Nes_File_Writer& ) const;
 	void set_nes_state( nes_state_t const& );
-	blargg_err_t read_blocks( Nes_File_Reader& );
+	const char * read_blocks( Nes_File_Reader& );
 private:
 	
 	nes_state_t nes;
@@ -134,7 +134,7 @@ inline Nes_Snapshot const& Nes_Snapshot_Reader::snapshot() const
 	return *snapshot_;
 }
 
-inline blargg_err_t Nes_Snapshot_Writer::begin( Data_Writer* dw )
+inline const char * Nes_Snapshot_Writer::begin( Data_Writer* dw )
 {
 	return Nes_File_Writer::begin( dw, snapshot_file_tag );
 }

@@ -1,4 +1,4 @@
-INCFLAGS := -I$(CORE_DIR) -I$(CORE_DIR)/nes_emu -I$(CORE_DIR)/libretro -I$(CORE_DIR)/fex
+INCFLAGS := -I$(CORE_DIR) -I$(CORE_DIR)/nes_emu -I$(CORE_DIR)/libretro
 
 SOURCES_CXX := \
 	$(CORE_DIR)/libretro/libretro.cpp \
@@ -34,5 +34,5 @@ SOURCES_CXX := \
 	$(CORE_DIR)/nes_emu/Nes_State.cpp \
 	$(CORE_DIR)/nes_emu/nes_util.cpp \
 	$(CORE_DIR)/nes_emu/Nes_Vrc6_Apu.cpp \
-	$(CORE_DIR)/fex/Data_Reader.cpp \
-	$(CORE_DIR)/fex/blargg_errors.cpp
+	$(CORE_DIR)/nes_emu/Data_Reader.cpp \
+	$(CORE_DIR)/nes_emu/blargg_errors.cpp

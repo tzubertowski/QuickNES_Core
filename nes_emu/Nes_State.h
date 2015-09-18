@@ -17,13 +17,13 @@ typedef long frame_count_t;
 class Nes_State_Writer : public Nes_File_Writer {
 public:
 	// Begin writing file
-	blargg_err_t begin( Auto_File_Writer );
+	const char * begin( Auto_File_Writer );
 	
 	// Write emulator's current state to file and end
-	blargg_err_t end( Nes_Emu const& );
+	const char * end( Nes_Emu const& );
 	
 	// Write state to file and end
-	blargg_err_t end( Nes_State const& );
+	const char * end( Nes_State const& );
 };
 
 // Reads state from a file
@@ -31,10 +31,10 @@ class Nes_State_Reader : public Nes_File_Reader {
 public:
 	
 	// Begin reading state snapshot from file
-	blargg_err_t begin( Auto_File_Reader, Nes_State* = 0 );
+	const char * begin( Auto_File_Reader, Nes_State* = 0 );
 	
 	// Go to next unrecognized block in file
-	blargg_err_t next_block();
+	const char * next_block();
 	
 	// State as read from file. Only valid after all blocks have been read.
 	Nes_State const& state() const;
@@ -50,9 +50,9 @@ private:
 class Nes_State_ {
 public:
 	
-	blargg_err_t write_blocks( Nes_File_Writer& ) const;
+	const char * write_blocks( Nes_File_Writer& ) const;
 	void set_nes_state( nes_state_t const& );
-	blargg_err_t read_blocks( Nes_File_Reader& );
+	const char * read_blocks( Nes_File_Reader& );
 	
 	enum { ram_size = 0x800 };
 	enum { sram_max = 0x2000 };
@@ -88,10 +88,10 @@ public:
 	Nes_State();
 	
 	// Write snapshot to file
-	blargg_err_t write( Auto_File_Writer ) const;
+	const char * write( Auto_File_Writer ) const;
 	
 	// Read snapshot from file
-	blargg_err_t read( Auto_File_Reader );
+	const char * read( Auto_File_Reader );
 	
 private:
 	Nes_Cpu::registers_t    cpu;
@@ -120,7 +120,7 @@ inline Nes_State const& Nes_State_Reader::state() const
 	return *state_;
 }
 
-inline blargg_err_t Nes_State_Writer::begin( Auto_File_Writer dw )
+inline const char * Nes_State_Writer::begin( Auto_File_Writer dw )
 {
 	return Nes_File_Writer::begin( dw, state_file_tag );
 }

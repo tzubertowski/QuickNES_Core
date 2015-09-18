@@ -15,12 +15,10 @@ enum { blip_sample_max = 32767 };
 
 class Blip_Buffer {
 public:
-	typedef const char* blargg_err_t;
-	
 	// Set output sample rate and buffer length in milliseconds (1/1000 sec, defaults
 	// to 1/4 second), then clear buffer. Returns NULL on success, otherwise if there
 	// isn't enough memory, returns error without affecting current buffer setup.
-	blargg_err_t set_sample_rate( long samples_per_sec, int msec_length = 1000 / 4 );
+	const char *set_sample_rate( long samples_per_sec, int msec_length = 1000 / 4 );
 	
 	// Set number of source time units per second
 	void clock_rate( long );
@@ -88,8 +86,8 @@ public:
 	
 	// Deprecated
 	typedef blip_resampled_time_t resampled_time_t;
-	blargg_err_t sample_rate( long r ) { return set_sample_rate( r ); }
-	blargg_err_t sample_rate( long r, int msec ) { return set_sample_rate( r, msec ); }
+	const char *sample_rate( long r ) { return set_sample_rate( r ); }
+	const char *sample_rate( long r, int msec ) { return set_sample_rate( r, msec ); }
 private:
 	// noncopyable
 	Blip_Buffer( const Blip_Buffer& );

@@ -17,7 +17,7 @@ public:
 	void enable_nonlinearity( bool = true );
 	
 	// See Multi_Buffer.h
-	blargg_err_t sample_rate( long rate, int msec = blip_default_length );
+	const char * sample_rate( long rate, int msec = blip_default_length );
 	Multi_Buffer::sample_rate;
 	void clock_rate( long );
 	void bass_freq( int );

@@ -55,7 +55,7 @@ void Blip_Buffer::clear( int entire_buffer )
 	}
 }
 
-Blip_Buffer::blargg_err_t Blip_Buffer::set_sample_rate( long new_rate, int msec )
+const char *Blip_Buffer::set_sample_rate( long new_rate, int msec )
 {
 	// start with maximum length that resampled time can represent
 	long new_size = (ULONG_MAX >> BLIP_BUFFER_ACCURACY) - buffer_extra - 64;

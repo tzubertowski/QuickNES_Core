@@ -61,7 +61,7 @@ int Joypad_Filter::process( int joypad )
 
 // game_genie_patch_t
 
-blargg_err_t game_genie_patch_t::decode( const char* in )
+const char *game_genie_patch_t::decode( const char* in )
 {
 	int const code_len = 8;
 	unsigned char result [code_len] = { 0 };

@@ -55,7 +55,7 @@ void Nes_Ppu_Impl::all_tiles_modified()
 	memset( modified_tiles, ~0, sizeof modified_tiles );
 }
 
-blargg_err_t Nes_Ppu_Impl::open_chr( uint8_t const* new_chr, long chr_data_size )
+const char *Nes_Ppu_Impl::open_chr( uint8_t const* new_chr, long chr_data_size )
 {
 	close_chr();
 	

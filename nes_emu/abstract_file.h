@@ -6,9 +6,9 @@
 
 #undef BLARGG_CONFIG_H
 
-#include <fex/Data_Reader.h>
-
 #include <stdio.h>
+
+#include "Data_Reader.h"
 
 // Supports writing
 class Data_Writer {

@@ -17,7 +17,7 @@ public:
 	void reset( bool full_reset );
 	
 	// Setup
-	blargg_err_t open_chr( const uint8_t*, long size );
+	const char * open_chr( const uint8_t*, long size );
 	void rebuild_chr( unsigned long begin, unsigned long end );
 	void close_chr();
 	void save_state( Nes_State_* out ) const;

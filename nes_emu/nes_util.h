@@ -35,7 +35,7 @@ struct game_genie_patch_t
 	int compare_with; // if -1, always change byte
 	
 	// Decode Game Genie code
-	blargg_err_t decode( const char* in );
+	const char *decode( const char* in );
 	
 	// Apply patch to cartridge data. Might not work for some codes, since this really
 	// requires emulator support. Returns number of bytes changed, where 0

@@ -86,7 +86,7 @@ Effects_Buffer::~Effects_Buffer()
 	delete [] reverb_buf;
 }
 
-blargg_err_t Effects_Buffer::set_sample_rate( long rate, int msec )
+const char *Effects_Buffer::set_sample_rate( long rate, int msec )
 {
 	if ( !echo_buf )
 	{

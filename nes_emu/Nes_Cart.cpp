@@ -52,7 +52,7 @@ long Nes_Cart::round_to_bank_size( long n )
 	return n - n % bank_size;
 }
 
-blargg_err_t Nes_Cart::resize_prg( long size )
+const char * Nes_Cart::resize_prg( long size )
 {
 	if ( size != prg_size_ )
 	{
@@ -66,7 +66,7 @@ blargg_err_t Nes_Cart::resize_prg( long size )
 	return 0;
 }
 
-blargg_err_t Nes_Cart::resize_chr( long size )
+const char * Nes_Cart::resize_chr( long size )
 {
 	if ( size != chr_size_ )
 	{
@@ -90,7 +90,7 @@ struct ines_header_t {
 };
 BOOST_STATIC_ASSERT( sizeof (ines_header_t) == 16 );
 
-blargg_err_t Nes_Cart::load_ines( Auto_File_Reader in )
+const char * Nes_Cart::load_ines( Auto_File_Reader in )
 {
 	RETURN_ERR( in.open() );
 	

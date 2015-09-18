@@ -25,10 +25,10 @@ public:
 // Basic setup
 
 	// Load iNES file into emulator and clear recording
-	blargg_err_t load_ines( Auto_File_Reader );
+	const char * load_ines( Auto_File_Reader );
 	
 	// Set sample rate for sound generation
-	blargg_err_t set_sample_rate( long );
+	const char * set_sample_rate( long );
 	
 	// Size and depth of graphics buffer required for rendering. Note that this
 	// is larger than the actual image, with a temporary area around the edge
@@ -50,7 +50,7 @@ public:
 
 	// Emulate one video frame using joypad1 and joypad2 as input. Afterwards, image
 	// and sound are available for output using the accessors below.
-	virtual blargg_err_t emulate_frame( int joypad1, int joypad2 = 0 );
+	virtual const char * emulate_frame( int joypad1, int joypad2 = 0 );
 	
 	// Maximum size of palette that can be generated
 	enum { max_palette_size = 256 };
@@ -84,7 +84,7 @@ public:
 	// Use already-loaded cartridge. Retains pointer, so it must be kept around until
 	// closed. A cartridge can be shared among multiple emulators. After opening,
 	// cartridge's CHR data shouldn't be modified since a copy is cached internally.
-	blargg_err_t set_cart( Nes_Cart const* );
+	const char * set_cart( Nes_Cart const* );
 	
 	// Pointer to current cartridge, or NULL if none is loaded
 	Nes_Cart const* cart() const { return emu.cart; }
@@ -107,7 +107,7 @@ public:
 	
 	// Set sample rate and use a custom sound buffer instead of the default
 	// mono buffer, i.e. Nes_Buffer, Effects_Buffer, etc..
-	blargg_err_t set_sample_rate( long rate, Multi_Buffer* );
+	const char * set_sample_rate( long rate, Multi_Buffer* );
 	
 	// Adjust effective frame rate by changing how many samples are generated each frame.
 	// Allows fine tuning of frame rate to improve synchronization.
@@ -137,20 +137,20 @@ public:
 
 	// Save emulator state
 	void save_state( Nes_State* s ) const { emu.save_state( s ); }
-	blargg_err_t save_state( Auto_File_Writer ) const;
+	const char * save_state( Auto_File_Writer ) const;
 	
 	// Load state into emulator
 	void load_state( Nes_State const& );
-	blargg_err_t load_state( Auto_File_Reader );
+	const char * load_state( Auto_File_Reader );
 	
 	// True if current cartridge claims it uses battery-backed memory
 	bool has_battery_ram() const { return cart()->has_battery_ram(); }
 	
 	// Save current battery RAM
-	blargg_err_t save_battery_ram( Auto_File_Writer );
+	const char * save_battery_ram( Auto_File_Writer );
 	
 	// Load battery RAM from file. Best called just after reset() or loading cartridge.
-	blargg_err_t load_battery_ram( Auto_File_Reader );
+	const char * load_battery_ram( Auto_File_Reader );
 	
 // Graphics
 
@@ -200,8 +200,8 @@ public:
 	
 	// End of public interface
 public:
-	blargg_err_t set_sample_rate( long rate, class Nes_Buffer* );
-	blargg_err_t set_sample_rate( long rate, class Nes_Effects_Buffer* );
+	const char * set_sample_rate( long rate, class Nes_Buffer* );
+	const char * set_sample_rate( long rate, class Nes_Effects_Buffer* );
 	void irq_changed() { emu.irq_changed(); }
 private:
 	friend class Nes_Recorder;
@@ -210,7 +210,7 @@ private:
 	int buffer_height_;
 	bool fade_sound_in;
 	bool fade_sound_out;
-	virtual blargg_err_t init_();
+	virtual const char * init_();
 	
 	virtual void loading_state( Nes_State const& ) { }
 	void load_state( Nes_State_ const& );
@@ -243,7 +243,7 @@ private:
 	Nes_Core emu; // large; keep at end
 	
 	bool init_called;
-	blargg_err_t auto_init();
+	const char * auto_init();
 };
 
 inline void Nes_Emu::set_pixels( void* p, long n )

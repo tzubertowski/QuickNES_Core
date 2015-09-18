@@ -54,12 +54,12 @@ Nes_Emu::~Nes_Emu()
 	delete default_sound_buf;
 }
 
-blargg_err_t Nes_Emu::init_()
+const char * Nes_Emu::init_()
 {
 	return emu.init();
 }
 
-inline blargg_err_t Nes_Emu::auto_init()
+inline const char * Nes_Emu::auto_init()
 {
 	if ( !init_called )
 	{
@@ -87,7 +87,7 @@ void Nes_Emu::close()
 	}
 }
 
-blargg_err_t Nes_Emu::set_cart( Nes_Cart const* new_cart )
+const char * Nes_Emu::set_cart( Nes_Cart const* new_cart )
 {
 	close();
 	RETURN_ERR( auto_init() );
@@ -117,7 +117,7 @@ void Nes_Emu::set_palette_range( int begin, int end )
 	host_palette_size = end - emu.ppu.palette_begin;
 }
 
-blargg_err_t Nes_Emu::emulate_frame( int joypad1, int joypad2 )
+const char * Nes_Emu::emulate_frame( int joypad1, int joypad2 )
 {
 	emu.current_joypad [0] = (joypad1 |= ~0xFF);
 	emu.current_joypad [1] = (joypad2 |= ~0xFF);
@@ -174,20 +174,20 @@ blargg_err_t Nes_Emu::emulate_frame( int joypad1, int joypad2 )
 
 // Extras
 
-blargg_err_t Nes_Emu::load_ines( Auto_File_Reader in )
+const char * Nes_Emu::load_ines( Auto_File_Reader in )
 {
 	close();
 	RETURN_ERR( private_cart.load_ines( in ) );
 	return set_cart( &private_cart );
 }
 
-blargg_err_t Nes_Emu::save_battery_ram( Auto_File_Writer out )
+const char * Nes_Emu::save_battery_ram( Auto_File_Writer out )
 {
 	RETURN_ERR( out.open() );
 	return out->write( emu.impl->sram, emu.impl->sram_size );
 }
 
-blargg_err_t Nes_Emu::load_battery_ram( Auto_File_Reader in )
+const char * Nes_Emu::load_battery_ram( Auto_File_Reader in )
 {
 	RETURN_ERR( in.open() );
 	emu.sram_present = true;
@@ -206,23 +206,23 @@ void Nes_Emu::load_state( Nes_State const& in )
 	load_state( STATIC_CAST(Nes_State_ const&,in) );
 }
 
-blargg_err_t Nes_Emu::load_state( Auto_File_Reader in )
+const char * Nes_Emu::load_state( Auto_File_Reader in )
 {
 	Nes_State* state = BLARGG_NEW Nes_State;
 	CHECK_ALLOC( state );
-	blargg_err_t err = state->read( in );
+	const char * err = state->read( in );
 	if ( !err )
 		load_state( *state );
 	delete state;
 	return err;
 }
 
-blargg_err_t Nes_Emu::save_state( Auto_File_Writer out ) const
+const char * Nes_Emu::save_state( Auto_File_Writer out ) const
 {
 	Nes_State* state = BLARGG_NEW Nes_State;
 	CHECK_ALLOC( state );
 	save_state( state );
-	blargg_err_t err = state->write( out );
+	const char * err = state->write( out );
 	delete state;
 	return err;
 }
@@ -234,14 +234,14 @@ void Nes_Emu::write_chr( void const* p, long count, long offset )
 	emu.ppu.rebuild_chr( offset, end );
 }
 
-blargg_err_t Nes_Emu::set_sample_rate( long rate, class Nes_Buffer* buf )
+const char * Nes_Emu::set_sample_rate( long rate, class Nes_Buffer* buf )
 {
 	extern Multi_Buffer* set_apu( class Nes_Buffer*, Nes_Apu* );
 	RETURN_ERR( auto_init() );
 	return set_sample_rate( rate, set_apu( buf, &emu.impl->apu ) );
 }
 
-blargg_err_t Nes_Emu::set_sample_rate( long rate, class Nes_Effects_Buffer* buf )
+const char * Nes_Emu::set_sample_rate( long rate, class Nes_Effects_Buffer* buf )
 {
 	extern Multi_Buffer* set_apu( class Nes_Effects_Buffer*, Nes_Apu* );
 	RETURN_ERR( auto_init() );
@@ -255,7 +255,7 @@ void Nes_Emu::set_frame_rate( double rate )
 	sound_buf->clock_rate( (long) (1789773 / 60.0 * rate) );
 }
 
-blargg_err_t Nes_Emu::set_sample_rate( long rate, Multi_Buffer* new_buf )
+const char * Nes_Emu::set_sample_rate( long rate, Multi_Buffer* new_buf )
 {
 	RETURN_ERR( auto_init() );
 	emu.impl->apu.volume( 1.0 ); // cancel any previous non-linearity
@@ -271,7 +271,7 @@ blargg_err_t Nes_Emu::set_sample_rate( long rate, Multi_Buffer* new_buf )
 	return 0;
 }
 
-blargg_err_t Nes_Emu::set_sample_rate( long rate )
+const char * Nes_Emu::set_sample_rate( long rate )
 {
 	if ( !default_sound_buf )
 		CHECK_ALLOC( default_sound_buf = BLARGG_NEW Mono_Buffer );

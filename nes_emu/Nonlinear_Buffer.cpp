@@ -38,7 +38,7 @@ void Nonlinear_Buffer::enable_nonlinearity( Nes_Apu& apu, bool b )
 		apu.osc_output( i, (i >= 2 ? &tnd : &buf) );
 }
 
-blargg_err_t Nonlinear_Buffer::sample_rate( long rate, int msec )
+const char * Nonlinear_Buffer::sample_rate( long rate, int msec )
 {
 	BLARGG_RETURN_ERR( buf.sample_rate( rate, msec ) );
 	BLARGG_RETURN_ERR( tnd.sample_rate( rate, msec ) );

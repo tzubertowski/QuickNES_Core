@@ -17,7 +17,7 @@ public:
 	virtual ~Multi_Buffer() { }
 	
 	// Set the number of channels available
-	virtual blargg_err_t set_channel_count( int );
+	virtual const char* set_channel_count( int );
 	
 	// Get indexed channel, from 0 to channel count - 1
 	struct channel_t {
@@ -28,7 +28,7 @@ public:
 	virtual channel_t channel( int index ) = 0;
 	
 	// See Blip_Buffer.h
-	virtual blargg_err_t set_sample_rate( long rate, int msec = blip_default_length ) = 0;
+	virtual const char* set_sample_rate( long rate, int msec = blip_default_length ) = 0;
 	virtual void clock_rate( long ) = 0;
 	virtual void bass_freq( int ) = 0;
 	virtual void clear() = 0;
@@ -77,7 +77,7 @@ public:
 	Blip_Buffer* center() { return &buf; }
 	
 	// See Multi_Buffer
-	blargg_err_t set_sample_rate( long rate, int msec = blip_default_length );
+	const char* set_sample_rate( long rate, int msec = blip_default_length );
 	void clock_rate( long );
 	void bass_freq( int );
 	void clear();
@@ -99,7 +99,7 @@ public:
 	Blip_Buffer* right()        { return &bufs [2]; }
 	
 	// See Multi_Buffer
-	blargg_err_t set_sample_rate( long, int msec = blip_default_length );
+	const char* set_sample_rate( long, int msec = blip_default_length );
 	void clock_rate( long );
 	void bass_freq( int );
 	void clear();
@@ -126,7 +126,7 @@ class Silent_Buffer : public Multi_Buffer {
 public:
 	Silent_Buffer();
 	
-	blargg_err_t set_sample_rate( long rate, int msec = blip_default_length );
+	const char* set_sample_rate( long rate, int msec = blip_default_length );
 	void clock_rate( long ) { }
 	void bass_freq( int ) { }
 	void clear() { }
@@ -139,14 +139,14 @@ public:
 
 // End of public interface
 
-inline blargg_err_t Multi_Buffer::set_sample_rate( long rate, int msec )
+inline const char* Multi_Buffer::set_sample_rate( long rate, int msec )
 {
 	sample_rate_ = rate;
 	length_ = msec;
 	return 0;
 }
 
-inline blargg_err_t Silent_Buffer::set_sample_rate( long rate, int msec )
+inline const char* Silent_Buffer::set_sample_rate( long rate, int msec )
 {
 	return Multi_Buffer::set_sample_rate( rate, msec );
 }

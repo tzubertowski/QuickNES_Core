@@ -23,7 +23,7 @@ public:
 	void enable_nonlinearity( bool = true );
 	
 	// See Effects_Buffer.h for reference
-	blargg_err_t set_sample_rate( long rate, int msec = blip_default_length );
+	const char *set_sample_rate( long rate, int msec = blip_default_length );
 	void config( const config_t& );
 	void clear();
 	channel_t channel( int );

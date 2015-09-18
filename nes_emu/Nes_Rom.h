@@ -15,7 +15,7 @@ public:
 	~Nes_Rom();
 	
 	// Load iNES ROM file
-	blargg_err_t load_ines_rom( Data_Reader& );
+	const char * load_ines_rom( Data_Reader& );
 	
 	// to do: support UNIF?
 	
@@ -35,10 +35,10 @@ public:
 	long chr_size() const { return chr_size_; }
 	
 	// Change size of PRG (code) data
-	blargg_err_t resize_prg( long );
+	const char * resize_prg( long );
 	
 	// Change size of CHR (graphics) data 
-	blargg_err_t resize_chr( long );
+	const char * resize_chr( long );
 	
 	// Set mapper and information bytes. LSB and MSB are the standard iNES header
 	// bytes at offsets 6 and 7.

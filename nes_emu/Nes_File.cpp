@@ -30,20 +30,20 @@ Nes_File_Writer::~Nes_File_Writer()
 {
 }
 	
-blargg_err_t Nes_File_Writer::begin( Auto_File_Writer dw, nes_tag_t tag )
+const char * Nes_File_Writer::begin( Auto_File_Writer dw, nes_tag_t tag )
 {
 	out = dw;
 	RETURN_ERR( out.open_comp() );
 	return begin_group( tag );
 }
 
-blargg_err_t Nes_File_Writer::begin_group( nes_tag_t tag )
+const char * Nes_File_Writer::begin_group( nes_tag_t tag )
 {
 	depth_++;
 	return write_header( tag, group_begin_size );
 }
 
-blargg_err_t Nes_File_Writer::write_header( nes_tag_t tag, long size )
+const char * Nes_File_Writer::write_header( nes_tag_t tag, long size )
 {
 	nes_block_t h;
 	h.tag = tag;
@@ -52,13 +52,13 @@ blargg_err_t Nes_File_Writer::write_header( nes_tag_t tag, long size )
 	return out->write( &h, sizeof h );
 }
 
-blargg_err_t Nes_File_Writer::write_block( nes_tag_t tag, void const* data, long size )
+const char * Nes_File_Writer::write_block( nes_tag_t tag, void const* data, long size )
 {
 	RETURN_ERR( write_block_header( tag, size ) );
 	return write( data, size );
 }
 
-blargg_err_t Nes_File_Writer::write_block_header( nes_tag_t tag, long size )
+const char * Nes_File_Writer::write_block_header( nes_tag_t tag, long size )
 {
 	write_remain = size;
 	return write_header( tag, size );
@@ -70,12 +70,12 @@ const char *Nes_File_Writer::write( void const* p, long s )
 	return out->write( p, s );
 }
 
-blargg_err_t Nes_File_Writer::end()
+const char * Nes_File_Writer::end()
 {
 	return end_group();
 }
 
-blargg_err_t Nes_File_Writer::end_group()
+const char * Nes_File_Writer::end_group()
 {
 	depth_--;
 	return write_header( group_end_tag, 0 );
@@ -95,7 +95,7 @@ Nes_File_Reader::~Nes_File_Reader()
 {
 }
 	
-blargg_err_t Nes_File_Reader::read_block_data( void* p, long s )
+const char * Nes_File_Reader::read_block_data( void* p, long s )
 {
 	long extra = remain();
 	if ( s > extra )
@@ -107,7 +107,7 @@ blargg_err_t Nes_File_Reader::read_block_data( void* p, long s )
 	return 0;
 }
 
-blargg_err_t Nes_File_Reader::begin( Auto_File_Reader dr )
+const char * Nes_File_Reader::begin( Auto_File_Reader dr )
 {
 	RETURN_ERR( dr.open() );
 	in = dr;
@@ -117,7 +117,7 @@ blargg_err_t Nes_File_Reader::begin( Auto_File_Reader dr )
 	return enter_group();
 }
 
-blargg_err_t Nes_File_Reader::read_header()
+const char * Nes_File_Reader::read_header()
 {
 	RETURN_ERR( in->read( &h, sizeof h ) );
 	h.swap();
@@ -136,7 +136,7 @@ blargg_err_t Nes_File_Reader::read_header()
 	return 0;
 }
 
-blargg_err_t Nes_File_Reader::next_block()
+const char * Nes_File_Reader::next_block()
 {
 	switch ( block_type() )
 	{
@@ -168,14 +168,14 @@ blargg_err_t Nes_File_Reader::next_block()
 	return read_header();
 }
 
-blargg_err_t Nes_File_Reader::enter_group()
+const char * Nes_File_Reader::enter_group()
 {
 	block_type_ = invalid; // cause next_block() not to skip group
 	depth_++;
 	return 0;
 }
 
-blargg_err_t Nes_File_Reader::exit_group()
+const char * Nes_File_Reader::exit_group()
 {
 	int d = 1;
 	while ( true )
@@ -195,7 +195,7 @@ blargg_err_t Nes_File_Reader::exit_group()
 	return 0;
 }
 
-blargg_err_t Nes_File_Reader::skip_v( int s )
+const char * Nes_File_Reader::skip_v( int s )
 {
 	if ( (unsigned long) s > h.size )
 		return "Tried to skip past end of data";
@@ -204,7 +204,7 @@ blargg_err_t Nes_File_Reader::skip_v( int s )
 	return in->skip( s );
 }
 
-blargg_err_t Nes_File_Reader::read_v( void* p, int n )
+const char * Nes_File_Reader::read_v( void* p, int n )
 {
 	if ( (unsigned long) n > h.size )
 		n = h.size;

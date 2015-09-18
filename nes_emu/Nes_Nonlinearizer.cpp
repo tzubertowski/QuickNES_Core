@@ -25,7 +25,7 @@ Nes_Nonlinearizer::~Nes_Nonlinearizer()
 {
 }
 
-blargg_err_t Nes_Nonlinearizer::sample_rate( long rate, int msec )
+const char *Nes_Nonlinearizer::sample_rate( long rate, int msec )
 {
 	BLARGG_RETURN_ERR( buf.sample_rate( rate, msec ) );
 	BLARGG_RETURN_ERR( tnd.sample_rate( rate, msec ) );

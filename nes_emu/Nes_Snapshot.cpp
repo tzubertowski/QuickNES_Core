@@ -34,7 +34,7 @@ Nes_Snapshot_Array::~Nes_Snapshot_Array()
 	free( data );
 }
 	
-blargg_err_t Nes_Snapshot_Array::resize( int new_size )
+const char * Nes_Snapshot_Array::resize( int new_size )
 {
 	void* new_mem = realloc( data, new_size * sizeof (Nes_Snapshot) );
 	BLARGG_CHECK_ALLOC( !new_size || new_mem );
@@ -68,7 +68,7 @@ void Nes_Snapshot::clear()
 
 // write
 
-blargg_err_t Nes_Snapshot_Writer::end( Nes_Emu const& emu )
+const char * Nes_Snapshot_Writer::end( Nes_Emu const& emu )
 {
 	Nes_Snapshot_Array snapshots;
 	BLARGG_RETURN_ERR( snapshots.resize( 1 ) );
@@ -76,20 +76,20 @@ blargg_err_t Nes_Snapshot_Writer::end( Nes_Emu const& emu )
 	return end( snapshots [0] );
 }
 
-blargg_err_t Nes_Snapshot_Writer::end( Nes_Snapshot const& ss )
+const char * Nes_Snapshot_Writer::end( Nes_Snapshot const& ss )
 {
 	BLARGG_RETURN_ERR( ss.write_blocks( *this ) );
 	return Nes_File_Writer::end();
 }
 
-blargg_err_t Nes_Snapshot::write( Data_Writer& out ) const
+const char * Nes_Snapshot::write( Data_Writer& out ) const
 {
 	Nes_Snapshot_Writer writer;
 	BLARGG_RETURN_ERR( writer.begin( &out ) );
 	return writer.end( *this );
 }
 
-blargg_err_t Nes_Snapshot::write_blocks( Nes_File_Writer& out ) const
+const char * Nes_Snapshot::write_blocks( Nes_File_Writer& out ) const
 {
 	if ( nes_valid )
 	{
@@ -162,7 +162,7 @@ Nes_Snapshot_Reader::~Nes_Snapshot_Reader()
 {
 }
 
-blargg_err_t Nes_Snapshot_Reader::begin( Data_Reader* dr, Nes_Snapshot* out )
+const char * Nes_Snapshot_Reader::begin( Data_Reader* dr, Nes_Snapshot* out )
 {
 	snapshot_ = out;
 	if ( !out )
@@ -177,7 +177,7 @@ blargg_err_t Nes_Snapshot_Reader::begin( Data_Reader* dr, Nes_Snapshot* out )
    return 0;
 }
 
-blargg_err_t Nes_Snapshot::read( Data_Reader& in )
+const char * Nes_Snapshot::read( Data_Reader& in )
 {
 	Nes_Snapshot_Reader reader;
 	BLARGG_RETURN_ERR( reader.begin( &in, this ) );
@@ -187,7 +187,7 @@ blargg_err_t Nes_Snapshot::read( Data_Reader& in )
    return 0;
 }
 
-blargg_err_t Nes_Snapshot_Reader::next_block()
+const char * Nes_Snapshot_Reader::next_block()
 {
 	if ( depth() != 0 )
 		return Nes_File_Reader::next_block();
@@ -201,7 +201,7 @@ void Nes_Snapshot::set_nes_state( nes_state_t const& s )
 	nes_valid = true;
 }
 
-blargg_err_t Nes_Snapshot::read_blocks( Nes_File_Reader& in )
+const char * Nes_Snapshot::read_blocks( Nes_File_Reader& in )
 {
 	while ( true )
 	{

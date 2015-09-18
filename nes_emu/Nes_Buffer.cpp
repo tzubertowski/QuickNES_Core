@@ -44,7 +44,7 @@ void Nes_Buffer::enable_nonlinearity( bool b )
 	apu->osc_output( 1, &buf );
 }
 
-blargg_err_t Nes_Buffer::set_sample_rate( long rate, int msec )
+const char * Nes_Buffer::set_sample_rate( long rate, int msec )
 {
 	enable_nonlinearity( nonlin.enabled ); // reapply
 	RETURN_ERR( buf.set_sample_rate( rate, msec ) );

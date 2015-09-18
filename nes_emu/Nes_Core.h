@@ -20,8 +20,8 @@ public:
 	Nes_Core();
 	~Nes_Core();
 	
-	blargg_err_t init();
-	blargg_err_t open( Nes_Cart const* );
+	const char * init();
+	const char * open( Nes_Cart const* );
 	void reset( bool full_reset = true, bool erase_battery_ram = false );
 	blip_time_t emulate_frame();
 	void close();

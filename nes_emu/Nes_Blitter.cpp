@@ -13,7 +13,7 @@ Nes_Blitter::Nes_Blitter() { ntsc = 0; }
 
 Nes_Blitter::~Nes_Blitter() { free( ntsc ); }
 
-blargg_err_t Nes_Blitter::init()
+const char * Nes_Blitter::init()
 {
 	CHECK_ALLOC( ntsc = (nes_ntsc_emph_t*) malloc( sizeof *ntsc ) );
 	static setup_t const s = { };
@@ -22,7 +22,7 @@ blargg_err_t Nes_Blitter::init()
 	return setup( setup_ );
 }
 
-blargg_err_t Nes_Blitter::setup( setup_t const& s )
+const char * Nes_Blitter::setup( setup_t const& s )
 {
 	setup_ = s;
 	chunk_count = ((Nes_Emu::image_width - setup_.crop.left - setup_.crop.right) + 5) / 6;

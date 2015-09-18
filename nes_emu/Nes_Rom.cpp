@@ -50,7 +50,7 @@ long Nes_Rom::round_to_bank_size( long n )
 	return n - n % bank_size;
 }
 
-blargg_err_t Nes_Rom::resize_prg( long size )
+const char * Nes_Rom::resize_prg( long size )
 {
 	if ( size != prg_size_ )
 	{
@@ -64,7 +64,7 @@ blargg_err_t Nes_Rom::resize_prg( long size )
    return 0;
 }
 
-blargg_err_t Nes_Rom::resize_chr( long size )
+const char * Nes_Rom::resize_chr( long size )
 {
 	if ( size != chr_size_ )
 	{
@@ -88,7 +88,7 @@ struct ines_header_t {
 };
 BOOST_STATIC_ASSERT( sizeof (ines_header_t) == 16 );
 
-blargg_err_t Nes_Rom::load_ines_rom( Data_Reader& in )
+const char * Nes_Rom::load_ines_rom( Data_Reader& in )
 {
 	ines_header_t h;
 	BLARGG_RETURN_ERR( in.read( &h, sizeof h ) );

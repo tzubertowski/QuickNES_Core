@@ -40,7 +40,7 @@ Nes_Core::Nes_Core() : ppu( this )
 	memset( &joypad, 0, sizeof joypad );
 }
 
-blargg_err_t Nes_Core::init()
+const char * Nes_Core::init()
 {
 	if ( !impl )
 	{
@@ -69,7 +69,7 @@ void Nes_Core::close()
 	disable_rendering();
 }
 
-blargg_err_t Nes_Core::open( Nes_Cart const* new_cart )
+const char * Nes_Core::open( Nes_Cart const* new_cart )
 {
 	close();
 	
