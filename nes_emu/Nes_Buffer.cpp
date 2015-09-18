@@ -175,7 +175,6 @@ long Nes_Nonlinearizer::make_nonlinear( Blip_Buffer& buf, long count )
 		for ( unsigned n = count; n; --n )
 		{
 			long entry = ENTRY( accum );
-			check( (entry >= 0) == (accum >= 0) );
 			accum += *p;
 			*p++ = (entry - prev) << (blip_sample_bits - 16);
 			prev = entry;

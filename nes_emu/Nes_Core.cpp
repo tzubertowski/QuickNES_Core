@@ -466,8 +466,6 @@ nes_time_t Nes_Core::emulate_frame_()
 			
 			if ( extra_instructions > 2 )
 			{
-				check( last_result != cpu::result_sei && last_result != cpu::result_cli );
-				check( ppu.nmi_time() >= 0x10000 || (ppu.w2000 & 0x80 & ppu.r2002) );
 				return present;
 			}
 			
@@ -503,7 +501,6 @@ nes_time_t Nes_Core::emulate_frame_()
 			{
 				// CLI delays IRQ
 				cpu_set_irq_time( present + 1 );
-				check( false ); // rare event
 			}
 		}
 		
@@ -527,24 +524,16 @@ nes_time_t Nes_Core::emulate_frame()
 	ppu_2002_time = 0;
 	clock_ = cpu_time_offset;
 	
-	check( cpu_time() == (int) nes.timestamp / ppu_overclock );
-	check( 1 && impl->apu.last_time == cpu_time() );
-	
 	// TODO: clean this fucking mess up
 	impl->apu.run_until_( emulate_frame_() );
 	clock_ = cpu_time_offset;
 	impl->apu.run_until_( cpu_time() );
-	check( 2 && clock_ == cpu_time_offset );
-	check( 3 && impl->apu.last_time == cpu_time() );
 	
 	nes_time_t ppu_frame_length = ppu.frame_length();
 	nes_time_t length = cpu_time();
 	nes.timestamp = ppu.end_frame( length );
 	mapper->end_frame( length );
 	impl->apu.end_frame( ppu_frame_length );
-	check( 4 && cpu_time() == length );
-	
-	check( 5 && impl->apu.last_time == length - ppu_frame_length );
 	
 	disable_rendering();
 	nes.frame_count++;

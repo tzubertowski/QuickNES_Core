@@ -126,10 +126,7 @@ void Nes_Mapper::set_prg_bank( nes_addr_t addr, bank_size_t bs, int bank )
 		bank += bank_count;
 	
 	if ( bank >= bank_count )
-	{
-		check( !(cart_->prg_size() & (cart_->prg_size() - 1)) ); // ensure PRG size is power of 2
 		bank %= bank_count;
-	}
 	
 	emu().map_code( addr, bank_size, cart_->prg() + (bank << bs) );
 	

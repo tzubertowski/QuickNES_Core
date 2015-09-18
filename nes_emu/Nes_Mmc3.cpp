@@ -188,9 +188,6 @@ void Mapper_Mmc3::write_irq( nes_addr_t addr, int data )
 
 void Mapper_Mmc3::write( nes_time_t time, nes_addr_t addr, int data )
 {
-	check( !(addr & ~0xe001) ); // writes to mirrored registers are rare
-	//dprintf( "%6d %02X->%04X\n", time, data, addr );
-	
 	switch ( addr & 0xE001 )
 	{
 	case 0x8000: {

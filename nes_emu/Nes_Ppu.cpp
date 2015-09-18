@@ -379,8 +379,6 @@ void Nes_Ppu::dma_sprites( nes_time_t time, void const* in )
 	render_until( time );
 	
 	invalidate_sprite_max( time );
-	// catch anything trying to dma while rendering is enabled
-	check( time + 513 <= vbl_end_time || !(w2001 & 0x18) );
 	
 	memcpy( spr_ram + w2003, in, 0x100 - w2003 );
 	memcpy( spr_ram, (char*) in + 0x100 - w2003, w2003 );

@@ -105,9 +105,6 @@ void Nes_Ppu_Impl::close_chr()
 
 void Nes_Ppu_Impl::set_chr_bank( int addr, int size, long data )
 {
-	check( !chr_is_writable || addr == data ); // to do: is CHR RAM ever bank-switched?
-	//dprintf( "Tried to set CHR RAM bank at %04X to CHR+%04X\n", addr, data );
-	
 	if ( data + size > chr_size )
 		data %= chr_size;
 	
@@ -143,7 +140,6 @@ void Nes_Ppu_Impl::save_state( Nes_State_* out ) const
 	if ( chr_is_writable )
 	{
 		out->chr_size = chr_size;
-		check( out->nametable_size <= 0x800 );
 		memcpy( out->chr, impl->chr_ram, out->chr_size );
 	}
 }

@@ -142,7 +142,6 @@ const char * Nes_State_::write_blocks( Nes_File_Writer& out ) const
 	
 	if ( nametable_size )
 	{
-		check( nametable_size == 0x800 || nametable_size == 0x1000 );
 		RETURN_ERR( out.write_block_header( FOUR_CHAR('NTAB'), nametable_size ) );
 		RETURN_ERR( out.write( nametable, 0x800 ) );
 		if ( nametable_size > 0x800 )
@@ -258,7 +257,6 @@ const char * Nes_State_::read_blocks( Nes_File_Reader& in )
 			
 		case FOUR_CHAR('NTAB'):
 			nametable_size = in.remain();
-			check( nametable_size == 0x800 || nametable_size == 0x1000 );
 			RETURN_ERR( in.read( nametable, 0x800 ) );
 			if ( nametable_size > 0x800 )
 				RETURN_ERR( in.read( chr, 0x800 ) );

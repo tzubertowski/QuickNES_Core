@@ -79,7 +79,6 @@ const char* blargg_err_details( const char *err )
 		{
 			p++;
 		
-			check( *p == ' ' );
 			if ( *p )
 				p++;
 		}

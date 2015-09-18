@@ -27,14 +27,6 @@ static inline void blargg_dprintf_( const char [], ... ) { }
 #undef  dprintf
 #define dprintf (1) ? (void) 0 : blargg_dprintf_
 
-/* If expr is false, prints file and line number to debug console/log, then
-continues execution normally. Meant for flagging potential problems or things
-that should be looked into, but that aren't serious problems.
-
-void check( bool expr ); */
-#undef  check
-#define check( expr ) ((void) 0)
-
 /* If expr yields non-NULL error string, returns it from current function,
 otherwise continues normally. */
 #undef  RETURN_ERR
@@ -89,17 +81,6 @@ typedef unsigned char blargg_byte;
 #if BLARGG_LEGACY
 	#define BLARGG_CHECK_ALLOC CHECK_ALLOC
 	#define BLARGG_RETURN_ERR  RETURN_ERR
-#endif
-
-// Called after failed operation when overall operation may still complete OK.
-// Only used by unit testing framework.
-#undef ACK_FAILURE
-#define ACK_FAILURE() ((void)0)
-
-/* BLARGG_SOURCE_BEGIN: If defined, #included, allowing redefition of dprintf etc.
-and check */
-#ifdef BLARGG_SOURCE_BEGIN
-	#include BLARGG_SOURCE_BEGIN
 #endif
 
 #endif

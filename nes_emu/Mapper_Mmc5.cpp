@@ -104,8 +104,6 @@ public:
 				set_chr_bank( ((reg >> 1 & 4) + (reg & 3)) * 0x400, bank_1k, data );
 				break;
 			}
-			check( (regs [0x00] & 3) == 2 );
-			check( (regs [0x01] & 3) == 3 );
 		}
 		else if ( addr == 0x5203 )
 		{
