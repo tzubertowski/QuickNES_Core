@@ -32,7 +32,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA */
 // Nes_Ppu_Impl
 
 inline Nes_Ppu_Impl::cached_tile_t const&
-		Nes_Ppu_Impl::get_sprite_tile( byte const* sprite ) const
+		Nes_Ppu_Impl::get_sprite_tile( uint8_t const* sprite ) const
 {
 	cached_tile_t* tiles = tile_cache;
 	if ( sprite [2] & 0x40 )
@@ -42,7 +42,7 @@ inline Nes_Ppu_Impl::cached_tile_t const&
 	// use index directly, since cached tile is same size as native tile
 	BOOST_STATIC_ASSERT( sizeof (cached_tile_t) == bytes_per_tile );
 	return *(Nes_Ppu_Impl::cached_tile_t*)
-			((byte*) tiles + map_chr_addr( index * bytes_per_tile ));
+			((uint8_t*) tiles + map_chr_addr( index * bytes_per_tile ));
 }
 
 inline Nes_Ppu_Impl::cached_tile_t const& Nes_Ppu_Impl::get_bg_tile( int index ) const
@@ -50,7 +50,7 @@ inline Nes_Ppu_Impl::cached_tile_t const& Nes_Ppu_Impl::get_bg_tile( int index )
 	// use index directly, since cached tile is same size as native tile
 	BOOST_STATIC_ASSERT( sizeof (cached_tile_t) == bytes_per_tile );
 	return *(Nes_Ppu_Impl::cached_tile_t*)
-			((byte*) tile_cache + map_chr_addr( index * bytes_per_tile ));
+			((uint8_t*) tile_cache + map_chr_addr( index * bytes_per_tile ));
 }
 
 // Fill
@@ -80,14 +80,14 @@ void Nes_Ppu_Rendering::fill_background( int count )
 			pixels [3] = fill;
 			pixels += 4;
 		}
-		pixels = (uint32_t*) ((byte*) pixels + next_line);
+		pixels = (uint32_t*) ((uint8_t*) pixels + next_line);
 	}
 }
 
 void Nes_Ppu_Rendering::clip_left( int count )
 {
 	ptrdiff_t next_line = scanline_row_bytes;
-	byte* p = scanline_pixels;
+	uint8_t* p = scanline_pixels;
 	unsigned long fill = palette_offset;
 	
 	for ( int n = count; n--; )
@@ -101,7 +101,7 @@ void Nes_Ppu_Rendering::clip_left( int count )
 void Nes_Ppu_Rendering::save_left( int count )
 {
 	ptrdiff_t next_line = scanline_row_bytes;
-	byte* in = scanline_pixels;
+	uint8_t* in = scanline_pixels;
 	uint32_t* out = impl->clip_buf;
 	
 	for ( int n = count; n--; )
@@ -118,7 +118,7 @@ void Nes_Ppu_Rendering::save_left( int count )
 void Nes_Ppu_Rendering::restore_left( int count )
 {
 	ptrdiff_t next_line = scanline_row_bytes;
-	byte* out = scanline_pixels;
+	uint8_t* out = scanline_pixels;
 	uint32_t* in = impl->clip_buf;
 	
 	for ( int n = count; n--; )
@@ -139,7 +139,7 @@ void Nes_Ppu_Rendering::draw_background_( int remain )
 	// Draws 'remain' background scanlines. Does not modify vram_addr.
 	
 	int vram_addr = this->vram_addr & 0x7fff;
-	byte* row_pixels = scanline_pixels - pixel_x;
+	uint8_t* row_pixels = scanline_pixels - pixel_x;
 	int left_clip = (w2001 >> 1 & 1) ^ 1;
 	row_pixels += left_clip * 8;
 	do
@@ -171,20 +171,20 @@ void Nes_Ppu_Rendering::draw_background_( int remain )
 		}
 		
 		// nametable change usually occurs in middle of row
-		byte const* nametable = get_nametable( addr );
-		byte const* nametable2 = get_nametable( addr ^ 0x400 );
+		uint8_t const* nametable = get_nametable( addr );
+		uint8_t const* nametable2 = get_nametable( addr ^ 0x400 );
 		int count2 = addr & 31;
 		int count = 32 - count2 - left_clip;
 		if ( pixel_x )
 			count2++;
 		
-		byte const* attr_table = &nametable [0x3c0 | (addr >> 4 & 0x38)];
+		uint8_t const* attr_table = &nametable [0x3c0 | (addr >> 4 & 0x38)];
 		int bg_bank = (w2000 << 4) & 0x100;
 		addr += left_clip;
 		
 		// output pixels
 		ptrdiff_t const row_bytes = scanline_row_bytes;
-		byte* pixels = row_pixels;
+		uint8_t* pixels = row_pixels;
 		row_pixels += height * row_bytes;
 		
 		unsigned long const mask = 0x03030303 + zero;
@@ -223,7 +223,7 @@ void Nes_Ppu_Rendering::draw_sprites_( int begin, int end )
 	int index = 0;
 	do
 	{
-		byte const* sprite = &spr_ram [index];
+		uint8_t const* sprite = &spr_ram [index];
 		index += 4;
 		
 		// find if sprite is visible
@@ -294,7 +294,7 @@ void Nes_Ppu_Rendering::check_sprite_hit( int begin, int end )
 	
 	// pixels
 	ptrdiff_t next_row = this->scanline_row_bytes;
-	byte const* bg = this->scanline_pixels + spr_ram [3] + (top - begin) * next_row;
+	uint8_t const* bg = this->scanline_pixels + spr_ram [3] + (top - begin) * next_row;
 	cache_t const* lines = get_sprite_tile( spr_ram );
 	
 	// left edge clipping
@@ -340,7 +340,7 @@ void Nes_Ppu_Rendering::check_sprite_hit( int begin, int end )
 			int x = start_x;
 			do
 			{
-				if ( ((byte*) quads) [x] & 1 )
+				if ( ((uint8_t*) quads) [x] & 1 )
 				{
 					x += spr_ram [3];
 					if ( x >= 255 )
@@ -371,7 +371,7 @@ inline bool Nes_Ppu_Rendering::sprite_hit_possible( int scanline ) const
 }
 
 void Nes_Ppu_Rendering::draw_scanlines( int start, int count,
-		byte* pixels, long pitch, int mode )
+		uint8_t* pixels, long pitch, int mode )
 {
 	scanline_pixels = pixels + image_left;
 	scanline_row_bytes = pitch;

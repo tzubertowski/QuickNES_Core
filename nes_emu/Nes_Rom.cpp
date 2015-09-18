@@ -58,7 +58,7 @@ blargg_err_t Nes_Rom::resize_prg( long size )
 		// might go past end of ROM
 		void* p = realloc( prg_, round_to_bank_size( size ) + 1 );
 		BLARGG_CHECK_ALLOC( p || !size );
-		prg_ = (byte*) p;
+		prg_ = (uint8_t*) p;
 		prg_size_ = size;
 	}
    return 0;
@@ -70,7 +70,7 @@ blargg_err_t Nes_Rom::resize_chr( long size )
 	{
 		void* p = realloc( chr_, round_to_bank_size( size ) );
 		BLARGG_CHECK_ALLOC( p || !size );
-		chr_ = (byte*) p;
+		chr_ = (uint8_t*) p;
 		chr_size_ = size;
 	}
    return 0;

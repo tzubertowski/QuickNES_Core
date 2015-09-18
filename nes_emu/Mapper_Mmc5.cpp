@@ -24,8 +24,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA */
 struct mmc5_state_t
 {
 	enum { reg_count = 0x30 };
-	byte regs [0x30];
-	byte irq_enabled;
+	uint8_t regs [0x30];
+	uint8_t irq_enabled;
 };
 // to do: finalize state format
 BOOST_STATIC_ASSERT( sizeof (mmc5_state_t) == 0x31 );

@@ -323,7 +323,7 @@ const int irq_inhibit_mask = 0x04;
 
 nes_addr_t Nes_Core::read_vector( nes_addr_t addr )
 {
-	byte const* p = cpu::get_code( addr );
+	uint8_t const* p = cpu::get_code( addr );
 	return p [1] * 0x100 + p [0];
 }
 

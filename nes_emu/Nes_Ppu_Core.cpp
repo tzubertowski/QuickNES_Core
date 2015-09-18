@@ -31,8 +31,6 @@ inline const T& min( const T& x, const T& y )
 	return y;
 }
 
-typedef uint8_t byte;
-
 ppu_time_t const ppu_overclock = 3; // PPU clocks for each CPU clock
 ppu_time_t const scanline_duration = 341;
 ppu_time_t const t_to_v_time = 20 * scanline_duration + 293;
@@ -95,14 +93,14 @@ void Nes_Ppu::end_frame( nes_time_t end_time )
 	start_frame();
 }
 
-inline byte const* Nes_Ppu::map_chr( int addr ) const
+inline uint8_t const* Nes_Ppu::map_chr( int addr ) const
 {
 	return &chr_rom [map_chr_addr( addr )];
 }
 
 // Read/write
 
-inline byte* Nes_Ppu::map_palette( int addr )
+inline uint8_t * Nes_Ppu::map_palette( int addr )
 {
 	if ( (addr & 3) == 0 )
 		addr &= 0x0f; // 0x10, 0x14, 0x18, 0x1c map to 0x00, 0x04, 0x08, 0x0c
@@ -276,7 +274,7 @@ bool Nes_Ppu::update_sprite_hit( nes_time_t cpu_time )
 		height = 2;
 		tile = (tile & 1) * 0x100 + (tile & 0xfe);
 	}
-	byte const* data = map_chr( tile * bytes_per_tile );
+	uint8_t const* data = map_chr( tile * bytes_per_tile );
 	for ( int n = height; n--; )
 	{
 		for ( int n = 8; n--; )

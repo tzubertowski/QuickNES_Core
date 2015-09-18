@@ -226,7 +226,7 @@ inline void Nes_Ppu::invalidate_sprite_max( nes_time_t t )
 inline int Nes_Ppu_Impl::first_opaque_sprite_line() const
 {
 	// advance earliest time if sprite has blank lines at beginning
-	byte const* p = map_chr( sprite_tile_index( spr_ram ) * 16 );
+	uint8_t const* p = map_chr( sprite_tile_index( spr_ram ) * 16 );
 	int twice = w2000 >> 5 & 1; // loop twice if double height is set
 	int line = 0;
 	do

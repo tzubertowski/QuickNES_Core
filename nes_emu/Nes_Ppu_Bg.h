@@ -8,7 +8,7 @@ while ( true )
 		
 		// draw one tile
 		cache_t const* lines = this->get_bg_tile( nametable [addr] + bg_bank );
-		byte* p = pixels;
+		uint8_t* p = pixels;
 		addr++;
 		pixels += 8; // next tile
 		

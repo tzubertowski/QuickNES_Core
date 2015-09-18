@@ -3,12 +3,12 @@ int sprite_2 = sprite [2];
 
 // pixels
 ptrdiff_t next_row = this->scanline_row_bytes;
-byte* out = this->scanline_pixels + sprite [3] +
+uint8_t* out = this->scanline_pixels + sprite [3] +
 		(top_minus_one + skip - begin_minus_one) * next_row;
 cache_t const* lines = get_sprite_tile( sprite );
 
 int dir = 1;
-byte* scanlines = this->sprite_scanlines + 1 + top_minus_one + skip;
+uint8_t* scanlines = this->sprite_scanlines + 1 + top_minus_one + skip;
 
 if ( sprite_2 & 0x80 )
 {

@@ -230,7 +230,7 @@ blargg_err_t Nes_Emu::save_state( Auto_File_Writer out ) const
 void Nes_Emu::write_chr( void const* p, long count, long offset )
 {
 	long end = offset + count;
-	memcpy( (byte*) chr_mem() + offset, p, count );
+	memcpy( (uint8_t*) chr_mem() + offset, p, count );
 	emu.ppu.rebuild_chr( offset, end );
 }
 

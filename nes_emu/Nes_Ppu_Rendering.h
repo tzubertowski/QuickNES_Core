@@ -15,7 +15,7 @@ public:
 	
 	int sprite_limit;
 	
-	byte* host_pixels;
+	uint8_t* host_pixels;
 	long host_row_bytes;
 	
 protected:
@@ -26,11 +26,11 @@ protected:
 	
 private:
 
-	void draw_scanlines( int start, int count, byte* pixels, long pitch, int mode );
+	void draw_scanlines( int start, int count, uint8_t* pixels, long pitch, int mode );
 	void draw_background_( int count );
 	
 	// destination for draw functions; avoids extra parameters
-	byte* scanline_pixels; 
+	uint8_t* scanline_pixels; 
 	long scanline_row_bytes;
 	
 	// fill/copy
@@ -41,7 +41,7 @@ private:
 	
 	// sprites
 	enum { max_sprites = 64 };
-	byte sprite_scanlines [image_height]; // number of sprites on each scanline
+	uint8_t sprite_scanlines [image_height]; // number of sprites on each scanline
 	void draw_sprites_( int start, int count );
 	bool sprite_hit_possible( int scanline ) const;
 	void check_sprite_hit( int begin, int end );

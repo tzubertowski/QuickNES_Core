@@ -11,15 +11,13 @@ class Nes_State_;
 
 class Nes_Ppu_Impl : public ppu_state_t {
 public:
-	typedef uint8_t byte;
-	
 	Nes_Ppu_Impl();
 	~Nes_Ppu_Impl();
 	
 	void reset( bool full_reset );
 	
 	// Setup
-	blargg_err_t open_chr( const byte*, long size );
+	blargg_err_t open_chr( const uint8_t*, long size );
 	void rebuild_chr( unsigned long begin, unsigned long end );
 	void close_chr();
 	void save_state( Nes_State_* out ) const;
@@ -53,18 +51,18 @@ public:
 	enum { mini_offscreen_height = 16 }; // double-height sprite
 	struct impl_t
 	{
-		byte nt_ram [nt_ram_size];
-		byte chr_ram [chr_addr_size];
+		uint8_t nt_ram [nt_ram_size];
+		uint8_t chr_ram [chr_addr_size];
 		union {
 			uint32_t clip_buf [256 * 2];
-			byte mini_offscreen [buffer_width * mini_offscreen_height];
+			uint8_t mini_offscreen [buffer_width * mini_offscreen_height];
 		};
 	};
 	impl_t* impl;
 	enum { scanline_len = 341 };
 	
 protected:
-	byte spr_ram [0x100];
+	uint8_t spr_ram [0x100];
 	void begin_frame();
 	void run_hblank( int );
 	int sprite_height() const { return (w2000 >> 2 & 8) + 8; }
@@ -91,32 +89,32 @@ protected: //friend class Nes_Ppu_Rendering; private:
 	typedef uint32_t cache_t;
 	typedef cache_t cached_tile_t [4];
 	cached_tile_t const& get_bg_tile( int index ) const;
-	cached_tile_t const& get_sprite_tile( byte const* sprite ) const;
-	byte* get_nametable( int addr ) { return nt_banks [addr >> 10 & 3]; };
+	cached_tile_t const& get_sprite_tile( uint8_t const* sprite ) const;
+	uint8_t* get_nametable( int addr ) { return nt_banks [addr >> 10 & 3]; };
 	
 private:
 	
 	static int map_palette( int addr );
-	int sprite_tile_index( byte const* sprite ) const;
+	int sprite_tile_index( uint8_t const* sprite ) const;
 	
 	// Mapping
 	enum { chr_page_size = 0x400 };
 	long chr_pages [chr_addr_size / chr_page_size];
 	long map_chr_addr( unsigned a ) const { return chr_pages [a / chr_page_size] + a; }
-	byte* nt_banks [4];
+	uint8_t* nt_banks [4];
 	
 	// CHR data
-	byte const* chr_data; // points to chr ram when there is no read-only data
-	byte* chr_ram; // always points to impl->chr_ram; makes write_2007() faster
+	uint8_t const* chr_data; // points to chr ram when there is no read-only data
+	uint8_t* chr_ram; // always points to impl->chr_ram; makes write_2007() faster
 	long chr_size;
-	byte const* map_chr( int addr ) const { return &chr_data [map_chr_addr( addr )]; }
+	uint8_t const* map_chr( int addr ) const { return &chr_data [map_chr_addr( addr )]; }
 	
 	// CHR cache
 	cached_tile_t* tile_cache;
 	cached_tile_t* flipped_tiles;
-	byte* tile_cache_mem;
+	uint8_t* tile_cache_mem;
 	union {
-		byte modified_tiles [chr_tile_count / 8];
+		uint8_t modified_tiles [chr_tile_count / 8];
 		uint32_t align_;
 	};
 	void all_tiles_modified();
@@ -125,7 +123,7 @@ private:
 
 inline void Nes_Ppu_Impl::set_nt_banks( int bank0, int bank1, int bank2, int bank3 )
 {
-	byte* nt_ram = impl->nt_ram;
+	uint8_t* nt_ram = impl->nt_ram;
 	nt_banks [0] = &nt_ram [bank0 * 0x400];
 	nt_banks [1] = &nt_ram [bank1 * 0x400];
 	nt_banks [2] = &nt_ram [bank2 * 0x400];
@@ -139,7 +137,7 @@ inline int Nes_Ppu_Impl::map_palette( int addr )
 	return addr & 0x1f;
 }
 
-inline int Nes_Ppu_Impl::sprite_tile_index( byte const* sprite ) const
+inline int Nes_Ppu_Impl::sprite_tile_index( uint8_t const* sprite ) const
 {
 	int tile = sprite [1] + (w2000 << 5 & 0x100);
 	if ( w2000 & 0x20 )
@@ -150,7 +148,7 @@ inline int Nes_Ppu_Impl::sprite_tile_index( byte const* sprite ) const
 inline int Nes_Ppu_Impl::write_2007( int data )
 {
 	int addr = vram_addr;
-	byte* chr_ram = this->chr_ram; // pre-read
+	uint8_t * chr_ram = this->chr_ram; // pre-read
 	int changed = addr + addr_inc;
 	unsigned const divisor = bytes_per_tile * 8;
 	int mod_index = (unsigned) addr / divisor % (0x4000 / divisor);
@@ -175,7 +173,7 @@ inline int Nes_Ppu_Impl::write_2007( int data )
 	else
 	{
 		data &= 0x3f;
-		byte& entry = palette [map_palette( addr )];
+		uint8_t& entry = palette [map_palette( addr )];
 		int changed = entry ^ data;
 		entry = data;
 		if ( changed )

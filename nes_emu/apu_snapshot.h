@@ -10,30 +10,23 @@
 
 struct apu_snapshot_t
 {
-	typedef uint8_t byte;
+	typedef uint8_t env_t [3];
 	
-	typedef byte env_t [3];
-	/*struct env_t {
-		byte delay;
-		byte env;3
-		byte written;
-	};*/
-	
-	byte w40xx [0x14]; // $4000-$4013
-	byte w4015; // enables
-	byte w4017; // mode
+	uint8_t w40xx [0x14]; // $4000-$4013
+	uint8_t w4015; // enables
+	uint8_t w4017; // mode
 	uint16_t delay;
-	byte step;
-	byte irq_flag;
+	uint8_t step;
+	uint8_t irq_flag;
 	
 	struct square_t {
 		uint16_t delay;
 		env_t env;
-		byte length;
-		byte phase;
-		byte swp_delay;
-		byte swp_reset;
-		byte unused [1];
+		uint8_t length;
+		uint8_t phase;
+		uint8_t swp_delay;
+		uint8_t swp_reset;
+		uint8_t unused [1];
 	};
 	
 	square_t square1;
@@ -41,16 +34,16 @@ struct apu_snapshot_t
 	
 	struct triangle_t {
 		uint16_t delay;
-		byte length;
-		byte phase;
-		byte linear_counter;
-		byte linear_mode;
+		uint8_t length;
+		uint8_t phase;
+		uint8_t linear_counter;
+		uint8_t linear_mode;
 	} triangle;
 	
 	struct noise_t {
 		uint16_t delay;
 		env_t env;
-		byte length;
+		uint8_t length;
 		uint16_t shift_reg;
 	} noise;
 	
@@ -58,12 +51,12 @@ struct apu_snapshot_t
 		uint16_t delay;
 		uint16_t remain;
 		uint16_t addr;
-		byte buf;
-		byte bits_remain;
-		byte bits;
-		byte buf_empty;
-		byte silence;
-		byte irq_flag;
+		uint8_t buf;
+		uint8_t bits_remain;
+		uint8_t bits;
+		uint8_t buf_empty;
+		uint8_t silence;
+		uint8_t irq_flag;
 	} dmc;
 	
 	enum { tag = 'APUR' };

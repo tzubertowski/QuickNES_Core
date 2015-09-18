@@ -31,9 +31,7 @@ typedef long nes_tag_t;
 #endif
 #endif
 
-typedef uint8_t byte;
-
-// Binary format of save state blocks. All multi-byte values are stored in little-endian.
+// Binary format of save state blocks. All multi-uint8_t values are stored in little-endian.
 
 nes_tag_t const state_file_tag = FOUR_CHAR('NESS');
 
@@ -60,8 +58,8 @@ nes_tag_t const group_end_tag = FOUR_CHAR('gend'); // group end block has this t
 struct nes_state_t
 {
 	uint16_t timestamp; // CPU clocks * 15 (for NTSC)
-	byte pal;
-	byte unused [1];
+	uint8_t pal;
+	uint8_t unused [1];
 	uint32_t frame_count; // number of frames emulated since power-up
 	
 	enum { tag = FOUR_CHAR('TIME') };
@@ -72,8 +70,8 @@ BOOST_STATIC_ASSERT( sizeof (nes_state_t) == 8 );
 struct joypad_state_t
 {
 	uint32_t joypad_latches [2]; // joypad 1 & 2 shift registers
-	byte w4016;             // strobe
-	byte unused [3];
+	uint8_t w4016;             // strobe
+	uint8_t unused [3];
 	
 	enum { tag = FOUR_CHAR('CTRL') };
 	void swap();
@@ -88,7 +86,7 @@ struct mapper_state_t
 	int size;
 	union {
 		double align;
-		byte data [max_mapper_state_size];
+		uint8_t data [max_mapper_state_size];
 	};
 	
 	void write( const void* p, unsigned long s );
@@ -98,12 +96,12 @@ struct mapper_state_t
 struct cpu_state_t
 {
 	uint16_t pc;
-	byte s;
-	byte p;
-	byte a;
-	byte x;
-	byte y;
-	byte unused [1];
+	uint8_t s;
+	uint8_t p;
+	uint8_t a;
+	uint8_t x;
+	uint8_t y;
+	uint8_t unused [1];
 	
 	enum { tag = FOUR_CHAR('CPUR') };
 	void swap();
@@ -112,21 +110,21 @@ BOOST_STATIC_ASSERT( sizeof (cpu_state_t) == 8 );
 
 struct ppu_state_t
 {
-	byte w2000;                 // control
-	byte w2001;                 // control
-	byte r2002;                 // status
-	byte w2003;                 // sprite ram addr
-	byte r2007;                 // vram read buffer
-	byte second_write;          // next write to $2005/$2006 is second since last $2002 read
+	uint8_t w2000;                 // control
+	uint8_t w2001;                 // control
+	uint8_t r2002;                 // status
+	uint8_t w2003;                 // sprite ram addr
+	uint8_t r2007;                 // vram read buffer
+	uint8_t second_write;          // next write to $2005/$2006 is second since last $2002 read
 	uint16_t vram_addr;  // loopy_v
 	uint16_t vram_temp;  // loopy_t
-	byte pixel_x;               // fine-scroll (0-7)
-	byte unused;
-	byte palette [0x20];        // entries $10, $14, $18, $1c should be ignored
+	uint8_t pixel_x;               // fine-scroll (0-7)
+	uint8_t unused;
+	uint8_t palette [0x20];        // entries $10, $14, $18, $1c should be ignored
 	uint16_t decay_low;
 	uint16_t decay_high;
-	byte open_bus;
-	byte unused2[3];
+	uint8_t open_bus;
+	uint8_t unused2[3];
 	
 	enum { tag = FOUR_CHAR('PPUR') };
 	void swap();
@@ -135,22 +133,22 @@ BOOST_STATIC_ASSERT( sizeof (ppu_state_t) == 20 + 0x20 );
 
 struct mmc1_state_t
 {
-	byte regs [4]; // current registers (5 bits each)
-	byte bit;      // number of bits in buffer (0 to 4)
-	byte buf;      // currently buffered bits (new bits added to bottom)
+	uint8_t regs [4]; // current registers (5 bits each)
+	uint8_t bit;      // number of bits in buffer (0 to 4)
+	uint8_t buf;      // currently buffered bits (new bits added to bottom)
 };
 BOOST_STATIC_ASSERT( sizeof (mmc1_state_t) == 6 );
 
 struct mmc3_state_t
 {
-	byte banks [8]; // last writes to $8001 indexed by (mode & 7)
-	byte mode;      // $8000
-	byte mirror;    // $a000
-	byte sram_mode; // $a001
-	byte irq_ctr;   // internal counter
-	byte irq_latch; // $c000
-	byte irq_enabled;// last write was to 0) $e000, 1) $e001
-	byte irq_flag;
+	uint8_t banks [8]; // last writes to $8001 indexed by (mode & 7)
+	uint8_t mode;      // $8000
+	uint8_t mirror;    // $a000
+	uint8_t sram_mode; // $a001
+	uint8_t irq_ctr;   // internal counter
+	uint8_t irq_latch; // $c000
+	uint8_t irq_enabled;// last write was to 0) $e000, 1) $e001
+	uint8_t irq_flag;
 };
 BOOST_STATIC_ASSERT( sizeof (mmc3_state_t) == 15 );
 

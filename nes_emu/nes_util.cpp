@@ -148,7 +148,7 @@ void Cheat_Value_Finder::start( Nes_Emu* new_emu )
 
 void Cheat_Value_Finder::rescan()
 {
-	byte const* low_mem = emu->low_mem();
+	uint8_t const* low_mem = emu->low_mem();
 	for ( int i = 0; i < low_mem_size; i++ )
 		changed [i] |= original [i] ^ low_mem [i];
 	memcpy( original, emu->low_mem(), low_mem_size );
@@ -163,7 +163,7 @@ void Cheat_Value_Finder::search( int new_original, int new_changed )
 
 int Cheat_Value_Finder::next_match( int* addr )
 {
-	byte const* low_mem = emu->low_mem();
+	uint8_t const* low_mem = emu->low_mem();
 	while ( ++pos < low_mem_size )
 	{
 		if ( !changed [pos] )

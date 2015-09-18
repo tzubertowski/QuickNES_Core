@@ -55,7 +55,7 @@ void Nes_Ppu_Impl::all_tiles_modified()
 	memset( modified_tiles, ~0, sizeof modified_tiles );
 }
 
-blargg_err_t Nes_Ppu_Impl::open_chr( byte const* new_chr, long chr_data_size )
+blargg_err_t Nes_Ppu_Impl::open_chr( uint8_t const* new_chr, long chr_data_size )
 {
 	close_chr();
 	
@@ -80,7 +80,7 @@ blargg_err_t Nes_Ppu_Impl::open_chr( byte const* new_chr, long chr_data_size )
 	
 	// allocate aligned memory for cache
 	long tile_count = chr_size / bytes_per_tile;
-	tile_cache_mem = BLARGG_NEW byte [tile_count * sizeof (cached_tile_t) * 2 + cache_line_size];
+	tile_cache_mem = BLARGG_NEW uint8_t [tile_count * sizeof (cached_tile_t) * 2 + cache_line_size];
 	CHECK_ALLOC( tile_cache_mem );
 	tile_cache = (cached_tile_t*) (tile_cache_mem + cache_line_size -
 			(uintptr_t) tile_cache_mem % cache_line_size);
@@ -268,9 +268,9 @@ inline unsigned long reorder( unsigned long n )
 
 inline void Nes_Ppu_Impl::update_tile( int index )
 {
-	const byte* in = chr_data + (index) * bytes_per_tile;
-	byte* out = (byte*) tile_cache [index];
-	byte* flipped_out = (byte*) flipped_tiles [index];
+	const uint8_t* in = chr_data + (index) * bytes_per_tile;
+	uint8_t* out = (uint8_t*) tile_cache [index];
+	uint8_t* flipped_out = (uint8_t*) flipped_tiles [index];
 	
 	unsigned long bit_mask = 0x11111111 + zero;
 	
@@ -351,7 +351,7 @@ void Nes_Ppu_Impl::update_tiles( int first_tile )
 template<int height>
 struct calc_sprite_max_scanlines
 {
-	static unsigned long func( byte const* sprites, byte* scanlines, int begin )
+	static unsigned long func( uint8_t const* sprites, uint8_t* scanlines, int begin )
 	{
 		typedef uint32_t uint32_t;
 		
@@ -362,7 +362,7 @@ struct calc_sprite_max_scanlines
 		{
 			int top = *sprites;
 			sprites += 4;
-			byte* p = scanlines + top;
+			uint8_t* p = scanlines + top;
 			if ( (unsigned) (239 - top) < limit )
 			{
 				unsigned long p0 = (uint32_t&) p [0] + offset;
@@ -391,7 +391,7 @@ long Nes_Ppu_Impl::recalc_sprite_max( int scanline )
 {
 	int const max_scanline_count = image_height;
 	
-	byte sprite_max_scanlines [256 + 16];
+	uint8_t sprite_max_scanlines [256 + 16];
 	
 	// recalculate sprites per scanline
 	memset( sprite_max_scanlines + scanline, 0x78, last_sprite_max_scanline - scanline );
@@ -415,7 +415,7 @@ long Nes_Ppu_Impl::recalc_sprite_max( int scanline )
 		unsigned long const mask = 0x80808080 + zero;
 		
 		// check four at a time
-		byte* pos = &sprite_max_scanlines [scanline];
+		uint8_t* pos = &sprite_max_scanlines [scanline];
 		unsigned long n = (uint32_t&) *pos;
 		while ( 1 )
 		{

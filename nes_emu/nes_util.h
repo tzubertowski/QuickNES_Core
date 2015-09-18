@@ -68,14 +68,13 @@ public:
 	int change_value( int new_value );
 	
 private:
-	typedef uint8_t byte;
 	Nes_Emu* emu;
 	int original_value;
 	int changed_value;
 	int pos;
 	enum { low_mem_size = 0x800 };
-	byte original [low_mem_size];
-	byte changed  [low_mem_size];
+	uint8_t original [low_mem_size];
+	uint8_t changed  [low_mem_size];
 };
 
 #endif

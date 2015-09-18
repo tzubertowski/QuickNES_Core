@@ -11,7 +11,6 @@
 #include "abstract_file.h"
 
 class Nes_Cart {
-	typedef uint8_t byte;
 public:
 	Nes_Cart();
 	~Nes_Cart();
@@ -56,18 +55,18 @@ public:
 	int mapper_code() const;
 	
 	// Pointer to beginning of PRG data
-	byte      * prg()       { return prg_; }
-	byte const* prg() const { return prg_; }
+	uint8_t      * prg()       { return prg_; }
+	uint8_t const* prg() const { return prg_; }
 	
 	// Pointer to beginning of CHR data
-	byte      * chr()       { return chr_; }
-	byte const* chr() const { return chr_; }
+	uint8_t      * chr()       { return chr_; }
+	uint8_t const* chr() const { return chr_; }
 	
 	// End of public interface
 private:
 	enum { bank_size = 8 * 1024L }; // bank sizes must be a multiple of this
-	byte* prg_;
-	byte* chr_;
+	uint8_t *prg_;
+	uint8_t *chr_;
 	long prg_size_;
 	long chr_size_;
 	unsigned mapper;

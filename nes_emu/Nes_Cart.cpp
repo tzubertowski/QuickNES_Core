@@ -60,7 +60,7 @@ blargg_err_t Nes_Cart::resize_prg( long size )
 		// might go past end of data
 		void* p = realloc( prg_, round_to_bank_size( size ) + 2 );
 		CHECK_ALLOC( p || !size );
-		prg_ = (byte*) p;
+		prg_ = (uint8_t*) p;
 		prg_size_ = size;
 	}
 	return 0;
@@ -72,7 +72,7 @@ blargg_err_t Nes_Cart::resize_chr( long size )
 	{
 		void* p = realloc( chr_, round_to_bank_size( size ) );
 		CHECK_ALLOC( p || !size );
-		chr_ = (byte*) p;
+		chr_ = (uint8_t*) p;
 		chr_size_ = size;
 	}
 	return 0;

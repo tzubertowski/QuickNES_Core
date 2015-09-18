@@ -182,21 +182,21 @@ public:
 // Access to emulated memory, for viewer/cheater/debugger
 	
 	// CHR
-	byte const* chr_mem();
+	uint8_t const* chr_mem();
 	long chr_size() const;
 	void write_chr( void const*, long count, long offset );
 	
 	// Nametable
-	byte* nametable_mem()       { return emu.ppu.impl->nt_ram; }
+	uint8_t* nametable_mem()       { return emu.ppu.impl->nt_ram; }
 	long nametable_size() const { return 0x1000; }
 	
 	// Built-in 2K memory
 	enum { low_mem_size = 0x800 };
-	byte* low_mem()             { return emu.low_mem; }
+	uint8_t* low_mem()             { return emu.low_mem; }
 	
 	// Optional 8K memory
 	enum { high_mem_size = 0x2000 };
-	byte* high_mem()            { return emu.impl->sram; }
+	uint8_t* high_mem()            { return emu.impl->sram; }
 	
 	// End of public interface
 public:
@@ -252,9 +252,9 @@ inline void Nes_Emu::set_pixels( void* p, long n )
 	emu.ppu.host_row_bytes = n;
 }
 
-inline byte const* Nes_Emu::chr_mem()
+inline uint8_t const* Nes_Emu::chr_mem()
 {
-	return cart()->chr_size() ? (byte*) cart()->chr() : emu.ppu.impl->chr_ram;
+	return cart()->chr_size() ? (uint8_t*) cart()->chr() : emu.ppu.impl->chr_ram;
 }
 
 inline long Nes_Emu::chr_size() const

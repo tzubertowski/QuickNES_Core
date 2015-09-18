@@ -25,20 +25,20 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA */
 struct vrc6_state_t
 {
 	// written registers
-	byte prg_16k_bank;
+	uint8_t prg_16k_bank;
 	// could move sound regs int and out of vrc6_apu_state_t for state saving,
 	// allowing them to be stored here
-	byte old_sound_regs [3] [3]; // to do: eliminate this duplicate
-	byte mirroring;
-	byte prg_8k_bank;
-	byte chr_banks [8];
-	byte irq_reload;
-	byte irq_mode;
+	uint8_t old_sound_regs [3] [3]; // to do: eliminate this duplicate
+	uint8_t mirroring;
+	uint8_t prg_8k_bank;
+	uint8_t chr_banks [8];
+	uint8_t irq_reload;
+	uint8_t irq_mode;
 	
 	// internal state
 	uint16_t next_time;
-	byte irq_pending;
-	byte unused;
+	uint8_t irq_pending;
+	uint8_t unused;
 	
 	vrc6_apu_state_t sound_state;
 	

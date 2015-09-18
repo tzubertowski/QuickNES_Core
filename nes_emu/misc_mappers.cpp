@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA */
 // Nina-1 (Deadly Towers only)
 
 class Mapper_Nina1 : public Nes_Mapper {
-	byte bank;
+	uint8_t bank;
 public:
 	Mapper_Nina1()
 	{
@@ -43,7 +43,7 @@ public:
 // GNROM
 
 class Mapper_Gnrom : public Nes_Mapper {
-	byte bank;
+	uint8_t bank;
 public:
 	Mapper_Gnrom()
 	{
@@ -73,7 +73,7 @@ public:
 // Color Dreams
 
 class Mapper_Color_Dreams : public Nes_Mapper {
-	byte bank;
+	uint8_t bank;
 public:
 	Mapper_Color_Dreams()
 	{
@@ -103,7 +103,7 @@ public:
 // Jaleco/Konami
 
 class Mapper_87 : public Nes_Mapper {
-	byte bank;
+	uint8_t bank;
 public:
 	Mapper_87()
 	{
@@ -132,7 +132,7 @@ public:
 // Camerica
 
 class Mapper_Camerica : public Nes_Mapper {
-	byte regs [3];
+	uint8_t regs [3];
 public:
 	Mapper_Camerica()
 	{
@@ -164,7 +164,7 @@ public:
 // Quattro
 
 class Mapper_Quattro : public Nes_Mapper {
-	byte regs [2];
+	uint8_t regs [2];
 public:
 	Mapper_Quattro()
 	{
