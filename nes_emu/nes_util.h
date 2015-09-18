@@ -21,19 +21,9 @@ public:
 	// Also turns bits 8 and 9 into turbo A and B.
 	int process( int joypad );
 	
-	// Set A and B turbo rates, where 1.0 is maximum and 0.0 disables them
-	void set_a_rate( double r ) { rates [0] = (int) (r * 0x100); }
-	void set_b_rate( double r ) { rates [1] = (int) (r * 0x100); }
-	
-	// Call after each emulated frame for which Nes_Emu::frame().joypad_read_count
-	// is non-zero.
-	void clock_turbo();
-	
 private:
 	int prev;
 	int mask;
-	int times [2];
-	int rates [2];
 };
 
 struct game_genie_patch_t

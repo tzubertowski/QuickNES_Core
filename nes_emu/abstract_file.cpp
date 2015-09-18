@@ -22,11 +22,6 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 
-// to do: remove?
-#ifndef RAISE_ERROR
-	#define RAISE_ERROR( str ) return str
-#endif
-
 typedef blargg_err_t error_t;
 
 error_t Data_Writer::write( const void*, long ) { return 0; }
@@ -47,7 +42,7 @@ error_t Std_File_Writer::open( const char* path )
 	close();
 	file_ = fopen( path, "wb" );
 	if ( !file_ )
-		RAISE_ERROR( "Couldn't open file for writing" );
+		return "Couldn't open file for writing";
 		
 	// to do: increase file buffer size
 	//setvbuf( file_, 0, _IOFBF, 32 * 1024L );
@@ -59,7 +54,7 @@ error_t Std_File_Writer::write( const void* p, long s )
 {
 	long result = (long) fwrite( p, 1, s, file_ );
 	if ( result != s )
-		RAISE_ERROR( "Couldn't write to file" );
+		return "Couldn't write to file";
 	return 0;
 }
 
@@ -101,7 +96,7 @@ error_t Mem_Writer::write( const void* p, long s )
 	if ( s > remain )
 	{
 		if ( mode == fixed )
-			RAISE_ERROR( "Tried to write more data than expected" );
+			return "Tried to write more data than expected";
 		
 		if ( mode == ignore_excess )
 		{
@@ -113,7 +108,7 @@ error_t Mem_Writer::write( const void* p, long s )
 			new_allocated += (new_allocated >> 1) + 2048;
 			void* p = realloc( data_, new_allocated );
 			if ( !p )
-				RAISE_ERROR( "Out of memory" );
+				return "Out of memory";
 			data_ = (char*) p;
 			allocated = new_allocated;
 		}

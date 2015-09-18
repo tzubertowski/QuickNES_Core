@@ -27,10 +27,6 @@ Joypad_Filter::Joypad_Filter()
 {
 	prev = 0;
 	mask = ~0x50;
-	times [0] = 0;
-	times [1] = 0;
-	set_a_rate( 0.75 );
-	set_b_rate( 0.75 );
 }
 
 void Joypad_Filter::enable_filtering( bool b )
@@ -56,24 +52,11 @@ int Joypad_Filter::process( int joypad )
 	if ( changed & y_axis && hidden & y_axis )
 		mask ^= y_axis;
 	
-	// reset turbo if button just pressed, to avoid delaying button press
-	if ( changed & 0x100 ) times [0] = 0;
-	if ( changed & 0x200 ) times [1] = 0;
 	mask |= changed & 0x300 & joypad;
 	
 	// mask and combine turbo bits
 	joypad &= mask;
 	return (joypad >> 8 & 3) | (joypad & ~0x300);
-}
-
-void Joypad_Filter::clock_turbo()
-{
-	for ( int i = 0; i < 2; i++ )
-	{
-		int t = times [i] + rates [i];
-		mask ^= (t & 0x100) << i;
-		times [i] = t & 0xFF;
-	}
 }
 
 // game_genie_patch_t
