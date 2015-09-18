@@ -29,7 +29,7 @@ blargg_err_t Data_Reader::read( void* p, int n )
 		return blargg_err_caller;
 	
 	if ( n <= 0 )
-		return blargg_ok;
+		return 0;
 	
 	if ( n > remain() )
 		return blargg_err_file_eof;
@@ -52,7 +52,7 @@ blargg_err_t Data_Reader::read_avail( void* p, int* n_ )
 		return blargg_err_caller;
 	
 	if ( n <= 0 )
-		return blargg_ok;
+		return 0;
 	
 	blargg_err_t err = read_v( p, n );
 	if ( !err )
@@ -81,7 +81,7 @@ blargg_err_t Data_Reader::skip_v( int count )
 		count -= n;
 		RETURN_ERR( read_v( buf, n ) );
 	}
-	return blargg_ok;
+	return 0;
 }
 
 blargg_err_t Data_Reader::skip( int n )
@@ -92,7 +92,7 @@ blargg_err_t Data_Reader::skip( int n )
 		return blargg_err_caller;
 	
 	if ( n <= 0 )
-		return blargg_ok;
+		return 0;
 	
 	if ( n > remain() )
 		return blargg_err_file_eof;
@@ -115,7 +115,7 @@ blargg_err_t File_Reader::seek( BOOST::uint64_t n )
 		return blargg_err_caller;
 	
 	if ( n == tell() )
-		return blargg_ok;
+		return 0;
 	
 	if ( n > size() )
 		return blargg_err_file_eof;
@@ -143,10 +143,10 @@ Mem_File_Reader::Mem_File_Reader( const void* p, long s ) :
 blargg_err_t Mem_File_Reader::read_v( void* p, int s )
 {
 	memcpy( p, begin + tell(), s );
-	return blargg_ok;
+	return 0;
 }
 
 blargg_err_t Mem_File_Reader::seek_v( int )
 {
-	return blargg_ok;
+	return 0;
 }

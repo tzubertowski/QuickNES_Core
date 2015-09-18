@@ -12,35 +12,6 @@
 
 typedef const char* blargg_err_t; // 0 on success, otherwise error string
 
-#ifdef _WIN32
-typedef wchar_t blargg_wchar_t;
-#else
-typedef uint16_t blargg_wchar_t;
-#endif
-
-inline size_t blargg_wcslen( const blargg_wchar_t* str )
-{
-    size_t length = 0;
-    while ( *str++ ) length++;
-    return length;
-}
-
-// Success; no error
-blargg_err_t const blargg_ok = 0;
-
-// BLARGG_RESTRICT: equivalent to C99's restrict, where supported
-#if __GNUC__ >= 3 || _MSC_VER >= 1100
-	#define BLARGG_RESTRICT __restrict
-#else
-	#define BLARGG_RESTRICT
-#endif
-
-#if __cplusplus >= 199711
-	#define BLARGG_MUTABLE mutable
-#else
-	#define BLARGG_MUTABLE
-#endif
-
 /* BLARGG_4CHAR('a','b','c','d') = 'abcd' (four character integer constant).
 I don't just use 'abcd' because that's implementation-dependent. */
 #define BLARGG_4CHAR( a, b, c, d ) \
