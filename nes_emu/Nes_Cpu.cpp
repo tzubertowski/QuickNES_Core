@@ -66,11 +66,6 @@ void Nes_Cpu::reset( void const* unmapped_page )
 
 void Nes_Cpu::map_code( nes_addr_t start, unsigned size, const void* data )
 {
-	// address range must begin and end on page boundaries
-	require( start % page_size == 0 );
-	require( size % page_size == 0 );
-	require( start + size <= 0x10000 );
-	
 	unsigned first_page = start / page_size;
 	for ( unsigned i = size / page_size; i--; )
 		set_code_page( first_page + i, (uint8_t*) data + i * page_size );

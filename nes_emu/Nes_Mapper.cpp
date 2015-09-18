@@ -62,8 +62,6 @@ void Nes_Mapper::reset()
 
 void mapper_state_t::write( const void* p, unsigned long s )
 {
-	require( s <= max_mapper_state_size );
-	require( !size );
 	size = s;
 	memcpy( data, p, s );
 }
@@ -113,7 +111,7 @@ bool Nes_Mapper::ppu_enabled() const { return emu().ppu.w2001 & 0x08; }
 
 int Nes_Mapper::channel_count() const { return 0; }
 
-void Nes_Mapper::set_channel_buf( int, Blip_Buffer* ) { require( false ); }
+void Nes_Mapper::set_channel_buf( int, Blip_Buffer* ) { }
 
 void Nes_Mapper::set_treble( blip_eq_t const& ) { }
 
@@ -121,10 +119,7 @@ void Nes_Mapper::set_treble( blip_eq_t const& ) { }
 
 void Nes_Mapper::set_prg_bank( nes_addr_t addr, bank_size_t bs, int bank )
 {
-	require( addr >= 0x2000 ); // can't remap low-memory
-	
 	int bank_size = 1 << bs;
-	require( addr % bank_size == 0 ); // must be aligned
 	
 	int bank_count = cart_->prg_size() >> bs;
 	if ( bank < 0 )
@@ -189,10 +184,6 @@ Nes_Mapper::creator_func_t Nes_Mapper::get_mapper_creator( int code )
 
 void Nes_Mapper::register_mapper( int code, creator_func_t func )
 {
-	// Catch attempted registration of a different creation function for same mapper code
-	require( !get_mapper_creator( code ) || get_mapper_creator( code ) == func );
-	require( mapper_count < max_mappers ); // fixed liming on number of registered mappers
-	
 	mapping_t& m = mappers [mapper_count++];
 	m.code = code;
 	m.func = func;

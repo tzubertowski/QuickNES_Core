@@ -117,7 +117,6 @@ void Stereo_Buffer::end_frame( blip_time_t clock_count, bool stereo )
 
 long Stereo_Buffer::read_samples( blip_sample_t* out, long count )
 {
-	require( !(count & 1) ); // count must be even
 	count = (unsigned) count / 2;
 	
 	long avail = bufs [0].samples_avail();

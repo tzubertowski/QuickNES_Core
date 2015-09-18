@@ -133,8 +133,6 @@ void Nes_Core::save_state( Nes_State* out ) const
 
 void Nes_Core::load_state( Nes_State_ const& in )
 {
-	require( cart );
-	
 	disable_rendering();
 	error_count = 0;
 	
@@ -331,8 +329,6 @@ nes_addr_t Nes_Core::read_vector( nes_addr_t addr )
 
 void Nes_Core::reset( bool full_reset, bool erase_battery_ram )
 {
-	require( cart );
-	
 	if ( full_reset )
 	{
 		cpu::reset( impl->unmapped_page );
@@ -523,8 +519,6 @@ nes_time_t Nes_Core::emulate_frame_()
 
 nes_time_t Nes_Core::emulate_frame()
 {
-	require( cart );
-	
 	joypad_read_count = 0;
 	
 	cpu_time_offset = ppu.begin_frame( nes.timestamp ) - 1;
@@ -558,8 +552,6 @@ nes_time_t Nes_Core::emulate_frame()
 
 void Nes_Core::add_mapper_intercept( nes_addr_t addr, unsigned size, bool read, bool write )
 {
-	require( addr >= 0x4000 );
-	require( addr + size <= 0x10000 );
 	int end = (addr + size + (page_size - 1)) >> page_bits;
 	for ( int page = addr >> page_bits; page < end; page++ )
 	{

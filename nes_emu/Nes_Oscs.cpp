@@ -375,7 +375,6 @@ void Nes_Dmc::fill_buffer()
 {
 	if ( !buf_full && length_counter )
 	{
-		require( prg_reader ); // prg_reader must be set
 		buf = prg_reader( prg_reader_data, 0x8000u + address );
 		address = (address + 1) & 0x7FFF;
 		buf_full = true;

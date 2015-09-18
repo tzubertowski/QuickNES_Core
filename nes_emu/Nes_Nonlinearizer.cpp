@@ -75,7 +75,6 @@ long Nes_Nonlinearizer::samples_avail() const
 
 void Nes_Nonlinearizer::enable_nonlinearity( bool b )
 {
-	require( b ); // to do: implement non-linear output
 	double gain = 0x7fff * 0.742467605 * 1.2;
 	for ( int i = 0; i < half * 2; i++ )
 	{

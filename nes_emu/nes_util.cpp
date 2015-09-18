@@ -156,7 +156,6 @@ void Cheat_Value_Finder::rescan()
 
 void Cheat_Value_Finder::search( int new_original, int new_changed )
 {
-	require( new_original != new_changed );
 	original_value = new_original;
 	changed_value = new_changed;
 	pos = -1;
@@ -186,7 +185,6 @@ int Cheat_Value_Finder::next_match( int* addr )
 
 int Cheat_Value_Finder::change_value( int new_value )
 {
-	require( (unsigned) pos < low_mem_size );
 	int result = emu->low_mem() [pos];
 	emu->low_mem() [pos] = new_value;
 	return result;

@@ -105,8 +105,6 @@ blargg_err_t Nes_Emu::set_cart( Nes_Cart const* new_cart )
 
 void Nes_Emu::reset( bool full_reset, bool erase_battery_ram )
 {
-	require( cart() );
-	
 	clear_sound_buf();
 	set_timestamp( 0 );
 	emu.reset( full_reset, erase_battery_ram );
@@ -114,11 +112,9 @@ void Nes_Emu::reset( bool full_reset, bool erase_battery_ram )
 
 void Nes_Emu::set_palette_range( int begin, int end )
 {
-	require( (unsigned) end <= 0x100 );
 	// round up to alignment
 	emu.ppu.palette_begin = (begin + palette_alignment - 1) & ~(palette_alignment - 1); 
 	host_palette_size = end - emu.ppu.palette_begin;
-	require( host_palette_size >= palette_alignment );
 }
 
 blargg_err_t Nes_Emu::emulate_frame( int joypad1, int joypad2 )
@@ -233,9 +229,7 @@ blargg_err_t Nes_Emu::save_state( Auto_File_Writer out ) const
 
 void Nes_Emu::write_chr( void const* p, long count, long offset )
 {
-	require( (unsigned long) offset <= (unsigned long) chr_size() );
 	long end = offset + count;
-	require( (unsigned long) end <= (unsigned long) chr_size() );
 	memcpy( (byte*) chr_mem() + offset, p, count );
 	emu.ppu.rebuild_chr( offset, end );
 }
@@ -263,7 +257,6 @@ void Nes_Emu::set_frame_rate( double rate )
 
 blargg_err_t Nes_Emu::set_sample_rate( long rate, Multi_Buffer* new_buf )
 {
-	require( new_buf );
 	RETURN_ERR( auto_init() );
 	emu.impl->apu.volume( 1.0 ); // cancel any previous non-linearity
 	RETURN_ERR( new_buf->set_sample_rate( rate, 1200 / frame_rate ) );
@@ -341,7 +334,6 @@ void Nes_Emu::fade_samples( blip_sample_t* p, int size, int step )
 
 long Nes_Emu::read_samples( short* out, long out_size )
 {
-	require( out_size >= sound_buf->samples_avail() );
 	long count = sound_buf->read_samples( out, out_size );
 	if ( fade_sound_in )
 	{

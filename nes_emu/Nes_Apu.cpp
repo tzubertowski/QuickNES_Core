@@ -133,7 +133,6 @@ void Nes_Apu::irq_changed()
 
 void Nes_Apu::run_until( nes_time_t end_time )
 {
-	require( end_time >= last_dmc_time );
 	if ( end_time > next_dmc_read_time() )
 	{
 		nes_time_t start = last_dmc_time;
@@ -144,8 +143,6 @@ void Nes_Apu::run_until( nes_time_t end_time )
 
 void Nes_Apu::run_until_( nes_time_t end_time )
 {
-	require( end_time >= last_time );
-	
 	if ( end_time == last_time )
 		return;
 	
@@ -243,10 +240,7 @@ void Nes_Apu::end_frame( nes_time_t end_time )
 	
 	// make times relative to new frame
 	last_time -= end_time;
-	require( last_time >= 0 );
-	
 	last_dmc_time -= end_time;
-	require( last_dmc_time >= 0 );
 	
 	if ( next_irq != no_irq ) {
 		next_irq -= end_time;
@@ -274,9 +268,6 @@ static const unsigned char length_table [0x20] = {
 
 void Nes_Apu::write_register( nes_time_t time, nes_addr_t addr, int data )
 {
-	require( addr > 0x20 ); // addr must be actual address (i.e. 0x40xx)
-	require( (unsigned) data <= 0xff );
-	
 	// Ignore addresses outside range
 	if ( addr < start_addr || end_addr < addr )
 		return;

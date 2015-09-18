@@ -245,8 +245,6 @@ long Effects_Buffer::samples_avail() const
 
 long Effects_Buffer::read_samples( blip_sample_t* out, long total_samples )
 {
-	require( total_samples % 2 == 0 ); // count must be even
-	
 	long remain = bufs [0].samples_avail();
 	if ( remain > (total_samples >> 1) )
 		remain = (total_samples >> 1);

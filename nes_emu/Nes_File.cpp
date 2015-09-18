@@ -32,7 +32,6 @@ Nes_File_Writer::~Nes_File_Writer()
 	
 blargg_err_t Nes_File_Writer::begin( Auto_File_Writer dw, nes_tag_t tag )
 {
-	require( !out );
 	out = dw;
 	RETURN_ERR( out.open_comp() );
 	return begin_group( tag );
@@ -61,7 +60,6 @@ blargg_err_t Nes_File_Writer::write_block( nes_tag_t tag, void const* data, long
 
 blargg_err_t Nes_File_Writer::write_block_header( nes_tag_t tag, long size )
 {
-	require( !write_remain );
 	write_remain = size;
 	return write_header( tag, size );
 }
@@ -69,19 +67,16 @@ blargg_err_t Nes_File_Writer::write_block_header( nes_tag_t tag, long size )
 Nes_File_Writer::error_t Nes_File_Writer::write( void const* p, long s )
 {
 	write_remain -= s;
-	require( write_remain >= 0 );
 	return out->write( p, s );
 }
 
 blargg_err_t Nes_File_Writer::end()
 {
-	require( depth_ == 1 );
 	return end_group();
 }
 
 blargg_err_t Nes_File_Writer::end_group()
 {
-	require( depth_ > 0 );
 	depth_--;
 	return write_header( group_end_tag, 0 );
 }
@@ -114,7 +109,6 @@ blargg_err_t Nes_File_Reader::read_block_data( void* p, long s )
 
 blargg_err_t Nes_File_Reader::begin( Auto_File_Reader dr )
 {
-	require( !in );
 	RETURN_ERR( dr.open() );
 	in = dr;
 	RETURN_ERR( read_header() );
@@ -144,11 +138,9 @@ blargg_err_t Nes_File_Reader::read_header()
 
 blargg_err_t Nes_File_Reader::next_block()
 {
-	require( depth() >= 0 );
 	switch ( block_type() )
 	{
 		case group_end:
-			require( false );
 			return "Tried to go past end of blocks";
 		
 		case group_begin: {
@@ -178,7 +170,6 @@ blargg_err_t Nes_File_Reader::next_block()
 
 blargg_err_t Nes_File_Reader::enter_group()
 {
-	require( block_type() == group_begin );
 	block_type_ = invalid; // cause next_block() not to skip group
 	depth_++;
 	return 0;
@@ -186,7 +177,6 @@ blargg_err_t Nes_File_Reader::enter_group()
 
 blargg_err_t Nes_File_Reader::exit_group()
 {
-	require( depth() > 0 );
 	int d = 1;
 	while ( true )
 	{
@@ -207,7 +197,6 @@ blargg_err_t Nes_File_Reader::exit_group()
 
 blargg_err_t Nes_File_Reader::skip_v( int s )
 {
-	require( block_type() == data_block );
 	if ( (unsigned long) s > h.size )
 		return "Tried to skip past end of data";
 	h.size -= s;
@@ -217,7 +206,6 @@ blargg_err_t Nes_File_Reader::skip_v( int s )
 
 blargg_err_t Nes_File_Reader::read_v( void* p, int n )
 {
-	require( block_type() == data_block );
 	if ( (unsigned long) n > h.size )
 		n = h.size;
 	h.size -= n;

@@ -236,8 +236,6 @@ void Nes_Ppu_Impl::capture_palette()
 
 void Nes_Ppu_Impl::run_hblank( int count )
 {
-	require( count >= 0 );
-	
 	long addr = (vram_addr & 0x7be0) + (vram_temp & 0x41f) + (count * 0x1000);
 	if ( w2001 & 0x08 )
 	{

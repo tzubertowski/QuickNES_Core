@@ -63,7 +63,6 @@ void Nes_Vrc6::output( Blip_Buffer* buf )
 
 void Nes_Vrc6::run_until( nes_time_t time )
 {
-	require( time >= last_time );
 	run_square( oscs [0], time );
 	run_square( oscs [1], time );
 	run_saw( time );
@@ -72,9 +71,6 @@ void Nes_Vrc6::run_until( nes_time_t time )
 
 void Nes_Vrc6::write_osc( nes_time_t time, int osc_index, int reg, int data )
 {
-	require( (unsigned) osc_index < osc_count );
-	require( (unsigned) reg < reg_count );
-	
 	run_until( time );
 	oscs [osc_index].regs [reg] = data;
 }

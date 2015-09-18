@@ -150,7 +150,6 @@ Nes_Nonlinearizer::Nes_Nonlinearizer()
 
 Nes_Apu* Nes_Nonlinearizer::enable( bool b, Blip_Buffer* buf )
 {
-	require( apu );
 	apu->osc_output( 2, buf );
 	apu->osc_output( 3, buf );
 	apu->osc_output( 4, buf );
@@ -166,7 +165,6 @@ Nes_Apu* Nes_Nonlinearizer::enable( bool b, Blip_Buffer* buf )
 
 long Nes_Nonlinearizer::make_nonlinear( Blip_Buffer& buf, long count )
 {
-	require( apu );
 	long avail = buf.samples_avail();
 	if ( count > avail )
 		count = avail;

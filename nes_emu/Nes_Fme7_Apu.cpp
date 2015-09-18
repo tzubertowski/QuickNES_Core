@@ -41,8 +41,6 @@ unsigned char Nes_Fme7_Apu::amp_table [16] =
 
 void Nes_Fme7_Apu::run_until( blip_time_t end_time )
 {
-	require( end_time >= last_time );
-	
 	for ( int index = 0; index < osc_count; index++ )
 	{
 		int mode = regs [7] >> index;
