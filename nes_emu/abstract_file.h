@@ -52,12 +52,6 @@ public:
 	~Mem_Writer();
 };
 
-// Written data is ignored
-class Null_Writer : public Data_Writer {
-public:
-	error_t write( const void*, long );
-};
-
 // Auto_File to use in place of Data_Reader&/Data_Writer&, allowing a normal
 // file path to be used in addition to a Data_Reader/Data_Writer.
 

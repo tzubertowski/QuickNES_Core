@@ -81,13 +81,6 @@ error_t Mem_Writer::write( const void* p, long s )
 	return 0;
 }
 
-// Null_Writer
-
-error_t Null_Writer::write( const void*, long )
-{
-	return 0;
-}
-
 // Auto_File_Reader
 
 const char* Auto_File_Reader::open()
