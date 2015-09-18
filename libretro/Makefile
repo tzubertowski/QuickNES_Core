@@ -144,10 +144,14 @@ else ifeq ($(platform), ctr)
 	CC = $(DEVKITARM)/bin/arm-none-eabi-gcc$(EXE_EXT)
 	CXX = $(DEVKITARM)/bin/arm-none-eabi-g++$(EXE_EXT)
 	AR = $(DEVKITARM)/bin/arm-none-eabi-ar$(EXE_EXT)
-	PLATFORM_DEFINES := -DARM11 -D_3DS
+	CFLAGS += -DARM11 -D_3DS
 	CFLAGS += -march=armv6k -mtune=mpcore -mfloat-abi=hard
 	CFLAGS += -Wall -mword-relocations
 	CFLAGS += -fomit-frame-pointer -ffast-math
+	CXXFLAGS = $(CFLAGS) -fno-rtti -fno-exceptions -std=gnu++11
+	CPU_ARCH := arm
+	# dynarec unavailable on ninjhax 2.0
+	HAVE_DYNAREC = 1
 	STATIC_LINKING = 1
 
 # Xbox 360
