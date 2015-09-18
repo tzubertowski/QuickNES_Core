@@ -19,10 +19,10 @@ LOCAL_MODULE    := libretro
 
 CORE_DIR := ../..
 
-include $(CORE_DIR)/libretro/Makefile.common
+include $(CORE_DIR)/Makefile.common
 
 LOCAL_SRC_FILES    =  $(SOURCES_CXX)
-LOCAL_CXXFLAGS = -DANDROID -D__LIBRETRO__ -Wall -Wno-multichar -Wno-unused-variable -Wno-sign-compare -DNDEBUG
+LOCAL_CXXFLAGS = -DANDROID -D__LIBRETRO__ -Wall -Wno-multichar -Wno-unused-variable -Wno-sign-compare -DNDEBUG $(INCFLAGS)
 
 LOCAL_C_INCLUDES = $(INCFLAGS)
 

@@ -221,7 +221,7 @@ else
 	CXXFLAGS += -O3 -DNDEBUG
 endif
 
-CORE_DIR := ..
+CORE_DIR := .
 
 include Makefile.common
 
