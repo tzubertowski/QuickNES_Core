@@ -8,7 +8,6 @@
 
 #include <stddef.h>
 #include <stdlib.h>
-#include <assert.h>
 #include <limits.h>
 
 // User configuration (allow it to #include "blargg_common.h" normally)

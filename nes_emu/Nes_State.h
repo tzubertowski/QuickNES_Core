@@ -117,7 +117,6 @@ int mem_differs( void const* in, int compare, unsigned long count );
 
 inline Nes_State const& Nes_State_Reader::state() const
 {
-	assert( depth() == 0 && block_type() == group_end );
 	return *state_;
 }
 

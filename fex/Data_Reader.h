@@ -46,7 +46,7 @@ protected:
 	Data_Reader()                                   : remain_( 0 ) { }
 	
 	// Sets remain
-	void set_remain( BOOST::uint64_t n )                        { assert( n >= 0 ); remain_ = n; }
+	void set_remain( BOOST::uint64_t n )                        { remain_ = n; }
 	
 	// Do same as read(). Guaranteed that 0 < n <= remain(). Value of remain() is updated
 	// AFTER this call succeeds, not before. set_remain() should NOT be called from this.
@@ -87,7 +87,7 @@ protected:
 	void set_size( long n )             { set_size( STATIC_CAST(BOOST::uint64_t, n) ); }
 	
 	// Sets reported position
-	void set_tell( BOOST::uint64_t i )              { assert( 0 <= i && i <= size_ ); Data_Reader::set_remain( size_ - i ); }
+	void set_tell( BOOST::uint64_t i )              { Data_Reader::set_remain( size_ - i ); }
 	
 	// Do same as seek(). Guaranteed that 0 <= n <= size().  Value of tell() is updated
 	// AFTER this call succeeds, not before. set_* functions should NOT be called from this.

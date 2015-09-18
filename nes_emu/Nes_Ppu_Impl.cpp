@@ -40,7 +40,6 @@ Nes_Ppu_Impl::Nes_Ppu_Impl()
 		static unsigned char b2 [19] = { 1,2,3,4,0,5,6,7,8,0,9,0,1,2,0,3,4,5,6 };
 		for ( int i = 0; i < 19; i += 5 )
 			*(volatile BOOST::uint32_t*) &b [i] = *(volatile BOOST::uint32_t*) &b2 [i];
-		assert( !memcmp( b, b2, 19 ) );
 	#endif
 }
 
@@ -80,7 +79,6 @@ blargg_err_t Nes_Ppu_Impl::open_chr( byte const* new_chr, long chr_data_size )
 	}
 	
 	// allocate aligned memory for cache
-	assert( chr_size % chr_addr_size == 0 );
 	long tile_count = chr_size / bytes_per_tile;
 	tile_cache_mem = BLARGG_NEW byte [tile_count * sizeof (cached_tile_t) * 2 + cache_line_size];
 	CHECK_ALLOC( tile_cache_mem );
@@ -114,8 +112,6 @@ void Nes_Ppu_Impl::set_chr_bank( int addr, int size, long data )
 		data %= chr_size;
 	
 	int count = (unsigned) size / chr_page_size;
-	assert( chr_page_size * count == size );
-	assert( addr + size <= chr_addr_size );
 	
 	int page = (unsigned) addr / chr_page_size;
 	while ( count-- )
@@ -148,8 +144,6 @@ void Nes_Ppu_Impl::save_state( Nes_State_* out ) const
 	{
 		out->chr_size = chr_size;
 		check( out->nametable_size <= 0x800 );
-		assert( out->nametable_size <= 0x800 );
-		assert( out->chr_size <= out->chr_max );
 		memcpy( out->chr, impl->chr_ram, out->chr_size );
 	}
 }
@@ -165,7 +159,6 @@ void Nes_Ppu_Impl::load_state( Nes_State_ const& in )
 	if ( in.spr_ram_valid )
 		memcpy( spr_ram, in.spr_ram, sizeof spr_ram );
 	
-	assert( in.nametable_size <= (int) sizeof impl->nt_ram );
 	if ( in.nametable_size >= 0x800 )
 	{
 		if ( in.nametable_size > 0x800 )
@@ -175,7 +168,6 @@ void Nes_Ppu_Impl::load_state( Nes_State_ const& in )
 	
 	if ( chr_is_writable && in.chr_size )
 	{
-		assert( in.chr_size <= (int) sizeof impl->chr_ram );
 		memcpy( impl->chr_ram, in.chr, in.chr_size );
 		all_tiles_modified();
 	}
@@ -444,7 +436,6 @@ long Nes_Ppu_Impl::recalc_sprite_max( int scanline )
 		pos -= 3 + (pos [-4] >> 7 & 1);
 		pos += 1 - (*pos >> 7 & 1);
 		pos += 1 - (*pos >> 7 & 1);
-		assert( *pos & 0x80 );
 		
 		scanline = pos - sprite_max_scanlines;
 		if ( scanline >= max_scanline_count )
