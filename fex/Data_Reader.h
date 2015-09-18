@@ -106,34 +106,6 @@ private:
 };
 
 
-// Reads from file on disk
-class Std_File_Reader : public File_Reader {
-public:
-
-	// Opens file
-	blargg_err_t open( const char path [] );
-	
-	// Closes file if one was open
-	void close();
-
-	// Switches to unbuffered mode. Useful if buffering is already being
-	// done at a higher level.
-	void make_unbuffered();
-
-// Implementation
-public:
-	Std_File_Reader();
-	virtual ~Std_File_Reader();
-	
-protected:
-	virtual blargg_err_t read_v( void*, int );
-	virtual blargg_err_t seek_v( BOOST::uint64_t );
-
-private:
-	void* file_;
-};
-
-
 // Treats range of memory as a file
 class Mem_File_Reader : public File_Reader {
 public:
