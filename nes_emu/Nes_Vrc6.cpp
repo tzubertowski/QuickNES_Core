@@ -80,7 +80,6 @@ void Nes_Vrc6::end_frame( nes_time_t time )
 	if ( time > last_time )
 		run_until( time );
 	last_time -= time;
-	assert( last_time >= 0 );
 }
 
 void Nes_Vrc6::save_snapshot( vrc6_snapshot_t* out ) const

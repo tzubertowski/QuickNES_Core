@@ -74,7 +74,6 @@ void Nes_Namco_Apu::end_frame( nes_time_t time )
 	if ( time > last_time )
 		run_until( time );
 	
-	assert( last_time >= time );
 	last_time -= time;
 }
 

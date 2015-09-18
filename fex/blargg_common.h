@@ -7,7 +7,6 @@
 
 #include <stdlib.h>
 #include <stdint.h>
-#include <assert.h>
 #include <limits.h>
 
 /* BLARGG_STATIC_ASSERT( expr ): Generates compile error if expr is 0.

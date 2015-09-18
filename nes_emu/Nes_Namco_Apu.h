@@ -90,7 +90,6 @@ inline int Nes_Namco_Apu::read_data() { return access(); }
 
 inline void Nes_Namco_Apu::osc_output( int i, Blip_Buffer* buf )
 {
-	assert( (unsigned) i < osc_count );
 	oscs [i].output = buf;
 }
 

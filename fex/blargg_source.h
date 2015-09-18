@@ -20,13 +20,6 @@ defined to do nothing, depending on the circumstances. Described is what
 happens when a particular macro is defined to do something. When defined to
 do nothing, the macros do NOT evaluate their argument(s). */
 
-/* If expr is false, prints file and line number, then aborts program. Meant
-for checking internal state and consistency. A failed assertion indicates a bug
-in MY code.
-
-void assert( bool expr ); */
-#include <assert.h>
-
 /* Like printf() except output goes to debugging console/file.
 
 void dprintf( const char format [], ... ); */

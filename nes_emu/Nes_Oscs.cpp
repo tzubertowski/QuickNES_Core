@@ -306,12 +306,8 @@ int Nes_Dmc::count_reads( nes_time_t time, nes_time_t* last_read ) const
 	if ( !(regs [0] & loop_flag) && count > length_counter )
 		count = length_counter;
 	
-	if ( last_read ) {
+	if ( last_read )
 		*last_read = first_read + (count - 1) * (period * 8) + 1;
-		assert( *last_read <= time );
-		assert( count == count_reads( *last_read, NULL ) );
-		assert( count - 1 == count_reads( *last_read - 1, NULL ) );
-	}
 	
 	return count;
 }

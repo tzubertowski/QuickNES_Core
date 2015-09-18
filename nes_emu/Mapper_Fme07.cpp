@@ -120,7 +120,6 @@ public:
 			run_until( end_time );
 		
 		last_time -= end_time;
-		assert( last_time >= 0 );
 		
 		sound.end_frame( end_time );
 	}
@@ -197,7 +196,6 @@ void Mapper_Fme07::write_register( int index, int data )
 	}
 	else
 	{
-		assert( index == 0x0C );
 		if ( data & 2 )
 			mirror_single( data & 1 );
 		else if ( data & 1 )

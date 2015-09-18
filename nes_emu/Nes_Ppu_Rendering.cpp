@@ -161,7 +161,6 @@ void Nes_Ppu_Rendering::draw_background_( int remain )
 		
 		// increment address for next row
 		vram_addr += height << 12;
-		assert( vram_addr < 0x10000 );
 		if ( vram_addr & 0x8000 )
 		{
 			int y = (vram_addr + 0x20) & 0x3e0;
@@ -194,7 +193,6 @@ void Nes_Ppu_Rendering::draw_background_( int remain )
 		if ( height == 8 )
 		{
 			// unclipped
-			assert( (addr >> 12) == 0 );
 			addr &= 0x03ff;
 			int const fine_y = 0;
 			int const clipped = false;
@@ -239,13 +237,6 @@ void Nes_Ppu_Rendering::draw_sprites_( int begin, int end )
 		int neg_skip = top_minus_one - begin_minus_one;
 		if ( (neg_skip | neg_vis) >= 0 ) // neg_skip >= 0 && neg_vis >= 0
 		{
-			// unclipped
-			#ifndef NDEBUG
-				int top = sprite [0] + 1;
-				assert( (top + sprite_height) > begin && top < end );
-				assert( begin <= top && top + sprite_height <= end );
-			#endif
-			
 			int const skip = 0;
 			int visible = sprite_height;
 			
@@ -264,13 +255,6 @@ void Nes_Ppu_Rendering::draw_sprites_( int begin, int end )
 			
 			if ( visible <= 0 )
 				continue; // off top
-			
-			// visible and clipped
-			#ifndef NDEBUG
-				int top = sprite [0] + 1;
-				assert( (top + sprite_height) > begin && top < end );
-				assert( top < begin || top + sprite_height > end );
-			#endif
 			
 			int skip = -neg_skip;
 			
@@ -389,9 +373,6 @@ inline bool Nes_Ppu_Rendering::sprite_hit_possible( int scanline ) const
 void Nes_Ppu_Rendering::draw_scanlines( int start, int count,
 		byte* pixels, long pitch, int mode )
 {
-	assert( start + count <= image_height );
-	assert( pixels );
-	
 	scanline_pixels = pixels + image_left;
 	scanline_row_bytes = pitch;
 	
@@ -473,9 +454,6 @@ void Nes_Ppu_Rendering::draw_background( int start, int count )
 		int y = spr_ram [0] + 1;
 		int skip = min( count, max( y - start, 0 ) );
 		int visible = min( count - skip, sprite_height() );
-		
-		assert( skip + visible <= count );
-		assert( visible <= mini_offscreen_height );
 		
 		if ( visible > 0 )
 		{

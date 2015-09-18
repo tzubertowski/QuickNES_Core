@@ -55,7 +55,6 @@ void Nes_Cpu::reset( void const* unmapped_page )
 	irq_time_ = LONG_MAX / 2 + 1;
 	end_time_ = LONG_MAX / 2 + 1;
 	
-	assert( page_size == 0x800 ); // assumes this
 	set_code_page( 0, low_mem );
 	set_code_page( 1, low_mem );
 	set_code_page( 2, low_mem );
@@ -186,11 +185,6 @@ dec_clock_loop:
 	clock_count--;
 loop:
 	
-	assert( (unsigned) GET_SP() < 0x100 );
-	assert( (unsigned) a < 0x100 );
-	assert( (unsigned) x < 0x100 );
-	assert( (unsigned) y < 0x100 );
-
 	uint8_t const* page = code_map [pc >> page_bits];
 	unsigned opcode = page [pc];
 	pc++;
@@ -942,7 +936,6 @@ imm##op:                                \
 		this->r.status = status; // update externally-visible I flag
 		if ( clock_count < end_time_ )
 		{
-			assert( clock_limit == end_time_ );
 			if ( end_time_ <= irq_time_ )
 				goto loop; // irq is later
 			if ( clock_count >= irq_time_ )
@@ -1212,9 +1205,6 @@ imm##op:                                \
 		//result = result_badop; // TODO: re-enable
 		goto stop;
 	}
-	
-	// If this fails then the case above is missing an opcode
-	assert( false );
 	
 stop:
 	pc--;

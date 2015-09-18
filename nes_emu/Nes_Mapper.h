@@ -206,7 +206,6 @@ inline void Nes_Mapper::mirror_full()          { mirror_manual( 0, 1, 2, 3 ); }
 
 inline void Nes_Mapper::register_state( void* p, unsigned s )
 {
-	assert( s <= max_mapper_state_size );
 	state = p;
 	state_size = s;
 }

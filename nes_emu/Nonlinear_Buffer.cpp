@@ -140,7 +140,6 @@ Nes_Nonlinearizer::Nes_Nonlinearizer()
 			double n = 202.0 / (range - 1) * j;
 			double d = 163.67 / (24329.0 / n + 100);
 			out = int (d * gain) + 0x8000;
-			assert( out < 0x10000 );
 		}
 		table [i] = out;
 	}

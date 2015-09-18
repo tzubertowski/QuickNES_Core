@@ -244,11 +244,9 @@ void Nes_Apu::end_frame( nes_time_t end_time )
 	
 	if ( next_irq != no_irq ) {
 		next_irq -= end_time;
-		assert( next_irq >= 0 );
 	}
 	if ( dmc.next_irq != no_irq ) {
 		dmc.next_irq -= end_time;
-		assert( dmc.next_irq >= 0 );
 	}
 	if ( earliest_irq_ != no_irq ) {
 		earliest_irq_ -= end_time;

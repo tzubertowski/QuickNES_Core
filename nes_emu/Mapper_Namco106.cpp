@@ -105,7 +105,6 @@ public:
 		if ( end_time > last_time )
 			run_until( end_time );
 		last_time -= end_time;
-		assert( last_time >= 0 );
 		sound.end_frame( end_time );
 	}
 	

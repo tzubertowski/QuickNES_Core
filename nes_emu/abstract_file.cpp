@@ -3,7 +3,6 @@
 
 #include "blargg_config.h"
 
-#include <assert.h>
 #include <string.h>
 #include <stdlib.h>
 
@@ -72,7 +71,6 @@ const char *Mem_Writer::write( const void* p, long s )
 		}
 	}
 	
-	assert( size_ + s <= allocated );
 	memcpy( data_ + size_, p, s );
 	size_ += s;
 	

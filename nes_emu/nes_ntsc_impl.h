@@ -1,7 +1,6 @@
 
 /* Common implementation of NTSC filters */
 
-#include <assert.h>
 #include <math.h>
 
 /* Copyright (C) 2006 Shay Green. This module is free software; you
@@ -147,7 +146,6 @@ static void init_ntsc_filters( ntsc_impl_t* impl, NTSC_NAME( setup_t ) const* se
 		{
 			int x = kernel_size * 3 / 2 - kernel_half + i;
 			kernels [x] *= sum;
-			assert( kernels [x] == kernels [x] ); /* catch numerical instability */
 		}
 	}
 
@@ -182,7 +180,6 @@ static void init_ntsc_filters( ntsc_impl_t* impl, NTSC_NAME( setup_t ) const* se
 			for ( x = i; x < kernel_size; x += 2 )
 			{
 				kernels [x] *= sum;
-				assert( kernels [x] == kernels [x] ); /* catch numerical instability */
 			}
 		}
 	}

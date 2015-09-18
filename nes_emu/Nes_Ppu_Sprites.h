@@ -21,7 +21,6 @@ if ( sprite_2 & 0x80 )
 	#if CLIPPED
 		int height = this->sprite_height();
 		skip = height - skip - visible;
-		assert( skip + visible <= height );
 	#endif
 }
 

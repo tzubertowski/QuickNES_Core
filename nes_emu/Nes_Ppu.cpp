@@ -119,8 +119,6 @@ void Nes_Ppu::render_bg_until_( nes_time_t cpu_time )
 		run_hblank( 1 );
 		next_ppu_time = scanline_time; // scanline will run next
 	}
-	assert( time <= hblank_time );
-	
 	// either hblank or scanline comes next
 	next_bg_time = nes_time( next_ppu_time );
 }
@@ -186,7 +184,6 @@ void Nes_Ppu::run_sprite_max_( nes_time_t cpu_time )
 	// 577.0 / 0x10000 ~= 1.0 / 113.581, close enough to accurately calculate which scanline it is
 	int start_scanline = next_sprite_max_scanline;
 	next_sprite_max_scanline = unsigned ((cpu_time - sprite_max_cpu_offset) * 577) / 0x10000u;
-	assert( next_sprite_max_scanline >= 0 && next_sprite_max_scanline <= last_sprite_max_scanline );
 	
 	if ( !sprite_max_set_time )
 	{
@@ -592,7 +589,6 @@ nes_time_t Nes_Ppu::begin_frame( ppu_time_t timestamp )
 	ppu_time_t const frame_end = max_frame_length - 1 - extra_clocks;
 	frame_length_ = (frame_end + (ppu_overclock - 1)) / ppu_overclock;
 	frame_length_extra = frame_length_ * ppu_overclock - frame_end;
-	assert( (unsigned) frame_length_extra < 3 );
 	
 	// nmi
 	nmi_time_ = indefinite_time;

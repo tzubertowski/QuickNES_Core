@@ -237,7 +237,6 @@ void Nes_Ppu::write( nes_time_t time, unsigned addr, int data )
 				if ( (b ^ data) & chr_write_mask )
 				{
 					b = data;
-					assert( a < sizeof impl->chr_ram );
 					tiles_modified [(unsigned) a / bytes_per_tile] = true;
 					any_tiles_modified = true;
 				}
@@ -321,7 +320,6 @@ void Nes_Ppu::run_hblank( int n )
 			}
 			addr = (addr & ~mask) | (a & mask);
 		}
-		assert( addr < 0x8000 );
 		vram_addr = addr;
 	}
 }
@@ -356,7 +354,6 @@ void Nes_Ppu::render_until_( nes_time_t cpu_time )
 	{
 		int start = next_scanline;
 		int end = start + count;
-		assert( end <= image_height );
 		next_scanline = end;
 		
 		if ( base_pixels )
@@ -412,7 +409,6 @@ void Nes_Ppu::render_until_( nes_time_t cpu_time )
 	
 	if ( hblank_time < time )
 		run_hblank( 1 );
-	assert( time <= hblank_time );
 	
 	next_time = min( scanline_time, hblank_time ) / ppu_overclock;
 }

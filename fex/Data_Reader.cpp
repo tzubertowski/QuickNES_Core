@@ -23,8 +23,6 @@ Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA */
 
 const char * Data_Reader::read( void* p, int n )
 {
-	assert( n >= 0 );
-	
 	if ( n < 0 )
 		return blargg_err_caller;
 	
@@ -43,8 +41,6 @@ const char * Data_Reader::read( void* p, int n )
 
 const char * Data_Reader::read_avail( void* p, int* n_ )
 {
-	assert( *n_ >= 0 );
-	
 	int n = min( (BOOST::uint64_t)(*n_), remain() );
 	*n_ = 0;
 	
@@ -86,8 +82,6 @@ const char * Data_Reader::skip_v( int count )
 
 const char * Data_Reader::skip( int n )
 {
-	assert( n >= 0 );
-	
 	if ( n < 0 )
 		return blargg_err_caller;
 	
@@ -109,8 +103,6 @@ const char * Data_Reader::skip( int n )
 
 const char * File_Reader::seek( BOOST::uint64_t n )
 {
-	assert( n >= 0 );
-	
 	if ( n < 0 )
 		return blargg_err_caller;
 	

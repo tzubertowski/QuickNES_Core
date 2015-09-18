@@ -131,7 +131,6 @@ private:
 
 inline Nes_Snapshot const& Nes_Snapshot_Reader::snapshot() const
 {
-	assert( depth() == 0 && block_type() == group_end );
 	return *snapshot_;
 }
 
@@ -148,13 +147,11 @@ inline int Nes_Snapshot_Array::size() const { return size_; }
 
 inline Nes_Snapshot& Nes_Snapshot_Array::operator [] ( int i )
 {
-	assert( (unsigned) i < size_ );
 	return data [i];
 }
 
 inline Nes_Snapshot const& Nes_Snapshot_Array::operator [] ( int i ) const
 {
-	assert( (unsigned) i < size_ );
 	return data [i];
 }
 

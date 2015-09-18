@@ -77,7 +77,6 @@ inline void Nes_Fme7_Apu::treble_eq( blip_eq_t const& eq )
 
 inline void Nes_Fme7_Apu::osc_output( int i, Blip_Buffer* buf )
 {
-	assert( (unsigned) i < osc_count );
 	oscs [i].output = buf;
 }
 
@@ -115,7 +114,6 @@ inline void Nes_Fme7_Apu::end_frame( blip_time_t time )
 	if ( time > last_time )
 		run_until( time );
 	
-	assert( last_time >= time );
 	last_time -= time;
 }
 

@@ -4,11 +4,6 @@
 #ifndef BLARGG_SOURCE_H
 #define BLARGG_SOURCE_H
 
-// If debugging is enabled, abort program if expr is false. Meant for checking
-// internal state and consistency. A failed assertion indicates a bug in the module.
-// void assert( bool expr );
-#include <assert.h>
-
 // Like printf() except output goes to debug log file. Might be defined to do
 // nothing (not even evaluate its arguments).
 // void dprintf( const char* format, ... );

@@ -78,7 +78,6 @@ BOOST_STATIC_ASSERT( sizeof (vrc6_apu_state_t) == 20 );
 
 inline void Nes_Vrc6_Apu::osc_output( int i, Blip_Buffer* buf )
 {
-	assert( (unsigned) i < osc_count );
 	oscs [i].output = buf;
 }
 

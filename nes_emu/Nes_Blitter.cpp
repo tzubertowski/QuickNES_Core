@@ -15,7 +15,6 @@ Nes_Blitter::~Nes_Blitter() { free( ntsc ); }
 
 blargg_err_t Nes_Blitter::init()
 {
-	assert( !ntsc );
 	CHECK_ALLOC( ntsc = (nes_ntsc_emph_t*) malloc( sizeof *ntsc ) );
 	static setup_t const s = { };
 	setup_ = s;

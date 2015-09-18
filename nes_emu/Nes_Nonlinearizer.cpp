@@ -119,7 +119,6 @@ void Nes_Nonlinearizer::make_nonlinear( long count )
 long Nes_Nonlinearizer::read_samples( blip_sample_t* out, long count )
 {
 	long avail = buf.samples_avail();
-	assert( tnd.samples_avail() == avail );
 	if ( count > avail )
 		count = avail;
 	

@@ -118,8 +118,6 @@ public:
 		if ( remain < 0 )
 			remain = irq_latch;
 		
-		assert( remain >= 0 );
-		
 		long time = remain * 341L + next_time;
 		if ( time > last_scanline )
 			return no_irq;
