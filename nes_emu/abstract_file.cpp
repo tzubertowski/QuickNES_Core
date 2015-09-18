@@ -28,44 +28,6 @@ error_t Data_Writer::write( const void*, long ) { return 0; }
 
 void Data_Writer::satisfy_lame_linker_() { }
 
-// Std_File_Writer
-
-Std_File_Writer::Std_File_Writer() : file_( 0 ) {
-}
-
-Std_File_Writer::~Std_File_Writer() {
-	close();
-}
-
-error_t Std_File_Writer::open( const char* path )
-{
-	close();
-	file_ = fopen( path, "wb" );
-	if ( !file_ )
-		return "Couldn't open file for writing";
-		
-	// to do: increase file buffer size
-	//setvbuf( file_, 0, _IOFBF, 32 * 1024L );
-	
-	return 0;
-}
-
-error_t Std_File_Writer::write( const void* p, long s )
-{
-	long result = (long) fwrite( p, 1, s, file_ );
-	if ( result != s )
-		return "Couldn't write to file";
-	return 0;
-}
-
-void Std_File_Writer::close()
-{
-	if ( file_ ) {
-		fclose( file_ );
-		file_ = 0;
-	}
-}
-
 // Mem_Writer
 
 Mem_Writer::Mem_Writer( void* p, long s, int b )

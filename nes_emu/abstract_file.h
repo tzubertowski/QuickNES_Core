@@ -28,30 +28,6 @@ private:
 	Data_Writer& operator = ( const Data_Writer& );
 };
 
-class Std_File_Writer : public Data_Writer {
-public:
-	Std_File_Writer();
-	~Std_File_Writer();
-	
-	error_t open( const char* );
-	
-	FILE* file() const { return file_; }
-	
-	// Forward writes to file. Caller must close file later.
-	//void forward( FILE* );
-	
-	error_t write( const void*, long );
-	
-	void close();
-	
-protected:
-	void reset( FILE* f ) { file_ = f; }
-private:
-	FILE* file_;
-	error_t open( const char* path, int ignored ) { return open( path ); }
-	friend class Auto_File_Writer;
-};
-
 // Write data to memory
 class Mem_Writer : public Data_Writer {
 	char* data_;
