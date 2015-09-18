@@ -115,8 +115,6 @@ private:
 	friend class Nes_State_Writer;
 	friend class Nes_State_Reader;
 	friend class Nes_Recorder;
-public:
-	blargg_err_t read_sta_file( Auto_File_Reader );
 };
 
 frame_count_t const invalid_frame_count = LONG_MAX / 2 + 1; // a large positive value

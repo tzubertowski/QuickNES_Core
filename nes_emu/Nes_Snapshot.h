@@ -79,9 +79,6 @@ public:
 	// Timestamp snapshot was taken at
 	frame_count_t timestamp() const;
 	
-	// Read Nesticle .sta file. Currently only reads basic fields.
-	blargg_err_t read_sta_file( Data_Reader& );
-	
 	// Write snapshot to file
 	blargg_err_t write( Data_Writer& ) const;
 	
