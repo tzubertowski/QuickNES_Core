@@ -132,46 +132,6 @@ blargg_err_t File_Reader::skip_v( BOOST::uint64_t n )
 	return seek_v( tell() + n );
 }
 
-
-// Subset_Reader
-
-Subset_Reader::Subset_Reader( Data_Reader* dr, BOOST::uint64_t size ) :
-	in( dr )
-{
-	set_remain( min( size, dr->remain() ) );
-}
-
-blargg_err_t Subset_Reader::read_v( void* p, int s )
-{
-	return in->read( p, s );
-}
-
-
-// Remaining_Reader
-
-Remaining_Reader::Remaining_Reader( void const* h, int size, Data_Reader* r ) :
-	in( r )
-{
-	header        = h;
-	header_remain = size;
-	
-	set_remain( size + r->remain() );
-}
-
-blargg_err_t Remaining_Reader::read_v( void* out, int count )
-{
-	int first = min( count, header_remain );
-	if ( first )
-	{
-		memcpy( out, header, first );
-		header = STATIC_CAST(char const*, header) + first;
-		header_remain -= first;
-	}
-	
-	return in->read( STATIC_CAST(char*, out) + first, count - first );
-}
-
-
 // Mem_File_Reader
 
 Mem_File_Reader::Mem_File_Reader( const void* p, long s ) :
@@ -187,41 +147,6 @@ blargg_err_t Mem_File_Reader::read_v( void* p, int s )
 }
 
 blargg_err_t Mem_File_Reader::seek_v( int )
-{
-	return blargg_ok;
-}
-
-
-// Callback_Reader
-
-Callback_Reader::Callback_Reader( callback_t c, BOOST::uint64_t s, void* d ) :
-	callback( c ),
-	user_data( d )
-{
-	set_remain( s );
-}
-
-blargg_err_t Callback_Reader::read_v( void* out, int count )
-{
-	return callback( user_data, out, count );
-}
-
-
-// Callback_File_Reader
-
-Callback_File_Reader::Callback_File_Reader( callback_t c, BOOST::uint64_t s, void* d ) :
-	callback( c ),
-	user_data( d )
-{
-	set_size( s );
-}
-
-blargg_err_t Callback_File_Reader::read_v( void* out, int count )
-{
-	return callback( user_data, out, count, tell() );
-}
-
-blargg_err_t Callback_File_Reader::seek_v( int )
 {
 	return blargg_ok;
 }
