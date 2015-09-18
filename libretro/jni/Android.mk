@@ -23,10 +23,8 @@ include $(CORE_DIR)/libretro/Makefile.common
 
 LOCAL_SRC_FILES    =  $(SOURCES_CXX)
 LOCAL_CXXFLAGS = -DANDROID -D__LIBRETRO__ -Wall -Wno-multichar -Wno-unused-variable -Wno-sign-compare -DNDEBUG \
-	-DSTD_AUTO_FILE_WRITER=Std_File_Writer \
-	-DSTD_AUTO_FILE_READER=Std_File_Reader \
-	-DSTD_AUTO_FILE_COMP_READER=Std_File_Reader \
-	-DSTD_AUTO_FILE_COMP_WRITER=Std_File_Writer $(INCFLAGS)
+	-DSTD_AUTO_FILE_WRITER=Std_File_Writer -DSTD_AUTO_FILE_READER=Std_File_Reader 
+
 LOCAL_C_INCLUDES = $(INCFLAGS)
 
 include $(BUILD_SHARED_LIBRARY)

@@ -228,10 +228,7 @@ include Makefile.common
 OBJECTS := $(SOURCES_CXX:.cpp=.o)
 
 DEFINES := -D__LIBRETRO__ $(PLATFORM_DEFINES) -Wall -Wno-multichar -Wno-unused-variable -Wno-sign-compare \
-	-DSTD_AUTO_FILE_WRITER=Std_File_Writer \
-	-DSTD_AUTO_FILE_READER=Std_File_Reader \
-	-DSTD_AUTO_FILE_COMP_READER=Std_File_Reader \
-	-DSTD_AUTO_FILE_COMP_WRITER=Std_File_Writer
+	-DSTD_AUTO_FILE_WRITER=Std_File_Writer -DSTD_AUTO_FILE_READER=Std_File_Reader
 
 CFLAGS += $(fpic) $(DEFINES)
 CXXFLAGS += $(fpic) $(DEFINES)
