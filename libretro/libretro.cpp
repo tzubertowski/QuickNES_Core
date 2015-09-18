@@ -284,8 +284,10 @@ void *retro_get_memory_data(unsigned id)
       case RETRO_MEMORY_SYSTEM_RAM:
          return emu->low_mem();
       default:
-         return 0;
+         break;
    }
+
+   return 0;
 }
 
 size_t retro_get_memory_size(unsigned id)
@@ -297,8 +299,10 @@ size_t retro_get_memory_size(unsigned id)
       case RETRO_MEMORY_SYSTEM_RAM:
          return Nes_Emu::low_mem_size;
       default:
-         return 0;
+         break;
    }
+
+   return 0;
 }
 
 void retro_cheat_reset(void)
