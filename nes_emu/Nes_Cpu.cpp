@@ -62,10 +62,6 @@ void Nes_Cpu::reset( void const* unmapped_page )
 	set_code_page( 3, low_mem );
 	for ( int i = 4; i < page_count + 1; i++ )
 		set_code_page( i, (uint8_t*) unmapped_page );
-	
-	#ifndef NDEBUG
-		blargg_verify_byte_order();
-	#endif
 }
 
 void Nes_Cpu::map_code( nes_addr_t start, unsigned size, const void* data )

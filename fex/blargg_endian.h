@@ -19,19 +19,6 @@
 	#define BLARGG_CPU_POWERPC 1
 #endif
 
-inline void blargg_verify_byte_order()
-{
-#ifndef NDEBUG
-#ifdef MSB_FIRST
-   volatile int i = 1;
-   assert( *(volatile char*) &i == 0 );
-#else
-   volatile int i = 1;
-   assert( *(volatile char*) &i != 0 );
-#endif
-#endif
-}
-
 inline unsigned get_le16( void const* p ) {
 	return  ((unsigned char*) p) [1] * 0x100u +
 			((unsigned char*) p) [0];
