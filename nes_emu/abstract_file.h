@@ -21,7 +21,6 @@ public:
 	// Write 'n' bytes. NULL on success, otherwise error string.
 	virtual error_t write( const void*, long n ) = 0;
 	
-	void satisfy_lame_linker_();
 private:
 	// noncopyable
 	Data_Writer( const Data_Writer& );

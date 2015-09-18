@@ -26,8 +26,6 @@ typedef blargg_err_t error_t;
 
 error_t Data_Writer::write( const void*, long ) { return 0; }
 
-void Data_Writer::satisfy_lame_linker_() { }
-
 // Mem_Writer
 
 Mem_Writer::Mem_Writer( void* p, long s, int b )
