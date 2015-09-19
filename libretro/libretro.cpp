@@ -145,30 +145,34 @@ void retro_run(void)
 
 #ifdef HAVE_XRGB8888
    static uint32_t video_buffer[Nes_Emu::image_width * Nes_Emu::image_height];
+   static uint32_t retro_palette[256];
    uint32_t *out_pixels     = video_buffer;
 #else
    static uint16_t video_buffer[Nes_Emu::image_width * Nes_Emu::image_height];
+   static uint16_t retro_palette[256];
    uint16_t *out_pixels     = video_buffer;
 #endif
    const uint8_t *in_pixels = frame.pixels;
 
+   for (unsigned i = 0; i < 256; i++)
+   {
+      const Nes_Emu::rgb_t& rgb = emu->nes_colors[frame.palette[i]];
+      unsigned r = rgb.red;
+      unsigned g = rgb.green;
+      unsigned b = rgb.blue;
+
+#ifdef HAVE_XRGB8888
+         retro_palette[i] = (r << 16) | (g << 8) | (b << 0);
+#else
+         retro_palette[i] = ((r & 0xf8) << 8) | ((g & 0xfc) << 3) | ((b & 0xf8) >> 3);
+#endif
+
+   }
+
    for (unsigned h = 0; h < Nes_Emu::image_height;
          h++, in_pixels += frame.pitch, out_pixels += Nes_Emu::image_width)
-   {
       for (unsigned w = 0; w < Nes_Emu::image_width; w++)
-      {
-         unsigned col = frame.palette[in_pixels[w]];
-         const Nes_Emu::rgb_t& rgb = emu->nes_colors[col];
-         unsigned r = rgb.red;
-         unsigned g = rgb.green;
-         unsigned b = rgb.blue;
-#ifdef HAVE_XRGB8888
-         out_pixels[w] = (r << 16) | (g << 8) | (b << 0);
-#else
-         out_pixels[w] = ((r & 0xf8) << 8) | ((g & 0xfc) << 3) | ((b & 0xf8) >> 3);
-#endif
-      }
-   }
+         out_pixels[w] = retro_palette[in_pixels[w]];
 
    video_cb(video_buffer, Nes_Emu::image_width, Nes_Emu::image_height,
          Nes_Emu::image_width *
