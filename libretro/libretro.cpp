@@ -198,11 +198,7 @@ void retro_run(void)
    for (unsigned i = 0; i < 256; i++)
    {
       const Nes_Emu::rgb_t& rgb = emu->nes_colors[frame.palette[i]];
-      unsigned r = rgb.red;
-      unsigned g = rgb.green;
-      unsigned b = rgb.blue;
-
-      retro_palette[i] = ((r & 0xf8) << 8) | ((g & 0xfc) << 3) | ((b & 0xf8) >> 3);
+      retro_palette[i] = ((rgb.red & 0xf8) << 8) | ((rgb.green & 0xfc) << 3) | ((rgb.blue & 0xf8) >> 3);
    }
 
    for (unsigned i = 0; i < Nes_Emu::image_width * Nes_Emu::image_height; i++)
