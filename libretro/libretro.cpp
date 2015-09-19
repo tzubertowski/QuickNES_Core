@@ -137,7 +137,6 @@ static void update_input(int pads[2])
 
 void retro_run(void)
 {
-   unsigned ilineptr = 0, y = 0;
    int pads[2] = {0};
    update_input(pads);
 
@@ -170,8 +169,8 @@ void retro_run(void)
 
    }
 
-   for (y = 0; y < Nes_Emu::image_width * Nes_Emu::image_height; ++y)
-      *out_pixels++ = retro_palette[in_pixels[ilineptr++]];
+   for (unsigned i = 0; i < Nes_Emu::image_width * Nes_Emu::image_height; i++)
+      *out_pixels++ = retro_palette[in_pixels[i]];
 
    video_cb(video_buffer, Nes_Emu::image_width, Nes_Emu::image_height,
          Nes_Emu::image_width *
