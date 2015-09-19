@@ -8,6 +8,11 @@
 #include "Data_Reader.h"
 #include "abstract_file.h"
 
+#ifdef PSP
+#include "pspkernel.h"
+#include "pspgu.h"
+#endif
+
 static Nes_Emu *emu;
 
 void retro_init(void)
@@ -143,6 +148,48 @@ void retro_run(void)
    emu->emulate_frame(pads[0], pads[1]);
    const Nes_Emu::frame_t &frame = emu->frame();
 
+#ifdef PSP
+   static uint16_t     __attribute__((aligned(16))) retro_palette[256];
+   static unsigned int __attribute__((aligned(16))) d_list[32];
+   void* const texture_vram_p =
+         (void*) (0x44200000 - (Nes_Emu::image_width * Nes_Emu::image_height)); // max VRAM address - frame size
+
+
+   sceGuSync(0, 0);
+
+   for (unsigned i = 0; i < 256; i++)
+   {
+      const Nes_Emu::rgb_t& rgb = emu->nes_colors[frame.palette[i]];
+      retro_palette[i] = ((rgb.blue & 0xf8) << 8) | ((rgb.green & 0xfc) << 3) | ((rgb.red & 0xf8) >> 3);
+   }
+
+   sceKernelDcacheWritebackRange(retro_palette, sizeof(retro_palette));
+   sceKernelDcacheWritebackRange(frame.pixels, Nes_Emu::image_width * Nes_Emu::image_height);
+
+   sceGuStart(GU_DIRECT, d_list);
+
+   /* sceGuCopyImage doesnt seem to work correctly with GU_PSM_T8
+    * so we use GU_PSM_4444 ( 2 Bytes per pixel ) instead
+    * with half the values for pitch / width / x offset
+    */
+
+   sceGuCopyImage(GU_PSM_4444, ((u32)frame.pixels & 0xF) / 2, 0, Nes_Emu::image_width / 2, 240,
+                  Nes_Emu::image_width / 2, (void*)((u32)frame.pixels & ~0xF), 0, 0,
+                  Nes_Emu::image_width / 2, texture_vram_p);
+
+   sceGuTexSync();
+   sceGuTexImage(0, 256, 256, 256, texture_vram_p);
+   sceGuTexMode(GU_PSM_T8, 0, 0, GU_FALSE);
+   sceGuTexFunc(GU_TFX_REPLACE, GU_TCC_RGB);
+   sceGuDisable(GU_BLEND);
+   sceGuClutMode(GU_PSM_5650, 0, 0xFF, 0);
+   sceGuClutLoad(32, retro_palette);
+
+   sceGuFinish();
+
+   video_cb(texture_vram_p, Nes_Emu::image_width, Nes_Emu::image_height, 256);
+#else
+
 #ifdef HAVE_XRGB8888
    static uint32_t video_buffer[Nes_Emu::image_width * Nes_Emu::image_height];
    static uint32_t retro_palette[256];
@@ -180,7 +227,7 @@ void retro_run(void)
          sizeof(uint16_t)
 #endif
          );
-
+#endif
    // Mono -> Stereo.
    int16_t samples[2048];
    long read_samples = emu->read_samples(samples, 2048);

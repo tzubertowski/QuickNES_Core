@@ -127,6 +127,7 @@ else ifeq ($(platform), psp1)
 	CXX = psp-g++$(EXE_EXT)
 	AR = psp-ar$(EXE_EXT)
 	PLATFORM_DEFINES := -DPSP -G0 -DNO_UNALIGNED_ACCESS
+	PLATFORM_DEFINES += -I$(shell psp-config --pspsdk-path)/include
 	CXXFLAGS += -fno-rtti -fno-exceptions
 	STATIC_LINKING = 1
 
