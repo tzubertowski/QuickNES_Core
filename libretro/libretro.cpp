@@ -15,6 +15,14 @@
 
 static Nes_Emu *emu;
 
+static retro_video_refresh_t video_cb;
+static retro_audio_sample_t audio_cb;
+static retro_audio_sample_batch_t audio_batch_cb;
+static retro_environment_t environ_cb;
+static retro_input_poll_t input_poll_cb;
+static retro_input_state_t input_state_cb;
+static bool use_overscan;
+
 void retro_init(void)
 {
    delete emu;
@@ -51,22 +59,12 @@ void retro_get_system_av_info(struct retro_system_av_info *info)
    const retro_system_timing timing = { Nes_Emu::frame_rate, 44100.0 };
    info->timing = timing;
 
-   const retro_game_geometry geom = {
-      Nes_Emu::image_width,
-      Nes_Emu::image_height,
-      Nes_Emu::image_width,
-      Nes_Emu::image_height,
-      4.0 / 3.0,
-   };
-   info->geometry = geom;
+   info->geometry.base_width  = Nes_Emu::image_width  - (use_overscan? 0 : 16);
+   info->geometry.base_height = Nes_Emu::image_height - (use_overscan? 0 : 16);
+   info->geometry.max_width   = Nes_Emu::image_width  - (use_overscan? 0 : 16);
+   info->geometry.max_height  = Nes_Emu::image_height - (use_overscan? 0 : 16);
+   info->geometry.aspect_ratio = 4.0 / 3.0;
 }
-
-static retro_video_refresh_t video_cb;
-static retro_audio_sample_t audio_cb;
-static retro_audio_sample_batch_t audio_batch_cb;
-static retro_environment_t environ_cb;
-static retro_input_poll_t input_poll_cb;
-static retro_input_state_t input_state_cb;
 
 void retro_set_environment(retro_environment_t cb)
 {
@@ -173,7 +171,11 @@ void retro_run(void)
     * with half the values for pitch / width / x offset
     */
 
-   sceGuCopyImage(GU_PSM_4444, ((u32)frame.pixels & 0xF) / 2, 0, Nes_Emu::image_width / 2, 240,
+   sceGuCopyImage(GU_PSM_4444,
+                  (use_overscan? 0 : 4) + ((u32)frame.pixels & 0xF) / 2,
+                  (use_overscan? 0 : 4),
+                  Nes_Emu::image_width / 2 - (use_overscan? 0 : 8),
+                  Nes_Emu::image_height    - (use_overscan? 0 : 16),
                   Nes_Emu::image_width / 2, (void*)((u32)frame.pixels & ~0xF), 0, 0,
                   Nes_Emu::image_width / 2, texture_vram_p);
 
@@ -187,7 +189,10 @@ void retro_run(void)
 
    sceGuFinish();
 
-   video_cb(texture_vram_p, Nes_Emu::image_width, Nes_Emu::image_height, 256);
+   video_cb(texture_vram_p,
+            Nes_Emu::image_width  - (use_overscan? 0 : 16),
+            Nes_Emu::image_height - (use_overscan? 0 : 16),
+            256);
 #else
 
    static uint16_t video_buffer[Nes_Emu::image_width * Nes_Emu::image_height];
@@ -204,8 +209,10 @@ void retro_run(void)
    for (unsigned i = 0; i < Nes_Emu::image_width * Nes_Emu::image_height; i++)
       *out_pixels++ = retro_palette[in_pixels[i]];
 
-   video_cb(video_buffer, Nes_Emu::image_width, Nes_Emu::image_height,
-         Nes_Emu::image_width * sizeof(uint16_t));
+   video_cb(video_buffer    + (use_overscan? 0 : Nes_Emu::image_width * 8 + 8),
+      Nes_Emu::image_width  - (use_overscan? 0 : 16),
+      Nes_Emu::image_height - (use_overscan? 0 : 16),
+      Nes_Emu::image_width  * sizeof(uint16_t));
 #endif
    // Mono -> Stereo.
    int16_t samples[2048];
@@ -270,6 +277,9 @@ bool retro_load_game(const struct retro_game_info *info)
       fprintf(stderr, "RGB565 is not supported.\n");
       return false;
    }
+
+   if (!environ_cb(RETRO_ENVIRONMENT_GET_OVERSCAN, &use_overscan))
+      use_overscan = true;
 
    emu->set_sample_rate(44100);
    emu->set_equalizer(Nes_Emu::nes_eq);
