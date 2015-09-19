@@ -349,8 +349,6 @@ struct calc_sprite_max_scanlines
 {
 	static unsigned long func( uint8_t const* sprites, uint8_t* scanlines, int begin )
 	{
-		typedef uint32_t uint32_t;
-		
 		unsigned long any_hits = 0;
 		unsigned long const offset = 0x01010101 + zero;
 		unsigned limit = 239 + height - begin;
