@@ -320,8 +320,8 @@ void Nes_Ppu_Rendering::check_sprite_hit( int begin, int end )
 	{
 		// get pixels for line
 		unsigned long line = lines [skip >> 1];
-		unsigned long hit0 = ((uint32_t*) bg) [0];
-		unsigned long hit1 = ((uint32_t*) bg) [1];
+      unsigned long hit0 = ((unaligned_uint32_t*) bg) [0].val;
+      unsigned long hit1 = ((unaligned_uint32_t*) bg) [1].val;
 		bg += next_row;
 		line >>= skip << 1 & 2;
 		line |= line >> 1;

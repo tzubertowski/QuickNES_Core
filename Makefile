@@ -126,7 +126,8 @@ else ifeq ($(platform), psp1)
 	CC = psp-gcc$(EXE_EXT)
 	CXX = psp-g++$(EXE_EXT)
 	AR = psp-ar$(EXE_EXT)
-	PLATFORM_DEFINES := -DPSP -G0 -DLSB_FIRST
+	PLATFORM_DEFINES := -DPSP -G0 -DNO_UNALIGNED_ACCESS
+	CXXFLAGS += -fno-rtti -fno-exceptions
 	STATIC_LINKING = 1
 
 # Vita
@@ -135,7 +136,7 @@ else ifeq ($(platform), vita)
 	CC = arm-vita-eabi-gcc$(EXE_EXT)
 	CXX = arm-vita-eabi-g++$(EXE_EXT)
 	AR = arm-vita-eabi-ar$(EXE_EXT)
-	PLATFORM_DEFINES := -DVITA -DLSB_FIRST
+	PLATFORM_DEFINES := -DVITA -DNO_UNALIGNED_ACCESS
 	STATIC_LINKING = 1
 
 # CTR (3DS)
@@ -144,14 +145,11 @@ else ifeq ($(platform), ctr)
 	CC = $(DEVKITARM)/bin/arm-none-eabi-gcc$(EXE_EXT)
 	CXX = $(DEVKITARM)/bin/arm-none-eabi-g++$(EXE_EXT)
 	AR = $(DEVKITARM)/bin/arm-none-eabi-ar$(EXE_EXT)
-	CFLAGS += -DARM11 -D_3DS
-	CFLAGS += -march=armv6k -mtune=mpcore -mfloat-abi=hard
-	CFLAGS += -Wall -mword-relocations
-	CFLAGS += -fomit-frame-pointer -ffast-math
-	CXXFLAGS = $(CFLAGS) -fno-rtti -fno-exceptions -std=gnu++11
-	CPU_ARCH := arm
-	# dynarec unavailable on ninjhax 2.0
-	HAVE_DYNAREC = 1
+	PLATFORM_DEFINES := -DARM11 -D_3DS -DNO_UNALIGNED_ACCESS
+	PLATFORM_DEFINES += -march=armv6k -mtune=mpcore -mfloat-abi=hard
+	PLATFORM_DEFINES += -Wall -mword-relocations
+	PLATFORM_DEFINES += -fomit-frame-pointer -ffast-math
+	CXXFLAGS += -fno-rtti -fno-exceptions
 	STATIC_LINKING = 1
 
 # Xbox 360

@@ -71,4 +71,13 @@ arithmetic on smaller types. */
 #endif
 #endif
 
+typedef struct
+#ifdef NO_UNALIGNED_ACCESS
+__attribute ((packed))
+#endif
+{
+   uint32_t val;
+}unaligned_uint32_t;
+
+
 #endif
