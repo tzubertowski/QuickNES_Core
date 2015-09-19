@@ -150,7 +150,7 @@ void retro_run(void)
 
 #ifdef PSP
    static uint16_t     __attribute__((aligned(16))) retro_palette[256];
-   static unsigned int __attribute__((aligned(16))) d_list[32];
+   static unsigned int __attribute__((aligned(16))) d_list[128];
    void* const texture_vram_p =
          (void*) (0x44200000 - (Nes_Emu::image_width * Nes_Emu::image_height)); // max VRAM address - frame size
 
