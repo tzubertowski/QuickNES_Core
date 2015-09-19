@@ -190,15 +190,9 @@ void retro_run(void)
    video_cb(texture_vram_p, Nes_Emu::image_width, Nes_Emu::image_height, 256);
 #else
 
-#ifdef HAVE_XRGB8888
-   static uint32_t video_buffer[Nes_Emu::image_width * Nes_Emu::image_height];
-   static uint32_t retro_palette[256];
-   uint32_t *out_pixels     = video_buffer;
-#else
    static uint16_t video_buffer[Nes_Emu::image_width * Nes_Emu::image_height];
    static uint16_t retro_palette[256];
    uint16_t *out_pixels     = video_buffer;
-#endif
    const uint8_t *in_pixels = frame.pixels;
 
    for (unsigned i = 0; i < 256; i++)
@@ -208,25 +202,14 @@ void retro_run(void)
       unsigned g = rgb.green;
       unsigned b = rgb.blue;
 
-#ifdef HAVE_XRGB8888
-         retro_palette[i] = (r << 16) | (g << 8) | (b << 0);
-#else
-         retro_palette[i] = ((r & 0xf8) << 8) | ((g & 0xfc) << 3) | ((b & 0xf8) >> 3);
-#endif
-
+      retro_palette[i] = ((r & 0xf8) << 8) | ((g & 0xfc) << 3) | ((b & 0xf8) >> 3);
    }
 
    for (unsigned i = 0; i < Nes_Emu::image_width * Nes_Emu::image_height; i++)
       *out_pixels++ = retro_palette[in_pixels[i]];
 
    video_cb(video_buffer, Nes_Emu::image_width, Nes_Emu::image_height,
-         Nes_Emu::image_width *
-#ifdef HAVE_XRGB8888
-         sizeof(uint32_t)
-#else
-         sizeof(uint16_t)
-#endif
-         );
+         Nes_Emu::image_width * sizeof(uint16_t));
 #endif
    // Mono -> Stereo.
    int16_t samples[2048];
@@ -285,21 +268,12 @@ bool retro_load_game(const struct retro_game_info *info)
 
    environ_cb(RETRO_ENVIRONMENT_SET_INPUT_DESCRIPTORS, desc);
 
-#ifdef HAVE_XRGB8888
-   enum retro_pixel_format fmt = RETRO_PIXEL_FORMAT_XRGB8888;
-   if (!environ_cb(RETRO_ENVIRONMENT_SET_PIXEL_FORMAT, &fmt))
-   {
-      fprintf(stderr, "XRGB8888 is not supported.\n");
-      return false;
-   }
-#else
    enum retro_pixel_format fmt = RETRO_PIXEL_FORMAT_RGB565;
    if (!environ_cb(RETRO_ENVIRONMENT_SET_PIXEL_FORMAT, &fmt))
    {
       fprintf(stderr, "RGB565 is not supported.\n");
       return false;
    }
-#endif
 
    emu->set_sample_rate(44100);
    emu->set_equalizer(Nes_Emu::nes_eq);
