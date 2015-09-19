@@ -256,8 +256,8 @@ bool retro_load_game(const struct retro_game_info *info)
    emu->set_equalizer(Nes_Emu::nes_eq);
    emu->set_palette_range(0);
 
-   static uint8_t video_buffer[Nes_Emu::image_width * Nes_Emu::image_height];
-   emu->set_pixels(video_buffer, Nes_Emu::image_width);
+   static uint8_t video_buffer[Nes_Emu::image_width * (Nes_Emu::image_height + 16)];
+   emu->set_pixels(video_buffer + (8 * Nes_Emu::image_width), Nes_Emu::image_width);
 
    Mem_File_Reader reader(info->data, info->size);
    return !emu->load_ines(reader);
