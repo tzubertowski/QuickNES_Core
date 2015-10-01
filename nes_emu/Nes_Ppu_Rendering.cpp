@@ -32,7 +32,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA */
 // Nes_Ppu_Impl
 
 inline Nes_Ppu_Impl::cached_tile_t const&
-		Nes_Ppu_Impl::get_sprite_tile( uint8_t const* sprite ) const
+		Nes_Ppu_Impl::get_sprite_tile( uint8_t const* sprite )
 {
 	cached_tile_t* tiles = tile_cache;
 	if ( sprite [2] & 0x40 )
@@ -45,7 +45,7 @@ inline Nes_Ppu_Impl::cached_tile_t const&
 			((uint8_t*) tiles + map_chr_addr( index * bytes_per_tile ));
 }
 
-inline Nes_Ppu_Impl::cached_tile_t const& Nes_Ppu_Impl::get_bg_tile( int index ) const
+inline Nes_Ppu_Impl::cached_tile_t const& Nes_Ppu_Impl::get_bg_tile( int index )
 {
 	// use index directly, since cached tile is same size as native tile
 	BOOST_STATIC_ASSERT( sizeof (cached_tile_t) == bytes_per_tile );
@@ -175,7 +175,7 @@ void Nes_Ppu_Rendering::draw_background_( int remain )
 		uint8_t const* nametable2 = get_nametable( addr ^ 0x400 );
 		int count2 = addr & 31;
 		int count = 32 - count2 - left_clip;
-		if ( pixel_x )
+		//if ( pixel_x )
 			count2++;
 		
 		uint8_t const* attr_table = &nametable [0x3c0 | (addr >> 4 & 0x38)];
