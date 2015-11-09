@@ -17,7 +17,7 @@ endif
 
 LOCAL_MODULE    := libretro
 
-CORE_DIR := ../..
+CORE_DIR := ..
 
 include $(CORE_DIR)/Makefile.common
 
