@@ -50,13 +50,6 @@ void Nes_Fme7_Apu::run_until( blip_time_t end_time )
 		if ( !oscs [index].output )
 			continue;
 		
-		// check for unsupported mode
-		#ifndef NDEBUG
-			if ( (mode & 011) <= 001 && vol_mode & 0x1f )
-				dprintf( "FME7 used unimplemented sound mode: %02X, vol_mode: %02X\n",
-						mode, vol_mode & 0x1f );
-		#endif
-		
 		if ( (mode & 001) | (vol_mode & 0x10) )
 			volume = 0; // noise and envelope aren't supported
 		
