@@ -155,8 +155,6 @@ void Nes_Mapper::mirror_manual( int page0, int page1, int page2, int page3 )
 #ifndef NDEBUG
 int Nes_Mapper::handle_bus_conflict( nes_addr_t addr, int data )
 {
-	if ( emu().Nes_Cpu::get_code( addr ) [0] != data )
-		dprintf( "Mapper write had bus conflict\n" );
 	return data;
 }
 #endif
