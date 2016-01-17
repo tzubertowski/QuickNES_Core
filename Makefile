@@ -51,7 +51,9 @@ else ifeq ($(platform), osx)
 	ifeq ($(OSX_LT_MAVERICKS),"YES")
 		fpic += -mmacosx-version-min=10.2
 	endif
-
+        ifeq ($(arch),ppc)
+		PLATFORM_DEFINES += -DMSB_FIRST
+	endif
 # iOS
 else ifneq (,$(findstring ios,$(platform)))
 	TARGET := $(TARGET_NAME)_libretro_ios.dylib
