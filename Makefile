@@ -205,6 +205,10 @@ else ifneq (,$(findstring armv,$(platform)))
 	endif
 	PLATFORM_DEFINES += -DARM
 
+else ifeq ($(platform), emscripten)
+	TARGET := $(TARGET_NAME)_libretro_$(platform).so
+	STATIC_LINKING = 1
+
 # GCW0
 else ifeq ($(platform), gcw0)
 	TARGET := $(TARGET_NAME)_libretro.so
