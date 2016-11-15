@@ -1,4 +1,5 @@
 DEBUG = 0
+GIT_VERSION := " $(shell git describe --dirty --always --tags)"
 
 ifeq ($(platform),)
 	platform = unix
@@ -238,6 +239,9 @@ else
 	SHARED := -shared -static-libgcc -static-libstdc++ -Wl,-no-undefined -Wl,-version-script=link.T
 
 endif
+
+CFLAGS += -DGIT_VERSION=\"$(GIT_VERSION)\"
+CXXFLAGS += -DGIT_VERSION=\"$(GIT_VERSION)\"
 
 ifeq ($(DEBUG), 1)
 	CFLAGS += -O0 -g
