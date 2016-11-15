@@ -13,6 +13,8 @@
 #include "pspgu.h"
 #endif
 
+#define CORE_VERSION "1.0-WIP"
+
 static Nes_Emu *emu;
 
 static retro_video_refresh_t video_cb;
@@ -49,7 +51,11 @@ void retro_get_system_info(struct retro_system_info *info)
 {
    memset(info, 0, sizeof(*info));
    info->library_name     = "QuickNES";
-   info->library_version  = "v1";
+#ifdef GIT_VERSION
+   info->library_version  = CORE_VERSION GIT_VERSION;
+#else
+   info->library_version  = CORE_VERSION;
+#endif
    info->need_fullpath    = false;
    info->valid_extensions = "nes"; // Anything is fine, we don't care.
 }
