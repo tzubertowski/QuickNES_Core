@@ -27,15 +27,10 @@ static bool use_overscan;
 
 void retro_init(void)
 {
-   delete emu;
-   emu = new Nes_Emu;
-   register_optional_mappers();
 }
 
 void retro_deinit(void)
 {
-   delete emu;
-   emu = 0;
 }
 
 unsigned retro_api_version(void)
@@ -232,9 +227,6 @@ void retro_run(void)
 
 bool retro_load_game(const struct retro_game_info *info)
 {
-   if (!emu)
-      return false;
-
    struct retro_input_descriptor desc[] = {
       { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT,  "D-Pad Left" },
       { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP,    "D-Pad Up" },
@@ -275,6 +267,9 @@ bool retro_load_game(const struct retro_game_info *info)
       { 0 },
    };
 
+   if (!info)
+      return false;
+
    environ_cb(RETRO_ENVIRONMENT_SET_INPUT_DESCRIPTORS, desc);
 
    enum retro_pixel_format fmt = RETRO_PIXEL_FORMAT_RGB565;
@@ -283,6 +278,9 @@ bool retro_load_game(const struct retro_game_info *info)
       fprintf(stderr, "RGB565 is not supported.\n");
       return false;
    }
+
+   emu = new Nes_Emu;
+   register_optional_mappers();
 
    if (!environ_cb(RETRO_ENVIRONMENT_GET_OVERSCAN, &use_overscan))
       use_overscan = true;
@@ -300,7 +298,10 @@ bool retro_load_game(const struct retro_game_info *info)
 
 void retro_unload_game(void)
 {
-   emu->close();
+   if (emu)
+      emu->close();
+   delete emu;
+   emu = 0;
 }
 
 unsigned retro_get_region(void)
@@ -369,4 +370,3 @@ void retro_cheat_reset(void)
 
 void retro_cheat_set(unsigned, bool, const char *)
 {}
-
