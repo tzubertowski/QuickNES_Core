@@ -309,11 +309,11 @@ include Makefile.common
 
 OBJECTS := $(SOURCES_CXX:.cpp=.o)
 
-DEFINES := -D__LIBRETRO__ $(PLATFORM_DEFINES) -Wall -Wno-sign-compare
+DEFINES := -D__LIBRETRO__ $(PLATFORM_DEFINES) -Wall
 
 ifneq (,$(findstring msvc,$(platform)))
 else
-DEFINES += -Wno-multichar
+DEFINES += -Wno-multichar -Wno-sign-compare
 endif
 
 
