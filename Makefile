@@ -309,7 +309,13 @@ include Makefile.common
 
 OBJECTS := $(SOURCES_CXX:.cpp=.o)
 
-DEFINES := -D__LIBRETRO__ $(PLATFORM_DEFINES) -Wall -Wno-multichar -Wno-sign-compare
+DEFINES := -D__LIBRETRO__ $(PLATFORM_DEFINES) -Wall -Wno-sign-compare
+
+ifneq (,$(findstring msvc,$(platform)))
+else
+DEFINES += -Wno-multichar
+endif
+
 
 CFLAGS   += $(fpic) $(DEFINES)
 CXXFLAGS += $(fpic) $(DEFINES)
