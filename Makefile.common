@@ -1,4 +1,9 @@
+LIBRETRO_COMM_DIR := $(CORE_DIR)/libretro/libretro-common
 INCFLAGS := -I$(CORE_DIR) -I$(CORE_DIR)/nes_emu -I$(CORE_DIR)/libretro
+
+ifneq (,$(findstring msvc2003,$(platform)))
+INCFLAGS += -I$(LIBRETRO_COMM_DIR)/include/compat/msvc
+endif
 
 SOURCES_CXX := \
 	$(CORE_DIR)/libretro/libretro.cpp \
