@@ -26,8 +26,6 @@ nes_time_t const first_scanline = 20 * Nes_Ppu::scanline_len + irq_fine_tune;
 nes_time_t const last_scanline = first_scanline + 240 * Nes_Ppu::scanline_len;
 
 class Mapper_Mmc3 : public Nes_Mapper, mmc3_state_t {
-	nes_time_t next_time;
-	int counter_just_clocked; // used only for debugging
 public:
 	Mapper_Mmc3()
 	{
@@ -123,6 +121,9 @@ public:
 		
 		return time / ppu_overclock + 1;
 	}
+
+	nes_time_t next_time;
+	int counter_just_clocked; // used only for debugging
 };
 
 void Mapper_Mmc3::run_until( nes_time_t end_time )

@@ -31,7 +31,6 @@ struct mmc5_state_t
 BOOST_STATIC_ASSERT( sizeof (mmc5_state_t) == 0x31 );
 
 class Mapper_Mmc5 : public Nes_Mapper, mmc5_state_t {
-	nes_time_t irq_time;
 public:
 	Mapper_Mmc5()
 	{
@@ -130,6 +129,7 @@ public:
 	}
 	
 	virtual void write( nes_time_t, nes_addr_t, int ) { }
+	nes_time_t irq_time;
 };
 
 void Mapper_Mmc5::apply_mapping()

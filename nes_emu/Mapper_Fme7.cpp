@@ -45,8 +45,6 @@ void fme7_state_t::swap()
 }
 
 class Mapper_Fme7 : public Nes_Mapper, fme7_state_t {
-	nes_time_t last_time;
-	Nes_Fme7_Apu sound;
 public:
 	Mapper_Fme7()
 	{
@@ -150,6 +148,9 @@ public:
 			break;
 		}
 	}
+
+	nes_time_t last_time;
+	Nes_Fme7_Apu sound;
 };
 
 void Mapper_Fme7::write_irq( nes_time_t time, int index, int data )

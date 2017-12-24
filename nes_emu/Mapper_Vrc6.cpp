@@ -54,9 +54,6 @@ void vrc6_state_t::swap()
 }
 
 class Mapper_Vrc6 : public Nes_Mapper, vrc6_state_t {
-	int swap_mask;
-	Nes_Vrc6_Apu sound;
-	enum { timer_period = 113 * 4 + 3 };
 public:
 	Mapper_Vrc6( int sm )
 	{
@@ -156,6 +153,9 @@ public:
 		else
 			write_irq( time, addr, data );
 	}
+	int swap_mask;
+	Nes_Vrc6_Apu sound;
+	enum { timer_period = 113 * 4 + 3 };
 };
 
 void Mapper_Vrc6::read_state( mapper_state_t const& in )
