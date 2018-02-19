@@ -36,6 +36,15 @@ endif
 LIBRETRO_DIR := libretro
 TARGET_NAME := quicknes
 
+SPACE :=
+SPACE := $(SPACE) $(SPACE)
+BACKSLASH :=
+BACKSLASH := \$(BACKSLASH)
+filter_out1 = $(filter-out $(firstword $1),$1)
+filter_out2 = $(call filter_out1,$(call filter_out1,$1))
+unixpath = $(subst \,/,$1)
+unixcygpath = /$(subst :,,$(call unixpath,$1))
+
 # Unix
 ifeq ($(platform), unix)
 	TARGET := $(TARGET_NAME)_libretro.so
@@ -242,13 +251,13 @@ else ifeq ($(platform), gcw0)
 # Windows MSVC 2003 Xbox 1
 else ifeq ($(platform), xbox1_msvc2003)
 TARGET := $(TARGET_NAME)_libretro_xdk1.lib
-MSVCBINDIRPREFIX = $(XDK)/xbox/bin/vc71
-CC  = "$(MSVCBINDIRPREFIX)/CL.exe"
-CXX  = "$(MSVCBINDIRPREFIX)/CL.exe"
-LD   = "$(MSVCBINDIRPREFIX)/lib.exe"
+CC  = CL.exe
+CXX  = CL.exe
+LD   = lib.exe
 
 export INCLUDE := $(XDK)/xbox/include
 export LIB := $(XDK)/xbox/lib
+PATH := $(call unixcygpath,$(XDK)/xbox/bin/vc71):$(PATH)
 PSS_STYLE :=2
 CFLAGS   += -D_XBOX -D_XBOX1
 CXXFLAGS += -D_XBOX -D_XBOX1
