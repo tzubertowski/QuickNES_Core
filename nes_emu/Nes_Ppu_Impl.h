@@ -42,7 +42,7 @@ public:
 	enum { vaddr_clock_mask = 0x1000 };
 	void set_nt_banks( int bank0, int bank1, int bank2, int bank3 );
 	void set_chr_bank( int addr, int size, long data );
-   void set_chr_bank_ex( int addr, int size, long data );
+	void set_chr_bank_ex( int addr, int size, long data );
 	
 	// Nametable and CHR RAM
 	enum { nt_ram_size = 0x1000 };
@@ -101,7 +101,7 @@ private:
 	// Mapping
 	enum { chr_page_size = 0x400 };
 	long chr_pages [chr_addr_size / chr_page_size];
-   long chr_pages_ex [chr_addr_size / chr_page_size];
+	long chr_pages_ex [chr_addr_size / chr_page_size];
 	long map_chr_addr( unsigned a ) /*const*/
 	{
 		if (!mmc24_enabled)
@@ -124,14 +124,14 @@ private:
 	}
 	uint8_t* nt_banks [4];
 
-   bool mmc24_enabled;
+	bool mmc24_enabled;
 	uint8_t mmc24_latched [2];
 	
 	// CHR data
 	uint8_t const* chr_data; // points to chr ram when there is no read-only data
 	uint8_t* chr_ram; // always points to impl->chr_ram; makes write_2007() faster
 	long chr_size;
-   uint8_t const* map_chr( int addr ) { return &chr_data [map_chr_addr( addr )]; }
+	uint8_t const* map_chr( int addr ) { return &chr_data [map_chr_addr( addr )]; }
 	
 	// CHR cache
 	cached_tile_t* tile_cache;

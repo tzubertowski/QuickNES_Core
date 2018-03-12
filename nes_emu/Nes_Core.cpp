@@ -441,7 +441,7 @@ nes_time_t Nes_Core::emulate_frame_()
 				
 				if ( !(ppu.w2000 & 0x80 & ppu.r2002) )
 				{
-               /* vectored NMI at end of frame */
+					/* vectored NMI at end of frame */
 					vector_interrupt( 0xFFFA );
 					present += 7;
 				}
@@ -457,7 +457,7 @@ nes_time_t Nes_Core::emulate_frame_()
 					(ppu.nmi_time() >= 0x10000 || (ppu.w2000 & 0x80 & ppu.r2002)) )
 				return present;
 			
-         /* Executing extra instructions for frame */
+			/* Executing extra instructions for frame */
 			extra_instructions++; // execute one more instruction
 		}
 		
@@ -477,7 +477,7 @@ nes_time_t Nes_Core::emulate_frame_()
 		{
 			if ( last_result != cpu::result_cli )
 			{
-            /* IRQ vectored */
+				/* IRQ vectored */
 				mapper->run_until( present );
 				vector_interrupt( 0xFFFE );
 			}

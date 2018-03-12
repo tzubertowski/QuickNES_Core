@@ -43,7 +43,7 @@ const char * Nes_Snapshot_Array::resize( int new_size )
 	for ( int i = old_size; i < new_size; i++ )
 		(*this) [i].clear();
 	
-   return 0;
+	return 0;
 }
 
 void Nes_Snapshot::clear()
@@ -146,7 +146,7 @@ const char * Nes_Snapshot::write_blocks( Nes_File_Writer& out ) const
 	if ( sram_size )
 		BLARGG_RETURN_ERR( out.write_block( 'SRAM', sram, sram_size ) );
 	
-   return 0;
+	return 0;
 }
 
 // read
@@ -172,7 +172,7 @@ const char * Nes_Snapshot_Reader::begin( Data_Reader* dr, Nes_Snapshot* out )
 	BLARGG_RETURN_ERR( Nes_File_Reader::begin( dr ) );
 	if ( block_tag() != snapshot_file_tag )
 		return "Not a snapshot file";
-   return 0;
+	return 0;
 }
 
 const char * Nes_Snapshot::read( Data_Reader& in )
@@ -182,7 +182,7 @@ const char * Nes_Snapshot::read( Data_Reader& in )
 	while ( !reader.done() )
 		BLARGG_RETURN_ERR( reader.next_block() );
 	
-   return 0;
+	return 0;
 }
 
 const char * Nes_Snapshot_Reader::next_block()

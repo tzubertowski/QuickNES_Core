@@ -168,7 +168,7 @@ void Mapper_Vrc6::read_state( mapper_state_t const& in )
 	static char zero [sizeof old_sound_regs] = { 0 };
 	if ( 0 != memcmp( old_sound_regs, zero, sizeof zero ) )
 	{
-      /* Using old VRC6 sound register format */
+		/* Using old VRC6 sound register format */
 		memcpy( sound_state.regs, old_sound_regs, sizeof sound_state.regs );
 		memset( old_sound_regs, 0, sizeof old_sound_regs );
 	}

@@ -332,8 +332,8 @@ void Nes_Ppu::render_until_( nes_time_t cpu_time )
 		frame_phase = 1;
 		if ( w2001 & 0x08 )
 			vram_addr = vram_temp;
-//      else
-//          dprintf( "PPU off\n" );
+//		else
+//			dprintf( "PPU off\n" );
 	}
 	
 	if ( hblank_time < scanline_time && hblank_time < time )

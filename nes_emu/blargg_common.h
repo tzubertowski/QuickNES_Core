@@ -62,12 +62,12 @@ arithmetic on smaller types. */
 #ifdef _MSC_VER
 // MSVC6 (_MSC_VER < 1300) fails for use of __LINE__ when /Zl is specified
 #define BOOST_STATIC_ASSERT( expr ) \
-   void blargg_failed_( int (*arg) [2 / !!(expr) - 1] )
+	void blargg_failed_( int (*arg) [2 / !!(expr) - 1] )
 #else
 // Some other compilers fail when declaring same function multiple times in class,
 // so differentiate them by line
 #define BOOST_STATIC_ASSERT( expr ) \
-   void blargg_failed_( int (*arg) [2 / !!(expr) - 1] [__LINE__] )
+	void blargg_failed_( int (*arg) [2 / !!(expr) - 1] [__LINE__] )
 #endif
 #endif
 
@@ -76,7 +76,7 @@ typedef struct
 __attribute ((packed))
 #endif
 {
-   uint32_t val;
+	uint32_t val;
 }unaligned_uint32_t;
 
 
