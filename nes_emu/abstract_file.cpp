@@ -81,7 +81,7 @@ const char *Mem_Writer::write( const void* p, long s )
 
 const char* Auto_File_Reader::open()
 {
-   return 0;
+	return 0;
 }
 
 Auto_File_Reader::~Auto_File_Reader()
@@ -94,12 +94,12 @@ Auto_File_Reader::~Auto_File_Reader()
 
 const char* Auto_File_Writer::open()
 {
-   return 0;
+	return 0;
 }
 
 const char* Auto_File_Writer::open_comp( int level )
 {
-   return 0;
+	return 0;
 }
 
 Auto_File_Writer::~Auto_File_Writer()

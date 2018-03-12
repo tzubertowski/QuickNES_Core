@@ -438,7 +438,7 @@ int Nes_Ppu::read( unsigned addr, nes_time_t time )
 		}
 		
 		default:
-              /* Read from unimplemented PPU register */
+			/* Read from unimplemented PPU register */
 			break;
 	}
 
@@ -562,7 +562,7 @@ void Nes_Ppu::write( nes_time_t time, unsigned addr, int data )
 			break;
 		
 		default:
-         /* Wrote to unimplemented PPU register */
+			/* Wrote to unimplemented PPU register */
 			break;
 	}
 

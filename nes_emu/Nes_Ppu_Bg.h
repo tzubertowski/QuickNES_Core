@@ -18,11 +18,11 @@ while ( true )
 			for ( int n = 4; n--; )
 			{
 				unsigned long line = *lines++;
-            ((unaligned_uint32_t*) p) [0].val = (line >> 4 & mask) + offset;
-            ((unaligned_uint32_t*) p) [1].val = (line      & mask) + offset;
+				((unaligned_uint32_t*) p) [0].val = (line >> 4 & mask) + offset;
+				((unaligned_uint32_t*) p) [1].val = (line      & mask) + offset;
 				p += row_bytes;
-            ((unaligned_uint32_t*) p) [0].val = (line >> 6 & mask) + offset;
-            ((unaligned_uint32_t*) p) [1].val = (line >> 2 & mask) + offset;
+				((unaligned_uint32_t*) p) [0].val = (line >> 6 & mask) + offset;
+				((unaligned_uint32_t*) p) [1].val = (line >> 2 & mask) + offset;
 				p += row_bytes;
 			}
 		}
@@ -33,27 +33,27 @@ while ( true )
 			if ( fine_y & 1 )
 			{
 				unsigned long line = *lines++;
-            ((unaligned_uint32_t*) p) [0].val = (line >> 6 & mask) + offset;
-            ((unaligned_uint32_t*) p) [1].val = (line >> 2 & mask) + offset;
+				((unaligned_uint32_t*) p) [0].val = (line >> 6 & mask) + offset;
+				((unaligned_uint32_t*) p) [1].val = (line >> 2 & mask) + offset;
 				p += row_bytes;
 			}
 			
 			for ( int n = height >> 1; n--; )
 			{
 				unsigned long line = *lines++;
-            ((unaligned_uint32_t*) p) [0].val = (line >> 4 & mask) + offset;
-            ((unaligned_uint32_t*) p) [1].val = (line      & mask) + offset;
+				((unaligned_uint32_t*) p) [0].val = (line >> 4 & mask) + offset;
+				((unaligned_uint32_t*) p) [1].val = (line      & mask) + offset;
 				p += row_bytes;
-            ((unaligned_uint32_t*) p) [0].val = (line >> 6 & mask) + offset;
-            ((unaligned_uint32_t*) p) [1].val = (line >> 2 & mask) + offset;
+				((unaligned_uint32_t*) p) [0].val = (line >> 6 & mask) + offset;
+				((unaligned_uint32_t*) p) [1].val = (line >> 2 & mask) + offset;
 				p += row_bytes;
 			}
 			
 			if ( height & 1 )
 			{
 				unsigned long line = *lines;
-            ((unaligned_uint32_t*) p) [0].val = (line >> 4 & mask) + offset;
-            ((unaligned_uint32_t*) p) [1].val = (line      & mask) + offset;
+				((unaligned_uint32_t*) p) [0].val = (line >> 4 & mask) + offset;
+				((unaligned_uint32_t*) p) [1].val = (line      & mask) + offset;
 			}
 		} 
 	}

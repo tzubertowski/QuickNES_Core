@@ -160,8 +160,8 @@ void Mapper_Fme7::write_irq( nes_time_t time, int index, int data )
 	{
 	case 0x0D:
 		irq_mode = data;
-      irq_pending = false;
-      irq_changed();
+		irq_pending = false;
+		irq_changed();
 		break;
 
 	case 0x0E:

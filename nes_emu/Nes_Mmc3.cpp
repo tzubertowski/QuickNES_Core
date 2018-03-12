@@ -41,7 +41,7 @@ public:
 		next_time = 0;
 		mirror = 1;
 
-      /* Cart specified vertical mirroring */
+		/* Cart specified vertical mirroring */
 		if ( cart().mirroring() & 1 )
 			mirror = 0;
 	}
@@ -167,8 +167,8 @@ void Mapper_Mmc3::write_irq( nes_addr_t addr, int data )
 		break;
 	
 	case 0xC001:
-      /* MMC3 IRQ counter pathological behavior triggered if
-       * counter_just_clocked is 1*/
+		/* MMC3 IRQ counter pathological behavior triggered if
+		 * counter_just_clocked is 1 */
 		counter_just_clocked = 2;
 		irq_ctr = 0;
 		break;
