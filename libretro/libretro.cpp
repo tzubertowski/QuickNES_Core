@@ -25,6 +25,9 @@ static retro_input_poll_t input_poll_cb;
 static retro_input_state_t input_state_cb;
 static bool use_overscan;
 
+const int videoBufferWidth = Nes_Emu::image_width + 16;
+const int videoBufferHeight = Nes_Emu::image_height + 2;
+
 void retro_init(void)
 {
 }
@@ -207,9 +210,16 @@ void retro_run(void)
       retro_palette[i] = ((rgb.red & 0xf8) << 8) | ((rgb.green & 0xfc) << 3) | ((rgb.blue & 0xf8) >> 3);
    }
 
-   for (unsigned i = 0; i < Nes_Emu::image_width * Nes_Emu::image_height; i++)
-      *out_pixels++ = retro_palette[in_pixels[i]];
-
+   for (int y = 0; y < Nes_Emu::image_height; y++)
+   {
+	   uint16_t *out_scanline = video_buffer + Nes_Emu::image_width * y;
+	   uint8_t *in_scanline = frame.pixels + videoBufferWidth * y;
+	   for (int x = 0; x < Nes_Emu::image_width; x++)
+	   {
+		   out_scanline[x] = retro_palette[in_scanline[x]];
+	   }
+   }
+   
    video_cb(video_buffer    + (use_overscan? 0 : Nes_Emu::image_width * 8 + 8),
       Nes_Emu::image_width  - (use_overscan? 0 : 16),
       Nes_Emu::image_height - (use_overscan? 0 : 16),
@@ -268,8 +278,8 @@ bool retro_load_game(const struct retro_game_info *info)
    emu->set_equalizer(Nes_Emu::nes_eq);
    emu->set_palette_range(0);
 
-   static uint8_t video_buffer[Nes_Emu::image_width * (Nes_Emu::image_height + 16)];
-   emu->set_pixels(video_buffer + (8 * Nes_Emu::image_width), Nes_Emu::image_width);
+   static uint8_t video_buffer[videoBufferWidth * videoBufferHeight];
+   emu->set_pixels(video_buffer, videoBufferWidth);
 
    Mem_File_Reader reader(info->data, info->size);
    return !emu->load_ines(reader);
