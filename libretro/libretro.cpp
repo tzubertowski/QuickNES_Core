@@ -72,7 +72,15 @@ void retro_get_system_av_info(struct retro_system_av_info *info)
 
 void retro_set_environment(retro_environment_t cb)
 {
+   static const struct retro_variable vars[] = {
+#ifndef PSP
+      { "quicknes_use_overscan", "Use overscan; disabled|enabled" },
+#endif
+      { NULL, NULL },
+   };
+
    environ_cb = cb;
+   cb(RETRO_ENVIRONMENT_SET_VARIABLES, (void*)vars);
 }
 
 void retro_set_audio_sample(retro_audio_sample_t cb)
@@ -104,6 +112,21 @@ void retro_reset(void)
 {
    if (emu)
       emu->reset();
+}
+
+static void check_variables(void)
+{
+   struct retro_variable var = {0};
+
+#ifndef PSP
+   var.key = "quicknes_use_overscan";
+
+   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   {
+      bool newval = (!strcmp(var.value, "enabled"));
+      use_overscan = newval;
+   }
+#endif
 }
 
 #define JOY_A           1
@@ -144,6 +167,10 @@ static void update_input(int pads[2])
 
 void retro_run(void)
 {
+   bool updated = false;
+   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE_UPDATE, &updated) && updated)
+      check_variables();
+
    int pads[2] = {0};
    update_input(pads);
 
@@ -219,7 +246,7 @@ void retro_run(void)
 		   out_scanline[x] = retro_palette[in_scanline[x]];
 	   }
    }
-   
+
    video_cb(video_buffer    + (use_overscan? 0 : Nes_Emu::image_width * 8 + 8),
       Nes_Emu::image_width  - (use_overscan? 0 : 16),
       Nes_Emu::image_height - (use_overscan? 0 : 16),
@@ -271,8 +298,12 @@ bool retro_load_game(const struct retro_game_info *info)
    emu = new Nes_Emu;
    register_optional_mappers();
 
+   check_variables();
+
+#ifdef PSP
    if (!environ_cb(RETRO_ENVIRONMENT_GET_OVERSCAN, &use_overscan))
       use_overscan = true;
+#endif
 
    emu->set_sample_rate(44100);
    emu->set_equalizer(Nes_Emu::nes_eq);
