@@ -196,7 +196,10 @@ void register_optional_mappers()
 {
 	extern void register_misc_mappers();
 	register_misc_mappers();
-	
+
+	extern void register_more_mappers();
+	register_more_mappers();
+
 	extern void register_vrc6_mapper();
 	register_vrc6_mapper();
 	
@@ -211,5 +214,8 @@ void register_optional_mappers()
 
 	extern void register_mmc24();
 	register_mmc24();
+
+	void register_vrc7_mapper();
+	register_vrc7_mapper();
 }
 

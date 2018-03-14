@@ -31,6 +31,10 @@ SOURCES_CXX := \
 	$(CORE_DIR)/nes_emu/nes_mappers.cpp \
 	$(CORE_DIR)/nes_emu/Nes_Mmc1.cpp \
 	$(CORE_DIR)/nes_emu/Nes_Mmc3.cpp \
+	$(CORE_DIR)/nes_emu/Mapper_Misc.cpp \
+	$(CORE_DIR)/nes_emu/Mapper_Vrc7.cpp \
+	$(CORE_DIR)/nes_emu/Nes_Vrc7.cpp \
+	$(CORE_DIR)/nes_emu/emu2413.cpp \
 	$(CORE_DIR)/nes_emu/Nes_Namco_Apu.cpp \
 	$(CORE_DIR)/nes_emu/Mmc24.cpp \
 	$(CORE_DIR)/nes_emu/Nes_Oscs.cpp \
