@@ -262,8 +262,6 @@ void retro_run(void)
 
    static uint16_t video_buffer[Nes_Emu::image_width * Nes_Emu::image_height];
    static uint16_t retro_palette[256];
-   uint16_t *out_pixels     = video_buffer;
-   const uint8_t *in_pixels = frame.pixels;
 
    for (unsigned i = 0; i < 256; i++)
    {
@@ -273,12 +271,10 @@ void retro_run(void)
 
    for (int y = 0; y < Nes_Emu::image_height; y++)
    {
-	   uint16_t *out_scanline = video_buffer + Nes_Emu::image_width * y;
-	   uint8_t *in_scanline = frame.pixels + videoBufferWidth * y;
-	   for (int x = 0; x < Nes_Emu::image_width; x++)
-	   {
-		   out_scanline[x] = retro_palette[in_scanline[x]];
-	   }
+       uint16_t *out_scanline = video_buffer + Nes_Emu::image_width * y;
+       uint8_t *in_scanline = frame.pixels + videoBufferWidth * y;
+       for (int x = 0; x < Nes_Emu::image_width; x++)
+           out_scanline[x] = retro_palette[in_scanline[x]];
    }
 
    video_cb(video_buffer    + (use_overscan? 0 : Nes_Emu::image_width * 8 + 8),
