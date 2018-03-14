@@ -87,7 +87,7 @@ void retro_set_environment(retro_environment_t cb)
    static const struct retro_variable vars[] = {
       { "quicknes_aspect_ratio_par", "Aspect Ratio; 4:3|PAR" },
 #ifndef PSP
-      { "quicknes_use_overscan", "Use overscan; enabled|disabled" },
+      { "quicknes_use_overscan", "Use overscan; disabled|enabled" },
 #endif
       { NULL, NULL },
    };
