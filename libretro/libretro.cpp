@@ -356,17 +356,19 @@ bool retro_load_game(const struct retro_game_info *info)
 
    check_variables();
 
-#ifdef PSP
-   if (!environ_cb(RETRO_ENVIRONMENT_GET_OVERSCAN, &use_overscan))
-      use_overscan = true;
-#endif
-
    emu->set_sample_rate(44100);
    emu->set_equalizer(Nes_Emu::nes_eq);
    emu->set_palette_range(0);
 
+#ifdef PSP
+   // TODO: fix overscan setting for PSP
+   use_overscan = false;
+   static uint8_t video_buffer[Nes_Emu::image_width * (Nes_Emu::image_height + 16)];
+   emu->set_pixels(video_buffer + (8 * Nes_Emu::image_width), Nes_Emu::image_width);
+#else
    static uint8_t video_buffer[videoBufferWidth * videoBufferHeight];
    emu->set_pixels(video_buffer, videoBufferWidth);
+#endif
 
    Mem_File_Reader reader(info->data, info->size);
    return !emu->load_ines(reader);
