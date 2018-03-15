@@ -26,8 +26,13 @@ static retro_audio_sample_batch_t audio_batch_cb;
 static retro_environment_t environ_cb;
 static retro_input_poll_t input_poll_cb;
 static retro_input_state_t input_state_cb;
-static bool use_overscan;
 static bool aspect_ratio_par;
+#ifdef PSP
+static bool use_overscan;
+#else
+static bool use_overscan_v;
+static bool use_overscan_h;
+#endif
 
 const int videoBufferWidth = Nes_Emu::image_width + 16;
 const int videoBufferHeight = Nes_Emu::image_height + 2;
@@ -69,25 +74,31 @@ double_t get_aspect_ratio(unsigned width, unsigned height)
 
 void retro_get_system_av_info(struct retro_system_av_info *info)
 {
-   unsigned width  = Nes_Emu::image_width  - (use_overscan? 0 : 16);
-   unsigned height = Nes_Emu::image_height - (use_overscan? 0 : 16);
+#ifdef PSP
+   unsigned width  = Nes_Emu::image_width  - (use_overscan   ? 0 : 16);
+   unsigned height = Nes_Emu::image_height - (use_overscan   ? 0 : 16);
+#else
+   unsigned width  = Nes_Emu::image_width  - (use_overscan_h ? 0 : 16);
+   unsigned height = Nes_Emu::image_height - (use_overscan_v ? 0 : 16);
+#endif
 
    const retro_system_timing timing = { Nes_Emu::frame_rate, 44100.0 };
    info->timing = timing;
 
-   info->geometry.base_width  = width;
-   info->geometry.base_height = height;
-   info->geometry.max_width   = width;
-   info->geometry.max_height  = height;
+   info->geometry.base_width   = width;
+   info->geometry.base_height  = height;
+   info->geometry.max_width    = width;
+   info->geometry.max_height   = height;
    info->geometry.aspect_ratio = get_aspect_ratio(width, height);
 }
 
 void retro_set_environment(retro_environment_t cb)
 {
    static const struct retro_variable vars[] = {
-      { "quicknes_aspect_ratio_par", "Aspect Ratio; 4:3|PAR" },
+      { "quicknes_aspect_ratio_par", "Aspect Ratio; PAR|4:3" },
 #ifndef PSP
-      { "quicknes_use_overscan", "Use overscan; disabled|enabled" },
+      { "quicknes_use_overscan_h", "Show horizontal overscan; enabled|disabled" },
+      { "quicknes_use_overscan_v", "Show vertical overscan; disabled|enabled" },
 #endif
       { NULL, NULL },
    };
@@ -145,13 +156,28 @@ static void check_variables(void)
    }
 
 #ifndef PSP
-   var.key = "quicknes_use_overscan";
+   var.key = "quicknes_use_overscan_h";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
       bool newval = (!strcmp(var.value, "enabled"));
-      use_overscan = newval;
-      video_changed = true;
+      if (newval != use_overscan_h)
+      {
+         use_overscan_h = newval;
+         video_changed = true;
+      }
+   }
+
+   var.key = "quicknes_use_overscan_v";
+
+   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   {
+      bool newval = (!strcmp(var.value, "enabled"));
+      if (newval != use_overscan_v)
+      {
+         use_overscan_v = newval;
+         video_changed = true;
+      }
    }
 #endif
 
@@ -202,12 +228,12 @@ static void update_input(int pads[2])
 void retro_run(void)
 {
    bool updated = false;
+   int  pads[2] = {0};
+
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE_UPDATE, &updated) && updated)
       check_variables();
 
-   int pads[2] = {0};
    update_input(pads);
-
    emu->emulate_frame(pads[0], pads[1]);
    const Nes_Emu::frame_t &frame = emu->frame();
 
@@ -277,9 +303,9 @@ void retro_run(void)
            out_scanline[x] = retro_palette[in_scanline[x]];
    }
 
-   video_cb(video_buffer    + (use_overscan? 0 : Nes_Emu::image_width * 8 + 8),
-      Nes_Emu::image_width  - (use_overscan? 0 : 16),
-      Nes_Emu::image_height - (use_overscan? 0 : 16),
+   video_cb(video_buffer    + (use_overscan_v ? (use_overscan_h ? 0 : 8) : ((use_overscan_h ? 0 : 8) + 256 * 8)),
+      Nes_Emu::image_width  - (use_overscan_h ? 0 : 16),
+      Nes_Emu::image_height - (use_overscan_v ? 0 : 16),
       Nes_Emu::image_width  * sizeof(uint16_t));
 #endif
    // Mono -> Stereo.
