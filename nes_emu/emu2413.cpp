@@ -146,7 +146,7 @@ static void makeDB2LinTable (OPLL * opll)
 
   for (i = 0; i < DB_MUTE + DB_MUTE; i++)
   {
-    opll->DB2LIN_TABLE[i] = (e_int16) ((double) ((1 << DB2LIN_AMP_BITS) - 1) * pow (10, -(double) i * DB_STEP / 20));
+    opll->DB2LIN_TABLE[i] = (e_int16) ((double) ((1 << DB2LIN_AMP_BITS) - 1) * powf(10, -(double) i * DB_STEP / 20));
     if (i >= DB_MUTE) opll->DB2LIN_TABLE[i] = 0;
     //printf("%d\n",DB2LIN_TABLE[i]);
     opll->DB2LIN_TABLE[i + DB_MUTE + DB_MUTE] = (e_int16) (-opll->DB2LIN_TABLE[i]);
@@ -195,7 +195,7 @@ static void makePmTable (OPLL * opll)
   e_int32 i;
 
   for (i = 0; i < PM_PG_WIDTH; i++)
-    opll->pmtable[i] = (e_int32) ((double) PM_AMP * pow (2, (double) PM_DEPTH * sin (2.0 * PI * i / PM_PG_WIDTH) / 1200));
+    opll->pmtable[i] = (e_int32) ((double) PM_AMP * powf(2, (double) PM_DEPTH * sin (2.0 * PI * i / PM_PG_WIDTH) / 1200));
 }
 
 /* Table for Amp Modulator */

@@ -35,8 +35,6 @@ struct vrc7_state_t
 BOOST_STATIC_ASSERT( sizeof (vrc7_state_t) == 18 + sizeof (vrc7_snapshot_t) );
 
 class Mapper_Vrc7 : public Nes_Mapper, vrc7_state_t {
-	Nes_Vrc7 sound;
-	enum { timer_period = 113 * 4 + 3 };
 public:
 	Mapper_Vrc7()
 	{
@@ -215,6 +213,9 @@ public:
 				break;
 		}
 	}
+
+	Nes_Vrc7 sound;
+	enum { timer_period = 113 * 4 + 3 };
 };
 
 void register_vrc7_mapper();
