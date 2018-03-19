@@ -44,7 +44,6 @@ BOOST_STATIC_ASSERT( sizeof ( vrc2_state_t ) == 18 );
 
 template <bool type_a, bool type_b>
 class Mapper_VRC2_4 : public Nes_Mapper, vrc2_state_t {
-	unsigned is22, reg1mask, reg2mask;
 public:
 	Mapper_VRC2_4()
 	{
@@ -179,6 +178,7 @@ public:
 		}
 	}
 
+	unsigned is22, reg1mask, reg2mask;
 	enum { timer_period = 113 * 4 + 3 };
 
 private:
