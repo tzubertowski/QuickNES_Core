@@ -10,7 +10,6 @@ global namespace with unprefixed names. */
 #ifndef BLARGG_COMMON_H // optimization only
 	#include "blargg_common.h"
 #endif
-#include "blargg_errors.h"
 
 #include <string.h> /* memcpy(), memset(), memmove() */
 #include <stddef.h> /* offsetof() */
@@ -30,7 +29,7 @@ otherwise continues normally. */
 #define CHECK_ALLOC( ptr ) \
 	do {\
 		if ( !(ptr) )\
-			return blargg_err_memory;\
+			return "Out of memory";\
 	} while ( 0 )
 
 /* The usual min/max functions for built-in types. */
