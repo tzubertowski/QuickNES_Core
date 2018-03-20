@@ -24,13 +24,13 @@ Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA */
 const char * Data_Reader::read( void* p, int n )
 {
 	if ( n < 0 )
-		return blargg_err_caller;
+		return "Internal usage bug";
 	
 	if ( n <= 0 )
 		return 0;
 	
 	if ( n > remain() )
-		return blargg_err_file_eof;
+		return "Truncated file";
 	
 	const char * err = read_v( p, n );
 	if ( !err )
@@ -45,7 +45,7 @@ const char * Data_Reader::read_avail( void* p, int* n_ )
 	*n_ = 0;
 	
 	if ( n < 0 )
-		return blargg_err_caller;
+		return "Internal usage bug";
 	
 	if ( n <= 0 )
 		return 0;
@@ -83,13 +83,13 @@ const char * Data_Reader::skip_v( int count )
 const char * Data_Reader::skip( int n )
 {
 	if ( n < 0 )
-		return blargg_err_caller;
+		return "Internal usage bug";
 	
 	if ( n <= 0 )
 		return 0;
 	
 	if ( n > remain() )
-		return blargg_err_file_eof;
+		return "Truncated file";
 	
 	const char * err = skip_v( n );
 	if ( !err )
@@ -104,13 +104,13 @@ const char * Data_Reader::skip( int n )
 const char * File_Reader::seek( uint64_t n )
 {
 	if ( n < 0 )
-		return blargg_err_caller;
+		return "Internal usage bug";
 	
 	if ( n == tell() )
 		return 0;
 	
 	if ( n > size() )
-		return blargg_err_file_eof;
+		return "Truncated file";
 	
 	const char * err = seek_v( n );
 	if ( !err )
