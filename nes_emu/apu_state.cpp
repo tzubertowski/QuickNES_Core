@@ -129,8 +129,5 @@ void Nes_Apu::load_state( apu_state_t const& state )
 	refl::reflect_noise   ( st.noise,       noise );
 	refl::reflect_dmc     ( st.dmc,         dmc );
 	dmc.recalc_irq();
-	if (dmc.last_amp || dmc.dac)
-		printf("last_amp = %d dac = %d\n", dmc.last_amp, dmc.dac);
-	//dmc.last_amp = dmc.dac;
 }
 
