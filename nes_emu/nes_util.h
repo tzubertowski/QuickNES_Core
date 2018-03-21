@@ -12,22 +12,6 @@
 class Nes_Emu;
 class Nes_Cart;
 
-class Joypad_Filter {
-public:
-	Joypad_Filter();
-	
-	// Control filtering of simultaneous directions. Enabled by default.
-	void enable_filtering( bool = true );
-	
-	// Prevents simultaneous left+right and up+down to avoid problems in some games.
-	// Also turns bits 8 and 9 into turbo A and B.
-	int process( int joypad );
-	
-private:
-	int prev;
-	int mask;
-};
-
 struct game_genie_patch_t
 {
 	unsigned addr;    // always 0x8000 or greater

@@ -21,44 +21,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA */
 
 #include "blargg_source.h"
 
-// Joypad_Filter
-
-Joypad_Filter::Joypad_Filter()
-{
-	prev = 0;
-	mask = ~0x50;
-}
-
-void Joypad_Filter::enable_filtering( bool b )
-{
-	bool enabled = (mask + 0x10) >> 5 & 1;
-	if ( enabled != b )
-		mask = b ? ~0x50 : ~0;
-}
-
-int Joypad_Filter::process( int joypad )
-{
-	// prevent left+right and up+down (prefer most recent one pressed)
-	int changed = prev ^ joypad;
-	int hidden = joypad & ~mask;
-	prev = joypad;
-	
-	int const x_axis = 0xC0;
-	int const y_axis = 0x30;
-	
-	if ( changed & x_axis && hidden & x_axis )
-		mask ^= x_axis;
-	
-	if ( changed & y_axis && hidden & y_axis )
-		mask ^= y_axis;
-	
-	mask |= changed & 0x300 & joypad;
-	
-	// mask and combine turbo bits
-	joypad &= mask;
-	return (joypad >> 8 & 3) | (joypad & ~0x300);
-}
-
 // game_genie_patch_t
 
 const char *game_genie_patch_t::decode( const char* in )
