@@ -36,6 +36,7 @@ static bool use_overscan_h;
 
 const int videoBufferWidth = Nes_Emu::image_width + 16;
 const int videoBufferHeight = Nes_Emu::image_height + 2;
+bool has_battery_ram = false; // Returns TRUE if rom loaded has bettery enabled bit
 
 void retro_init(void)
 {
@@ -370,6 +371,26 @@ bool retro_load_game(const struct retro_game_info *info)
    emu->set_pixels(video_buffer, videoBufferWidth);
 #endif
 
+   struct retro_memory_descriptor descs[2];
+   struct retro_memory_map retromap;
+
+   memset(descs, 0, sizeof(descs));
+
+   descs[0].ptr    = emu->low_mem();         // System RAM
+   descs[0].start  = 0x00000000;
+   descs[0].len    = Nes_Emu::low_mem_size;
+   descs[0].select = 0;
+
+   descs[1].ptr    = emu->high_mem();        // WRAM
+   descs[1].start  = 0x00006000;
+   descs[1].len    = Nes_Emu::high_mem_size;
+   descs[1].select = 0;
+
+   retromap.descriptors       = descs;
+   retromap.num_descriptors   = sizeof(descs) / sizeof(*descs);
+
+   environ_cb(RETRO_ENVIRONMENT_SET_MEMORY_MAPS, &retromap);
+
    Mem_File_Reader reader(info->data, info->size);
    return !emu->load_ines(reader);
 }
@@ -418,14 +439,16 @@ void *retro_get_memory_data(unsigned id)
    switch (id)
    {
       case RETRO_MEMORY_SAVE_RAM:
-         return emu->high_mem();
+         if (has_battery_ram)
+             return emu->high_mem();
+         break;
       case RETRO_MEMORY_SYSTEM_RAM:
          return emu->low_mem();
       default:
          break;
    }
 
-   return 0;
+   return NULL;
 }
 
 size_t retro_get_memory_size(unsigned id)
@@ -433,7 +456,9 @@ size_t retro_get_memory_size(unsigned id)
    switch (id)
    {
       case RETRO_MEMORY_SAVE_RAM:
-         return Nes_Emu::high_mem_size;
+         if (has_battery_ram)
+            return Nes_Emu::high_mem_size;
+         break;
       case RETRO_MEMORY_SYSTEM_RAM:
          return Nes_Emu::low_mem_size;
       default:
