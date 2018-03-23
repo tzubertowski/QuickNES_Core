@@ -218,6 +218,9 @@ void register_optional_mappers()
 	extern void register_vrc1_mapper();
 	register_vrc1_mapper();
 
+	extern void register_vrc3_mapper();
+	register_vrc3_mapper();
+
 	extern void register_vrc2_4_mapper();
 	register_vrc2_4_mapper();
 
