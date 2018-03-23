@@ -259,4 +259,3 @@ void register_vrc6_mapper()
 	Nes_Mapper::register_mapper( 24, make_vrc6a );
 	Nes_Mapper::register_mapper( 26, make_vrc6b );
 }
-

@@ -153,4 +153,3 @@ struct mmc3_state_t
 BOOST_STATIC_ASSERT( sizeof (mmc3_state_t) == 15 );
 
 #endif
-

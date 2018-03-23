@@ -59,4 +59,3 @@ inline void Nes_Ppu_Rendering::draw_sprites( int start, int count )
 }
 
 #endif
-

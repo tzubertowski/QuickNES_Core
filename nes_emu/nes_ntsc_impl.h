@@ -514,4 +514,3 @@ void NTSC_NAME( init )( NTSC_NAME( t )* ntsc, NTSC_NAME( setup_t ) const* setup 
 #else
 	#error "Need 16-bit int type"
 #endif
-

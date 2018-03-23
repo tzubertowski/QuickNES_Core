@@ -513,4 +513,3 @@ void Effects_Buffer::mix_enhanced( blip_sample_t* out, long count )
 	l2.end( bufs [5] );
 	r2.end( bufs [6] );
 }
-

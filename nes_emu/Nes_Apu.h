@@ -173,4 +173,3 @@ inline nes_time_t Nes_Dmc::next_read_time() const
 inline nes_time_t Nes_Apu::next_dmc_read_time() const { return dmc.next_read_time(); }
 
 #endif
-

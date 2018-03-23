@@ -64,4 +64,3 @@ inline void Nes_Vrc7::osc_output( int i, Blip_Buffer* buf )
 }
 
 #endif
-

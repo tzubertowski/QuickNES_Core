@@ -209,4 +209,3 @@ void Nes_Vrc6_Apu::run_saw( nes_time_t end_time )
 	
 	osc.last_amp = last_amp;
 }
-

@@ -125,4 +125,3 @@ inline const char * write_nes_state( Nes_File_Writer& out, const T& in )
 }
 
 #endif
-

@@ -114,4 +114,3 @@ public:
 };
 
 Nes_Mapper* Nes_Mapper::make_cnrom() { return new Mapper_Cnrom; }
-

@@ -107,4 +107,3 @@ inline Auto_File_Writer& Auto_File_Writer::operator = ( Auto_File_Writer const& 
 inline Auto_File_Writer::Auto_File_Writer( Auto_File_Writer const& r ) { *this = r; }
 
 #endif
-

@@ -244,4 +244,3 @@ Nes_Mapper* Nes_Mapper::make_mmc3()
 {
 	return BLARGG_NEW Mapper_Mmc3;
 }
-

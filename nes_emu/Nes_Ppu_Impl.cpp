@@ -490,4 +490,3 @@ long Nes_Ppu_Impl::recalc_sprite_max( int scanline )
 	
 	return 0;
 }
-

@@ -75,4 +75,3 @@ struct apu_state_t
 BOOST_STATIC_ASSERT( sizeof (apu_state_t) == 72 );
 
 #endif
-

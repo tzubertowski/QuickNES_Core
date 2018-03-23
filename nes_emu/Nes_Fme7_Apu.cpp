@@ -108,4 +108,3 @@ void Nes_Fme7_Apu::run_until( blip_time_t end_time )
 	
 	last_time = end_time;
 }
-

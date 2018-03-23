@@ -151,4 +151,3 @@ int Cheat_Value_Finder::change_value( int new_value )
 	emu->low_mem() [pos] = new_value;
 	return result;
 }
-

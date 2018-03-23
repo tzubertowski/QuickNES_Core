@@ -205,4 +205,3 @@ Nes_Mapper* Nes_Mapper::create( Nes_Cart const* cart, Nes_Core* emu )
 	}
 	return mapper;
 }
-

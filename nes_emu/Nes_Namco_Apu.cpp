@@ -145,4 +145,3 @@ void Nes_Namco_Apu::run_until( nes_time_t nes_end_time )
 	
 	last_time = nes_end_time;
 }
-

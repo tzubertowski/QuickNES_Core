@@ -282,4 +282,3 @@ const char * Nes_State_::read_blocks( Nes_File_Reader& in )
 		}
 	}
 }
-

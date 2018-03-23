@@ -111,4 +111,3 @@ inline unsigned      get_be( uint16_t* p ) { return GET_BE16( p ); }
 inline unsigned long get_be( uint32_t* p ) { return GET_BE32( p ); }
 
 #endif
-

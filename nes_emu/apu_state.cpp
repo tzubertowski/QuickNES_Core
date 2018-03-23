@@ -130,4 +130,3 @@ void Nes_Apu::load_state( apu_state_t const& state )
 	refl::reflect_dmc     ( st.dmc,         dmc );
 	dmc.recalc_irq();
 }
-

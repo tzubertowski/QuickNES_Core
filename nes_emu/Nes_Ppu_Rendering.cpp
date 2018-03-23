@@ -462,4 +462,3 @@ void Nes_Ppu_Rendering::draw_background( int start, int count )
 		}
 	}
 }
-

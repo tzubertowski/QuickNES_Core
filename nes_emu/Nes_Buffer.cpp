@@ -193,4 +193,3 @@ void Nes_Nonlinearizer::clear()
 	prev = ENTRY( 86016000 ); // avoid thump due to APU's triangle dc bias
 	// TODO: still results in slight clicks and thumps
 }
-

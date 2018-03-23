@@ -131,4 +131,3 @@ inline void Nes_Fme7_Apu::load_state( fme7_apu_state_t const& in )
 }
 
 #endif
-

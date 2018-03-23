@@ -208,4 +208,3 @@ void register_fme7_mapper()
 {
 	register_mapper<Mapper_Fme7>( 69 );
 }
-

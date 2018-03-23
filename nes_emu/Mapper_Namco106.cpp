@@ -224,4 +224,3 @@ void register_optional_mappers()
 	extern void register_vrc7_mapper();
 	register_vrc7_mapper();
 }
-
