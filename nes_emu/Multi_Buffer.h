@@ -172,4 +172,3 @@ inline long Mono_Buffer::read_samples( blip_sample_t* p, long s ) { return buf.r
 inline long Mono_Buffer::samples_avail() const { return buf.samples_avail(); }
 
 #endif
-

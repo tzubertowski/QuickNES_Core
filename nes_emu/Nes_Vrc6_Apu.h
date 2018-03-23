@@ -97,4 +97,3 @@ inline void Nes_Vrc6_Apu::treble_eq( blip_eq_t const& eq )
 }
 
 #endif
-

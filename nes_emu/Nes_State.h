@@ -130,4 +130,3 @@ inline void Nes_State_::set_timestamp( frame_count_t t ) { nes.frame_count = t; 
 inline frame_count_t Nes_State_::timestamp() const { return nes.frame_count; }
 
 #endif
-

@@ -263,4 +263,3 @@ inline long Nes_Emu::chr_size() const
 }
 
 #endif
-

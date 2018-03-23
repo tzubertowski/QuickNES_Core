@@ -150,4 +150,3 @@ void register_mmc5_mapper()
 {
 	register_mapper<Mapper_Mmc5>( 5 );
 }
-

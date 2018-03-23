@@ -196,4 +196,3 @@ enum { nes_ntsc_full_overscan_right = nes_ntsc_full_in_width - 256 - nes_ntsc_fu
 #endif
 
 #endif
-

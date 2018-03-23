@@ -209,4 +209,3 @@ void Stereo_Buffer::mix_mono( blip_sample_t* out, long count )
 	
 	in.end( bufs [0] );
 }
-

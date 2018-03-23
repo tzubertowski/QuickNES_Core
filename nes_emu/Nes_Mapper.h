@@ -231,4 +231,3 @@ inline void Nes_Mapper::enable_sram( bool enabled, bool read_only )
 }
 
 #endif
-

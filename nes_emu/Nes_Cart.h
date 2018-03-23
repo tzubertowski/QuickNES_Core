@@ -83,4 +83,3 @@ inline void Nes_Cart::set_mapper( int mapper_lsb, int mapper_msb )
 inline int Nes_Cart::mapper_code() const { return ((mapper >> 8) & 0xf0) | ((mapper >> 4) & 0x0f); }
 
 #endif
-

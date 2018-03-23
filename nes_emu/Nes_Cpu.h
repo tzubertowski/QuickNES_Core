@@ -124,4 +124,3 @@ inline void Nes_Cpu::push_byte( int data )
 }
 
 #endif
-

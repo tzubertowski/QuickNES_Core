@@ -537,4 +537,3 @@ void Nes_Core::add_mapper_intercept( nes_addr_t addr, unsigned size, bool read, 
 		data_writer_mapped [page] |= write;
 	}
 }
-

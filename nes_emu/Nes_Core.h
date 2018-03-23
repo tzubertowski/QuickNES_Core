@@ -114,4 +114,3 @@ private:
 int mem_differs( void const* p, int cmp, unsigned long s );
 
 #endif
-

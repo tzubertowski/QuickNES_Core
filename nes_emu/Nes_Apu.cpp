@@ -366,4 +366,3 @@ int Nes_Apu::read_status( nes_time_t time )
 	
 	return result;
 }
-

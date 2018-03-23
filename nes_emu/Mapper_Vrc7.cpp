@@ -223,4 +223,3 @@ void register_vrc7_mapper()
 {
 	register_mapper< Mapper_Vrc7 > ( 85 );
 }
-

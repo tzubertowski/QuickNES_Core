@@ -389,4 +389,3 @@ void Blip_Buffer::mix_samples( blip_sample_t const* in, long count )
 	}
 	*out -= prev;
 }
-

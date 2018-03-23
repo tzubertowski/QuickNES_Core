@@ -101,4 +101,3 @@ inline void Nes_Namco_Apu::write_data( nes_time_t time, int data )
 }
 
 #endif
-

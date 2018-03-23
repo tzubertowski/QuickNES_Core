@@ -138,4 +138,3 @@ inline void Nes_Ppu::update_open_bus( nes_time_t time )
 }
 
 #endif
-

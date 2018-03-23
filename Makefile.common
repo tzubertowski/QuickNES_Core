@@ -33,6 +33,7 @@ SOURCES_CXX := \
 	$(CORE_DIR)/nes_emu/Nes_Mmc3.cpp \
 	$(CORE_DIR)/nes_emu/Mapper_Misc.cpp \
 	$(CORE_DIR)/nes_emu/Mapper_Vrc1.cpp \
+	$(CORE_DIR)/nes_emu/Mapper_Vrc3.cpp \
 	$(CORE_DIR)/nes_emu/Mapper_Vrc2_4.cpp \
 	$(CORE_DIR)/nes_emu/Mapper_Vrc7.cpp \
 	$(CORE_DIR)/nes_emu/Nes_Vrc7.cpp \

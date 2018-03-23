@@ -204,4 +204,3 @@ void register_misc_mappers()
 	register_mapper<Mapper_87>( 87 );
 	register_mapper<Mapper_Quattro>( 232 );
 }
-

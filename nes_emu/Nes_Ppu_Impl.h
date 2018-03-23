@@ -216,4 +216,3 @@ inline void Nes_Ppu_Impl::begin_frame()
 }
 
 #endif
-
