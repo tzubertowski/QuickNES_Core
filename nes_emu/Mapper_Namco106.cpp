@@ -200,6 +200,9 @@ void register_optional_mappers()
 	extern void register_more_mappers();
 	register_more_mappers();
 
+	extern void register_unrom512_mapper();
+	register_unrom512_mapper();
+
 	extern void register_vrc6_mapper();
 	register_vrc6_mapper();
 	
