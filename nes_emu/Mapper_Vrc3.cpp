@@ -26,12 +26,15 @@
 struct vrc3_state_t
 {
 	bool     irq_enable;
-	uint8_t  irq_pending;
+	bool     irq_awk;
+	uint16_t irq_latch;
 	uint16_t irq_counter;
+
+	uint8_t  irq_pending;
 	uint16_t next_time;
 };
 
-BOOST_STATIC_ASSERT( sizeof ( vrc3_state_t ) == 6 );
+BOOST_STATIC_ASSERT( sizeof ( vrc3_state_t ) == 10 );
 
 class Mapper_VRC3 : public Nes_Mapper, vrc3_state_t {
 public:
@@ -60,11 +63,11 @@ public:
 			if ( counter > 0xFFFF )
 			{
 				irq_pending = true;
-				irq_enable = false;
-				counter = 0xFFFF;
+				irq_enable  = irq_awk;
+				irq_counter = irq_latch;
 			}
-
-			irq_counter = counter;
+			else
+				irq_counter = counter;
 		}
 
 		next_time = end_time;
@@ -91,23 +94,34 @@ public:
 
 	void write_irq_counter( int shift, int data )
 	{
-		irq_counter &= ~( 0x0F << shift );
-		irq_counter |= data << shift;
+		irq_latch &= ~( 0xF << shift );
+		irq_latch |= data << shift;
 	}
 
 	void write( nes_time_t time, nes_addr_t addr, int data )
 	{
 		data &= 0xF;
-		irq_pending = false;
 
 		switch ( addr >> 12 )
 		{
+			case 0xF: set_prg_bank( 0x8000, bank_16k, data ); break;
 			case 0x8: write_irq_counter(  0, data ); break;
 			case 0x9: write_irq_counter(  4, data ); break;
 			case 0xA: write_irq_counter(  8, data ); break;
 			case 0xB: write_irq_counter( 12, data ); break;
-			case 0xC: irq_enable = data & 2; break;
-			case 0xF: set_prg_bank( 0x8000, bank_16k, data ); break;
+			case 0xC:
+				irq_pending = false;
+				irq_awk     = data & 1;
+				irq_enable  = data & 2;
+
+				if ( irq_enable )
+					irq_counter = irq_latch;
+
+				break;
+			case 0xD:
+				irq_pending = false;
+				irq_enable  = irq_awk;
+				break;
 		}
 
 		irq_changed();
