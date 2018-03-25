@@ -63,7 +63,6 @@ void Nes_Core::close()
 	disable_rendering();
 }
 
-extern bool has_battery_ram;
 const char * Nes_Core::open( Nes_Cart const* new_cart )
 {
 	close();
@@ -77,7 +76,6 @@ const char * Nes_Core::open( Nes_Cart const* new_cart )
 	RETURN_ERR( ppu.open_chr( new_cart->chr(), new_cart->chr_size() ) );
 	
 	cart = new_cart;
-	has_battery_ram = cart->has_battery_ram();
 	memset( impl->unmapped_page, unmapped_fill, sizeof impl->unmapped_page );
 	reset( true, true );
 
