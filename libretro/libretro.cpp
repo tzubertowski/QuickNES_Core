@@ -36,7 +36,6 @@ static bool use_overscan_h;
 
 const int videoBufferWidth = Nes_Emu::image_width + 16;
 const int videoBufferHeight = Nes_Emu::image_height + 2;
-bool has_battery_ram = false; // Returns TRUE if rom loaded has bettery enabled bit
 
 void retro_init(void)
 {
@@ -439,7 +438,7 @@ void *retro_get_memory_data(unsigned id)
    switch (id)
    {
       case RETRO_MEMORY_SAVE_RAM:
-         if (has_battery_ram)
+         if (emu->has_battery_ram())
              return emu->high_mem();
          break;
       case RETRO_MEMORY_SYSTEM_RAM:
@@ -456,7 +455,7 @@ size_t retro_get_memory_size(unsigned id)
    switch (id)
    {
       case RETRO_MEMORY_SAVE_RAM:
-         if (has_battery_ram)
+         if (emu->has_battery_ram())
             return Nes_Emu::high_mem_size;
          break;
       case RETRO_MEMORY_SYSTEM_RAM:
