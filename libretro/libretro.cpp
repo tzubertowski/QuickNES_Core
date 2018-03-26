@@ -95,11 +95,12 @@ void retro_get_system_av_info(struct retro_system_av_info *info)
 void retro_set_environment(retro_environment_t cb)
 {
    static const struct retro_variable vars[] = {
-      { "quicknes_aspect_ratio_par", "Aspect Ratio; PAR|4:3" },
+      { "quicknes_aspect_ratio_par", "Aspect ratio; PAR|4:3" },
 #ifndef PSP
       { "quicknes_use_overscan_h", "Show horizontal overscan; enabled|disabled" },
       { "quicknes_use_overscan_v", "Show vertical overscan; disabled|enabled" },
 #endif
+      { "quicknes_no_sprite_limit", "No sprite limit; enabled|disabled" },
       { NULL, NULL },
    };
 
@@ -142,6 +143,16 @@ static void check_variables(void)
 {
    struct retro_variable var = {0};
    bool video_changed = false;
+
+   var.key = "quicknes_no_sprite_limit";
+
+   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   {
+      if (!strcmp(var.value, "enabled"))
+         emu->set_sprite_mode( Nes_Emu::sprites_enhanced);
+      else
+         emu->set_sprite_mode( Nes_Emu::sprites_visible);
+   }
 
    var.key = "quicknes_aspect_ratio_par";
 
