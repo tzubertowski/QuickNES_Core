@@ -98,7 +98,7 @@ void Nes_Apu::save_state( apu_state_t* state ) const
 	refl::reflect_noise   ( state->noise,       apu.noise );
 	refl::reflect_dmc     ( state->dmc,         apu.dmc );
 }
-#include <stdio.h>
+
 void Nes_Apu::load_state( apu_state_t const& state )
 {
 	reset();

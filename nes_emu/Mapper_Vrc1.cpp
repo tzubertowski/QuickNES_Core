@@ -21,9 +21,8 @@ struct vrc1_state_t
 {
 	uint8_t prg_banks [ 3 ];
 	uint8_t chr_banks [ 2 ];
-	uint8_t control;
-	uint8_t prg_swap;
-	uint8_t unused;
+	uint8_t chr_banks_hi [ 2 ];
+	uint8_t mirroring;
 };
 
 BOOST_STATIC_ASSERT( sizeof ( vrc1_state_t ) == 8 );
@@ -60,7 +59,10 @@ public:
 				update_prg_banks();
 				break;
 			case 0x9000:
-				control = data & 7;
+				mirroring = data & 1;
+				chr_banks_hi [ 0 ] = ( data & 2 ) << 3;
+				chr_banks_hi [ 1 ] = ( data & 4 ) << 2;
+				update_chr_banks();
 				update_mirroring();
 				break;
 			case 0xa000:
@@ -92,13 +94,13 @@ void Mapper_VRC1::update_prg_banks()
 
 void Mapper_VRC1::update_chr_banks()
 {
-	set_chr_bank( 0x0000, bank_4k, chr_banks [ 0 ] | ( ( control & 2 ) << 3 ) );
-	set_chr_bank( 0x1000, bank_4k, chr_banks [ 1 ] | ( ( control & 4 ) << 2 ) );
+	set_chr_bank( 0x0000, bank_4k, chr_banks [ 0 ] | chr_banks_hi [ 0 ] );
+	set_chr_bank( 0x1000, bank_4k, chr_banks [ 1 ] | chr_banks_hi [ 1 ] );
 }
 
 void Mapper_VRC1::update_mirroring()
 {
-	switch ( control & 1 )
+	switch ( mirroring & 1 )
 	{
 		case 1: mirror_horiz(); break;
 		case 0: mirror_vert(); break;
