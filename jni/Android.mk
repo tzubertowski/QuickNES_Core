@@ -1,4 +1,4 @@
-DEBUG = 1
+DEBUG = 0
 
 LOCAL_PATH := $(call my-dir)
 GIT_VERSION ?= " $(shell git rev-parse --short HEAD)"
