@@ -232,4 +232,7 @@ void register_optional_mappers()
 
 	extern void register_mapper_15();
 	register_mapper_15();
+
+	extern void register_mapper_60();
+	register_mapper_60();
 }
