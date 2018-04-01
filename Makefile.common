@@ -17,6 +17,7 @@ SOURCES_CXX := \
 	$(CORE_DIR)/nes_emu/Mapper_Vrc6.cpp \
 	$(CORE_DIR)/nes_emu/misc_mappers.cpp \
 	$(CORE_DIR)/nes_emu/Mapper_15.cpp \
+	$(CORE_DIR)/nes_emu/Mapper_60.cpp \
 	$(CORE_DIR)/nes_emu/Multi_Buffer.cpp \
 	$(CORE_DIR)/nes_emu/Nes_Apu.cpp \
 	$(CORE_DIR)/nes_emu/Nes_Buffer.cpp \
