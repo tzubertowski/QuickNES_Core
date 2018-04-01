@@ -26,11 +26,10 @@ struct mapper_15_state_t
 BOOST_STATIC_ASSERT( sizeof (mapper_15_state_t) == 5 );
 
 class Mapper_15 : public Nes_Mapper, mapper_15_state_t {
-	int i = 0;
-
 public:
 	Mapper_15()
 	{
+		i = 0;
 		mapper_15_state_t* state = this;
 		register_state( state, sizeof *state );
 	}
@@ -83,6 +82,7 @@ public:
 			break;
 		}
 	}
+	int i;
 };
 
 void register_mapper_15();
