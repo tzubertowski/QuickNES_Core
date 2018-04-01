@@ -229,4 +229,7 @@ void register_optional_mappers()
 
 	extern void register_vrc7_mapper();
 	register_vrc7_mapper();
+
+	extern void register_mapper_15();
+	register_mapper_15();
 }
