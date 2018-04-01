@@ -17,16 +17,22 @@
 
 #include "Nes_Mapper.h"
 
-class Mapper_15 : public Nes_Mapper {
-	int i = 0;
+struct mapper_15_state_t
+{
 	uint8_t prg_bank [ 4 ];
 	uint8_t mirroring;
+};
+
+BOOST_STATIC_ASSERT( sizeof (mapper_15_state_t) == 5 );
+
+class Mapper_15 : public Nes_Mapper, mapper_15_state_t {
+	int i = 0;
 
 public:
 	Mapper_15()
 	{
-		register_state( prg_bank, sizeof prg_bank );
-		register_state( &mirroring, 1 );
+		mapper_15_state_t* state = this;
+		register_state( state, sizeof *state );
 	}
 
 	virtual void reset_state()
