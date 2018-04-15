@@ -169,6 +169,15 @@ static void update_audio_mode(void)
 			}
 		}
 	}
+	else
+	{
+		//if the environment callback failed (won't happen), just set the nonlinear buffer
+		if (current_buffer != &nes_buffer)
+		{
+			emu->set_sample_rate(44100, &nes_buffer);
+			current_buffer = &nes_buffer;
+		}
+	}
 
 	var.key = "quicknes_audio_eq";
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
@@ -206,6 +215,12 @@ static void update_audio_mode(void)
 			emu->set_equalizer(Nes_Emu::nes_eq);
 		}
 	}
+	else
+	{
+		//if the environment callback failed (won't happen), just set the default NES equalizer
+		emu->set_equalizer(Nes_Emu::nes_eq);
+	}
+
 
 }
 
