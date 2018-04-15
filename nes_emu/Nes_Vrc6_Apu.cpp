@@ -99,6 +99,9 @@ void Nes_Vrc6_Apu::load_state( vrc6_apu_state_t const& in )
 	}
 	if ( !oscs [2].phase )
 		oscs [2].phase = 1;
+
+	//Run sound channels for 0 cycles for clean audio after loading state
+	this->run_until(this->last_time);
 }
 
 void Nes_Vrc6_Apu::run_square( Vrc6_Osc& osc, nes_time_t end_time )

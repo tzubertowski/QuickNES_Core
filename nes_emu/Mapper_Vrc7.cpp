@@ -32,7 +32,7 @@ struct vrc7_state_t
 	
 	vrc7_snapshot_t sound_state;
 };
-BOOST_STATIC_ASSERT( sizeof (vrc7_state_t) == 18 + sizeof (vrc7_snapshot_t) );
+BOOST_STATIC_ASSERT( sizeof (vrc7_state_t) == 20 + sizeof (vrc7_snapshot_t) );
 
 class Mapper_Vrc7 : public Nes_Mapper, vrc7_state_t {
 public:
@@ -63,7 +63,7 @@ public:
 		
 		next_time = get_le16( &next_time );
 		
-		sound.load_snapshot( sound_state );
+		sound.load_snapshot( sound_state, in.size );
 	}
 	
 	virtual void reset_state()

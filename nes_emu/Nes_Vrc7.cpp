@@ -3,6 +3,23 @@
 #include "emu2413.h"
 #include <string.h>
 
+#define BYTESWAP(xxxx) {uint32_t _temp = (uint32_t)(xxxx);\
+((uint8_t*)&(xxxx))[0] = (uint8_t)((_temp) >> 24);\
+((uint8_t*)&(xxxx))[1] = (uint8_t)((_temp) >> 16);\
+((uint8_t*)&(xxxx))[2] = (uint8_t)((_temp) >> 8);\
+((uint8_t*)&(xxxx))[3] = (uint8_t)((_temp) >> 0);\
+}
+
+static bool IsLittleEndian()
+{
+	int i = 42;
+	if (((char*)&i)[0] == 42)
+	{
+		return true;
+	}
+	return false;
+}
+
 Nes_Vrc7::Nes_Vrc7()
 {
 	opll = OPLL_new( 3579545 );
@@ -110,7 +127,7 @@ void Nes_Vrc7::end_frame( nes_time_t time )
 	last_time -= time;
 }
 
-void Nes_Vrc7::save_snapshot( vrc7_snapshot_t* out ) const
+void Nes_Vrc7::save_snapshot( vrc7_snapshot_t* out )
 {
 	out->latch = ( ( OPLL * ) opll )->adr;
 	memcpy( out->inst, ( ( OPLL * ) opll )->CustInst, 8 );
@@ -122,9 +139,16 @@ void Nes_Vrc7::save_snapshot( vrc7_snapshot_t* out ) const
 		}
 	}
 	out->count = count;
+	out->internal_opl_state_size = sizeof(OPLL_STATE);
+	if (!IsLittleEndian())
+	{
+		BYTESWAP(out->internal_opl_state_size);
+	}
+	OPLL_serialize((OPLL*)opll, &(out->internal_opl_state));
+	OPLL_state_byteswap(&(out->internal_opl_state));
 }
 
-void Nes_Vrc7::load_snapshot( vrc7_snapshot_t const& in )
+void Nes_Vrc7::load_snapshot( vrc7_snapshot_t & in, int dataSize )
 {
 	reset();
 	write_reg( in.latch );
@@ -148,6 +172,34 @@ void Nes_Vrc7::load_snapshot( vrc7_snapshot_t const& in )
 		for ( int j = 0; j < 6; ++j )
 		{
 			OPLL_writeReg( ( OPLL * ) opll, 0x10 + i * 0x10 + j, oscs [j].regs [i] );
+		}
+	}
+	if (!IsLittleEndian())
+	{
+		BYTESWAP(in.internal_opl_state_size);
+	}
+	if (in.internal_opl_state_size == sizeof(OPLL_STATE))
+	{
+		OPLL_state_byteswap(&(in.internal_opl_state));
+		OPLL_deserialize((OPLL*)opll, &(in.internal_opl_state));
+	}
+	update_last_amp();
+}
+
+void Nes_Vrc7::update_last_amp()
+{
+	for (unsigned i = 0; i < osc_count; ++i)
+	{
+		Vrc7_Osc & osc = oscs[i];
+		if (osc.output)
+		{
+			int amp = OPLL_calcCh((OPLL *)opll, i);
+			int delta = amp - osc.last_amp;
+			if (delta)
+			{
+				osc.last_amp = amp;
+				synth.offset(last_time, delta, osc.output);
+			}
 		}
 	}
 }

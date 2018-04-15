@@ -106,6 +106,16 @@ private:
 	int bass_freq_;
 	int length_;
 	friend class Blip_Reader;
+
+private:
+	//extra information necessary to load state to an exact sample
+	buf_t_ extra_buffer[32];
+	int extra_length;
+	long extra_reader_accum;
+	blip_resampled_time_t extra_offset;
+public:
+	void SaveAudioBufferState();
+	void RestoreAudioBufferState();
 };
 
 #ifdef HAVE_CONFIG_H

@@ -80,7 +80,7 @@ BOOST_STATIC_ASSERT( sizeof (joypad_state_t) == 12 );
 
 // Increase this (and let me know) if your mapper requires more state. This only
 // sets the size of the in-memory buffer; it doesn't affect the file format at all.
-unsigned const max_mapper_state_size = 256;
+unsigned const max_mapper_state_size = 512;   //was 256, needed more for VRC7 audio state
 struct mapper_state_t
 {
 	int size;
