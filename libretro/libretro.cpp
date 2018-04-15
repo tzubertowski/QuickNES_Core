@@ -34,6 +34,7 @@ static bool use_overscan;
 static bool use_overscan_v;
 static bool use_overscan_h;
 #endif
+static bool up_down_allowed = false;
 
 const int videoBufferWidth = Nes_Emu::image_width + 16;
 const int videoBufferHeight = Nes_Emu::image_height + 2;
@@ -100,6 +101,7 @@ void retro_get_system_av_info(struct retro_system_av_info *info)
 void retro_set_environment(retro_environment_t cb)
 {
    static const struct retro_variable vars[] = {
+      { "quicknes_up_down_allowed", "Allow Up+Down / Left+Right; disabled|enabled" },
       { "quicknes_aspect_ratio_par", "Aspect ratio; PAR|4:3" },
 #ifndef PSP
       { "quicknes_use_overscan_h", "Show horizontal overscan; enabled|disabled" },
@@ -179,49 +181,33 @@ static void update_audio_mode(void)
 		}
 	}
 
-	var.key = "quicknes_audio_eq";
+	var.key   = "quicknes_audio_eq";
+   var.value = NULL;
+
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 	{
 		if (0 == strcmp(var.value, "default"))
-		{
 			emu->set_equalizer(Nes_Emu::nes_eq);
-		}
 		else if (0 == strcmp(var.value, "nes"))
-		{
 			emu->set_equalizer(Nes_Emu::nes_eq);
-		}
 		else if (0 == strcmp(var.value, "famicom"))
-		{
 			emu->set_equalizer(Nes_Emu::famicom_eq);
-		}
 		else if (0 == strcmp(var.value, "tv"))
-		{
 			emu->set_equalizer(Nes_Emu::tv_eq);
-		}
 		else if (0 == strcmp(var.value, "flat"))
-		{
 			emu->set_equalizer(Nes_Emu::flat_eq);
-		}
 		else if (0 == strcmp(var.value, "crisp"))
-		{
 			emu->set_equalizer(Nes_Emu::crisp_eq);
-		}
 		else if (0 == strcmp(var.value, "tinny"))
-		{
 			emu->set_equalizer(Nes_Emu::tinny_eq);
-		}
 		else
-		{
 			emu->set_equalizer(Nes_Emu::nes_eq);
-		}
 	}
 	else
 	{
 		//if the environment callback failed (won't happen), just set the default NES equalizer
 		emu->set_equalizer(Nes_Emu::nes_eq);
 	}
-
-
 }
 
 static void check_variables(void)
@@ -251,6 +237,17 @@ static void check_variables(void)
       }
    }
 
+   var.key = "quicknes_up_down_allowed";
+   var.value = NULL;
+
+   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   {
+      up_down_allowed = (!strcmp(var.value, "enabled")) ? true : false;
+   }
+   else
+      up_down_allowed = false;
+
+
 #ifndef PSP
    var.key = "quicknes_use_overscan_h";
 
@@ -276,6 +273,7 @@ static void check_variables(void)
       }
    }
 #endif
+
    update_audio_mode();
 
    if (video_changed)
@@ -314,12 +312,31 @@ static const keymap bindmap[] = {
 
 static void update_input(int pads[2])
 {
+   unsigned p;
+
    pads[0] = pads[1] = 0;
    input_poll_cb();
 
-   for (unsigned p = 0; p < 2; p++)
-      for (unsigned bind = 0; bind < sizeof(bindmap) / sizeof(bindmap[0]); bind++)
+   for (p = 0; p < 2; p++)
+   {
+      unsigned bind;
+      for (bind = 0; bind < sizeof(bindmap) / sizeof(bindmap[0]); bind++)
          pads[p] |= input_state_cb(p, RETRO_DEVICE_JOYPAD, 0, bindmap[bind].retro) ? bindmap[bind].nes : 0;
+   }
+
+   if (!up_down_allowed)
+   {
+      for (p = 0; p < 2; p++)
+      {
+         if (pads[p] & JOY_UP)
+            if (pads[p] & JOY_DOWN)
+               pads[p] &= ~(JOY_UP | JOY_DOWN);
+
+         if (pads[p] & JOY_LEFT)
+            if (pads[p] & JOY_RIGHT)
+               pads[p] &= ~(JOY_LEFT | JOY_RIGHT);
+      }
+   }
 }
 
 void retro_run(void)
