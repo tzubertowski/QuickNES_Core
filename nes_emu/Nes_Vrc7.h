@@ -6,6 +6,8 @@
 #ifndef NES_VRC7_H
 #define NES_VRC7_H
 
+#include "emu2413_state.h"
+
 struct vrc7_snapshot_t;
 
 class Nes_Vrc7 {
@@ -21,9 +23,10 @@ public:
 	enum { osc_count = 6 };
 	void osc_output( int index, Blip_Buffer* );
 	void end_frame( nes_time_t );
-	void save_snapshot( vrc7_snapshot_t* ) const;
-	void load_snapshot( vrc7_snapshot_t const& );
-	
+	void save_snapshot(vrc7_snapshot_t*);
+	void load_snapshot(vrc7_snapshot_t &, int dataSize);
+	void update_last_amp();
+
 	void write_reg( int reg );
 	void write_data( nes_time_t, int data );
 	
@@ -55,8 +58,10 @@ struct vrc7_snapshot_t
 	uint8_t inst [8];
 	uint8_t regs [6] [3];
 	uint8_t count;
+	int internal_opl_state_size;
+	OPLL_STATE internal_opl_state;
 };
-BOOST_STATIC_ASSERT( sizeof (vrc7_snapshot_t) == 28 );
+BOOST_STATIC_ASSERT( sizeof (vrc7_snapshot_t) == 28 + 440 + 4 );
 
 inline void Nes_Vrc7::osc_output( int i, Blip_Buffer* buf )
 {

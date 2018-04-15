@@ -389,3 +389,18 @@ void Blip_Buffer::mix_samples( blip_sample_t const* in, long count )
 	}
 	*out -= prev;
 }
+
+void Blip_Buffer::SaveAudioBufferState()
+{
+	extra_length = length_;
+	extra_offset = offset_;
+	extra_reader_accum = reader_accum;
+	memcpy(extra_buffer, buffer_, sizeof(extra_buffer));
+}
+void Blip_Buffer::RestoreAudioBufferState()
+{
+	length_ = extra_length;
+	offset_ = extra_offset;
+	reader_accum = extra_reader_accum;
+	memcpy(buffer_, extra_buffer, sizeof(extra_buffer));
+}

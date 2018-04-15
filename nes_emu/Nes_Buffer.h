@@ -18,6 +18,8 @@ private:
 	long accum;
 	long prev;
 	
+	long extra_accum;
+	long extra_prev;
 public:
 	Nes_Nonlinearizer();
 	bool enabled;
@@ -25,6 +27,16 @@ public:
 	void set_apu( Nes_Apu* a ) { apu = a; }
 	Nes_Apu* enable( bool, Blip_Buffer* tnd );
 	long make_nonlinear( Blip_Buffer& buf, long count );
+	void SaveAudioBufferState()
+	{
+		extra_accum = accum;
+		extra_prev = prev;
+	}
+	void RestoreAudioBufferState()
+	{
+		accum = extra_accum;
+		prev = extra_prev;
+	}
 };
 
 class Nes_Buffer : public Multi_Buffer {
@@ -58,6 +70,21 @@ private:
 	Blip_Buffer tnd;
 	Nes_Nonlinearizer nonlin;
 	friend Multi_Buffer* set_apu( Nes_Buffer*, Nes_Apu* );
+public:
+	virtual void SaveAudioBufferState()
+	{
+		SaveAudioBufferStatePrivate();
+		nonlin.SaveAudioBufferState();
+		buf.SaveAudioBufferState();
+		tnd.SaveAudioBufferState();
+	}
+	virtual void RestoreAudioBufferState()
+	{
+		RestoreAudioBufferStatePrivate();
+		nonlin.RestoreAudioBufferState();
+		buf.RestoreAudioBufferState();
+		tnd.RestoreAudioBufferState();
+	}
 };
 
 #endif

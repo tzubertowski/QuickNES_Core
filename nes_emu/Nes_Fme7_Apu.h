@@ -128,6 +128,9 @@ inline void Nes_Fme7_Apu::load_state( fme7_apu_state_t const& in )
 	reset();
 	fme7_apu_state_t* state = this;
 	*state = in;
+
+	//Run sound channels for 0 cycles for clean audio after loading state
+	run_until(last_time);
 }
 
 #endif

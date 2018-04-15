@@ -64,6 +64,19 @@ private:
 	long sample_rate_;
 	int length_;
 	int const samples_per_frame_;
+	unsigned channels_changed_count_save_;
+protected:
+	void SaveAudioBufferStatePrivate()
+	{
+		channels_changed_count_save_ = channels_changed_count_;
+	}
+	void RestoreAudioBufferStatePrivate()
+	{
+		channels_changed_count_ = channels_changed_count_save_;
+	}
+public:
+	virtual void SaveAudioBufferState() = 0;
+	virtual void RestoreAudioBufferState() = 0;
 };
 
 // Uses a single buffer and outputs mono samples.
@@ -85,6 +98,18 @@ public:
 	void end_frame( blip_time_t, bool unused = true );
 	long samples_avail() const;
 	long read_samples( blip_sample_t*, long );
+
+	virtual void SaveAudioBufferState()
+	{
+		SaveAudioBufferStatePrivate();
+		center()->SaveAudioBufferState();
+	}
+	virtual void RestoreAudioBufferState()
+	{
+		RestoreAudioBufferStatePrivate();
+		center()->RestoreAudioBufferState();
+	}
+
 };
 
 // Uses three buffers (one for center) and outputs stereo sample pairs.
@@ -118,6 +143,22 @@ private:
 	
 	void mix_stereo( blip_sample_t*, long );
 	void mix_mono( blip_sample_t*, long );
+
+	virtual void SaveAudioBufferState()
+	{
+		SaveAudioBufferStatePrivate();
+		left()->SaveAudioBufferState();
+		center()->SaveAudioBufferState();
+		right()->SaveAudioBufferState();
+	}
+	virtual void RestoreAudioBufferState()
+	{
+		RestoreAudioBufferStatePrivate();
+		left()->RestoreAudioBufferState();
+		center()->RestoreAudioBufferState();
+		right()->RestoreAudioBufferState();
+	}
+
 };
 
 // Silent_Buffer generates no samples, useful where no sound is wanted
@@ -134,6 +175,15 @@ public:
 	void end_frame( blip_time_t, bool unused = true ) { }
 	long samples_avail() const { return 0; }
 	long read_samples( blip_sample_t*, long ) { return 0; }
+
+	virtual void SaveAudioBufferState()
+	{
+		SaveAudioBufferStatePrivate();
+	}
+	virtual void RestoreAudioBufferState()
+	{
+		RestoreAudioBufferStatePrivate();
+	}
 };
 
 

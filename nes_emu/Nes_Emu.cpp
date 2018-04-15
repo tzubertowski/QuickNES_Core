@@ -27,9 +27,12 @@ int const sound_fade_size = 384;
 BOOST_STATIC_ASSERT( Nes_Emu::image_width  == 0 + Nes_Ppu::image_width );
 BOOST_STATIC_ASSERT( Nes_Emu::image_height == 0 + Nes_Ppu::image_height );
 
-Nes_Emu::equalizer_t const Nes_Emu::nes_eq     = {  -1.0,  80 };
-Nes_Emu::equalizer_t const Nes_Emu::famicom_eq = { -15.0,  80 };
-Nes_Emu::equalizer_t const Nes_Emu::tv_eq      = { -12.0, 180 };
+Nes_Emu::equalizer_t const Nes_Emu::nes_eq     = {  -1.0,   80 };
+Nes_Emu::equalizer_t const Nes_Emu::famicom_eq = { -15.0,   80 };
+Nes_Emu::equalizer_t const Nes_Emu::tv_eq      = { -12.0,  180 };
+Nes_Emu::equalizer_t const Nes_Emu::flat_eq    = {   0.0,    1 };
+Nes_Emu::equalizer_t const Nes_Emu::crisp_eq   = {   5.0,    1 };
+Nes_Emu::equalizer_t const Nes_Emu::tinny_eq   = { -47.0, 2000 };
 
 Nes_Emu::Nes_Emu()
 {
@@ -209,6 +212,7 @@ void Nes_Emu::load_state( Nes_State const& in )
 const char * Nes_Emu::load_state( Auto_File_Reader in )
 {
 	Nes_State* state = BLARGG_NEW Nes_State;
+	state->clear();  //initialize it
 	CHECK_ALLOC( state );
 	const char * err = state->read( in );
 	if ( !err )

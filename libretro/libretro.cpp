@@ -7,6 +7,7 @@
 #include "Nes_Emu.h"
 #include "Data_Reader.h"
 #include "abstract_file.h"
+#include "Nes_Buffer.h"
 
 #ifdef PSP
 #include "pspkernel.h"
@@ -36,6 +37,10 @@ static bool use_overscan_h;
 
 const int videoBufferWidth = Nes_Emu::image_width + 16;
 const int videoBufferHeight = Nes_Emu::image_height + 2;
+
+Mono_Buffer mono_buffer;
+Nes_Buffer nes_buffer;
+Multi_Buffer *current_buffer = NULL;
 
 void retro_init(void)
 {
@@ -101,6 +106,8 @@ void retro_set_environment(retro_environment_t cb)
       { "quicknes_use_overscan_v", "Show vertical overscan; disabled|enabled" },
 #endif
       { "quicknes_no_sprite_limit", "No sprite limit; enabled|disabled" },
+	  { "quicknes_audio_nonlinear", "Audio linear/nonlinear; nonlinear|linear"} ,
+	  { "quicknes_audio_eq", "Audio equalizer preset; default|famicom|tv|flat|crisp|tinny"},
       { NULL, NULL },
    };
 
@@ -137,6 +144,69 @@ void retro_reset(void)
 {
    if (emu)
       emu->reset();
+}
+
+static void update_audio_mode(void)
+{
+	struct retro_variable var = { 0 };
+	var.key = "quicknes_audio_nonlinear";
+	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+	{
+		if (0 == strcmp(var.value, "nonlinear"))
+		{
+			if (current_buffer != &nes_buffer)
+			{
+				emu->set_sample_rate(44100, &nes_buffer);
+				current_buffer = &nes_buffer;
+			}
+		}
+		else
+		{
+			if (current_buffer != &mono_buffer)
+			{
+				emu->set_sample_rate(44100, &mono_buffer);
+				current_buffer = &mono_buffer;
+			}
+		}
+	}
+
+	var.key = "quicknes_audio_eq";
+	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+	{
+		if (0 == strcmp(var.value, "default"))
+		{
+			emu->set_equalizer(Nes_Emu::nes_eq);
+		}
+		else if (0 == strcmp(var.value, "nes"))
+		{
+			emu->set_equalizer(Nes_Emu::nes_eq);
+		}
+		else if (0 == strcmp(var.value, "famicom"))
+		{
+			emu->set_equalizer(Nes_Emu::famicom_eq);
+		}
+		else if (0 == strcmp(var.value, "tv"))
+		{
+			emu->set_equalizer(Nes_Emu::tv_eq);
+		}
+		else if (0 == strcmp(var.value, "flat"))
+		{
+			emu->set_equalizer(Nes_Emu::flat_eq);
+		}
+		else if (0 == strcmp(var.value, "crisp"))
+		{
+			emu->set_equalizer(Nes_Emu::crisp_eq);
+		}
+		else if (0 == strcmp(var.value, "tinny"))
+		{
+			emu->set_equalizer(Nes_Emu::tinny_eq);
+		}
+		else
+		{
+			emu->set_equalizer(Nes_Emu::nes_eq);
+		}
+	}
+
 }
 
 static void check_variables(void)
@@ -191,6 +261,7 @@ static void check_variables(void)
       }
    }
 #endif
+   update_audio_mode();
 
    if (video_changed)
    {
@@ -367,8 +438,7 @@ bool retro_load_game(const struct retro_game_info *info)
 
    check_variables();
 
-   emu->set_sample_rate(44100);
-   emu->set_equalizer(Nes_Emu::nes_eq);
+   update_audio_mode(); //calls set_sample_rate and set_equalizer
    emu->set_palette_range(0);
 
 #ifdef PSP
@@ -432,16 +502,42 @@ size_t retro_serialize_size(void)
    return writer.size();
 }
 
+bool is_fast_savestate()
+{
+	int value;
+	bool okay = environ_cb(RETRO_ENVIRONMENT_GET_AUDIO_VIDEO_ENABLE, &value);
+	if (okay)
+	{
+		if (value & 4)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 bool retro_serialize(void *data, size_t size)
 {
+   bool isFastSavestate = is_fast_savestate();
    Mem_Writer writer(data, size);
-   return !emu->save_state(writer);
+   bool okay = !emu->save_state(writer);
+   if (isFastSavestate)
+   {
+      emu->SaveAudioBufferState();
+   }
+   return okay;
 }
 
 bool retro_unserialize(const void *data, size_t size)
 {
+   bool isFastSavestate = is_fast_savestate();
    Mem_File_Reader reader(data, size);
-   return !emu->load_state(reader);
+   bool okay = !emu->load_state(reader);
+   if (isFastSavestate)
+   {
+      emu->RestoreAudioBufferState();
+   }
+   return okay;
 }
 
 void *retro_get_memory_data(unsigned id)
