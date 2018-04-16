@@ -883,7 +883,6 @@ static INLINE e_int16 calc (OPLL * opll)
 
 static INLINE void run (OPLL * opll)
 {
-  e_int32 inst = 0, out = 0;
   e_int32 i;
 
   update_ampm (opll);

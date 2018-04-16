@@ -37,6 +37,11 @@ Blip_Buffer::Blip_Buffer()
 	clock_rate_ = 0;
 	bass_freq_ = 16;
 	length_ = 0;
+
+	extra_length = length_;
+	extra_offset = offset_;
+	extra_reader_accum = reader_accum;
+	memset(extra_buffer, 0, sizeof(extra_buffer));
 }
 
 Blip_Buffer::~Blip_Buffer()
@@ -338,33 +343,45 @@ long Blip_Buffer::read_samples( blip_sample_t* out, long max_samples, int stereo
 		long accum = reader_accum;
 		buf_t_* in = buffer_;
 		
-		if ( !stereo )
+		if (out != NULL)
 		{
-			for ( long n = count; n--; )
+			if ( !stereo )
 			{
-				long s = accum >> sample_shift;
-				accum -= accum >> bass_shift;
-				accum += *in++;
-				*out++ = (blip_sample_t) s;
+				for ( long n = count; n--; )
+				{
+					long s = accum >> sample_shift;
+					accum -= accum >> bass_shift;
+					accum += *in++;
+					*out++ = (blip_sample_t) s;
+					
+					// clamp sample
+					if ( (blip_sample_t) s != s )
+						out [-1] = (blip_sample_t) (0x7FFF - (s >> 24));
+				}
+			}
+			else
+			{
+				for ( long n = count; n--; )
+				{
+					long s = accum >> sample_shift;
+					accum -= accum >> bass_shift;
+					accum += *in++;
+					*out = (blip_sample_t) s;
+					out += 2;
 				
-				// clamp sample
-				if ( (blip_sample_t) s != s )
-					out [-1] = (blip_sample_t) (0x7FFF - (s >> 24));
+					// clamp sample
+					if ( (blip_sample_t) s != s )
+						out [-2] = (blip_sample_t) (0x7FFF - (s >> 24));
+				}
 			}
 		}
 		else
 		{
-			for ( long n = count; n--; )
+			//only run accumulator, do not output anything
+			for (long n = count; n--; )
 			{
-				long s = accum >> sample_shift;
 				accum -= accum >> bass_shift;
 				accum += *in++;
-				*out = (blip_sample_t) s;
-				out += 2;
-				
-				// clamp sample
-				if ( (blip_sample_t) s != s )
-					out [-2] = (blip_sample_t) (0x7FFF - (s >> 24));
 			}
 		}
 		

@@ -66,14 +66,8 @@ private:
 	int const samples_per_frame_;
 	unsigned channels_changed_count_save_;
 protected:
-	void SaveAudioBufferStatePrivate()
-	{
-		channels_changed_count_save_ = channels_changed_count_;
-	}
-	void RestoreAudioBufferStatePrivate()
-	{
-		channels_changed_count_ = channels_changed_count_save_;
-	}
+	void SaveAudioBufferStatePrivate();
+	void RestoreAudioBufferStatePrivate();
 public:
 	virtual void SaveAudioBufferState() = 0;
 	virtual void RestoreAudioBufferState() = 0;
@@ -99,17 +93,8 @@ public:
 	long samples_avail() const;
 	long read_samples( blip_sample_t*, long );
 
-	virtual void SaveAudioBufferState()
-	{
-		SaveAudioBufferStatePrivate();
-		center()->SaveAudioBufferState();
-	}
-	virtual void RestoreAudioBufferState()
-	{
-		RestoreAudioBufferStatePrivate();
-		center()->RestoreAudioBufferState();
-	}
-
+	virtual void SaveAudioBufferState();
+	virtual void RestoreAudioBufferState();
 };
 
 // Uses three buffers (one for center) and outputs stereo sample pairs.
@@ -144,21 +129,8 @@ private:
 	void mix_stereo( blip_sample_t*, long );
 	void mix_mono( blip_sample_t*, long );
 
-	virtual void SaveAudioBufferState()
-	{
-		SaveAudioBufferStatePrivate();
-		left()->SaveAudioBufferState();
-		center()->SaveAudioBufferState();
-		right()->SaveAudioBufferState();
-	}
-	virtual void RestoreAudioBufferState()
-	{
-		RestoreAudioBufferStatePrivate();
-		left()->RestoreAudioBufferState();
-		center()->RestoreAudioBufferState();
-		right()->RestoreAudioBufferState();
-	}
-
+	virtual void SaveAudioBufferState();
+	virtual void RestoreAudioBufferState();
 };
 
 // Silent_Buffer generates no samples, useful where no sound is wanted
@@ -176,14 +148,8 @@ public:
 	long samples_avail() const { return 0; }
 	long read_samples( blip_sample_t*, long ) { return 0; }
 
-	virtual void SaveAudioBufferState()
-	{
-		SaveAudioBufferStatePrivate();
-	}
-	virtual void RestoreAudioBufferState()
-	{
-		RestoreAudioBufferStatePrivate();
-	}
+	virtual void SaveAudioBufferState();
+	virtual void RestoreAudioBufferState();
 };
 
 

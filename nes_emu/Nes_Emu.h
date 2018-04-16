@@ -52,6 +52,10 @@ public:
 	// and sound are available for output using the accessors below.
 	virtual const char * emulate_frame( int joypad1, int joypad2 = 0 );
 
+	// Emulate one video frame using joypad1 and joypad2 as input, but skips drawing.
+	// Afterwards, audio is available for output using the accessors below.
+	virtual const char * emulate_skip_frame( int joypad1, int joypad2 = 0 );
+
 	// Maximum size of palette that can be generated
 	enum { max_palette_size = 256 };
 
@@ -252,21 +256,8 @@ private:
 	bool extra_fade_sound_out;
 	unsigned extra_sound_buf_changed_count;
 public:
-	void SaveAudioBufferState()
-	{
-		extra_fade_sound_in = fade_sound_in;
-		extra_fade_sound_out = fade_sound_out;
-		extra_sound_buf_changed_count = sound_buf_changed_count;
-		sound_buf->SaveAudioBufferState();
-	}
-	void RestoreAudioBufferState()
-	{
-		fade_sound_in = extra_fade_sound_in;
-		fade_sound_out = extra_fade_sound_out;
-		sound_buf_changed_count = extra_sound_buf_changed_count;
-		sound_buf->RestoreAudioBufferState();
-	}
-
+	void SaveAudioBufferState();
+	void RestoreAudioBufferState();
 };
 
 inline void Nes_Emu::set_pixels( void* p, long n )
