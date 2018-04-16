@@ -41,7 +41,11 @@ const int videoBufferHeight = Nes_Emu::image_height + 2;
 
 Mono_Buffer mono_buffer;
 Nes_Buffer nes_buffer;
+Silent_Buffer silent_buffer;
 Multi_Buffer *current_buffer = NULL;
+bool use_silent_buffer = false;
+
+bool is_fast_savestate();
 
 void retro_init(void)
 {
@@ -150,6 +154,12 @@ void retro_reset(void)
 
 static void update_audio_mode(void)
 {
+	if (use_silent_buffer)
+	{
+		emu->set_sample_rate(44100, &silent_buffer);
+		current_buffer = &silent_buffer;
+		return;
+	}
 	struct retro_variable var = { 0 };
 	var.key = "quicknes_audio_nonlinear";
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
@@ -346,90 +356,122 @@ void retro_run(void)
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE_UPDATE, &updated) && updated)
       check_variables();
+   
+   bool audioDisabledForThisFrame = false;
+   bool videoDisabledForThisFrame = false;
+   bool hardDisableAudio = false;
+   int flags;
+   if (environ_cb(RETRO_ENVIRONMENT_GET_AUDIO_VIDEO_ENABLE, &flags))
+   {
+	   videoDisabledForThisFrame = !(flags & 1);
+	   audioDisabledForThisFrame = !(flags & 2);
+	   hardDisableAudio = !!(flags & 8);
+   }
+
+   if (hardDisableAudio != use_silent_buffer)
+   {
+      use_silent_buffer = hardDisableAudio;
+      update_audio_mode();
+   }
 
    update_input(pads);
-   emu->emulate_frame(pads[0], pads[1]);
-   const Nes_Emu::frame_t &frame = emu->frame();
 
-#ifdef PSP
-   static uint16_t     __attribute__((aligned(16))) retro_palette[256];
-   static unsigned int __attribute__((aligned(16))) d_list[128];
-   void* const texture_vram_p =
-         (void*) (0x44200000 - (Nes_Emu::image_width * Nes_Emu::image_height)); // max VRAM address - frame size
-
-
-   sceGuSync(0, 0);
-
-   for (unsigned i = 0; i < 256; i++)
+   if (!videoDisabledForThisFrame)
    {
-      const Nes_Emu::rgb_t& rgb = emu->nes_colors[frame.palette[i]];
-      retro_palette[i] = ((rgb.blue & 0xf8) << 8) | ((rgb.green & 0xfc) << 3) | ((rgb.red & 0xf8) >> 3);
-   }
+	   emu->emulate_frame(pads[0], pads[1]);
+	   const Nes_Emu::frame_t &frame = emu->frame();
+#ifdef PSP
+	   static uint16_t     __attribute__((aligned(16))) retro_palette[256];
+	   static unsigned int __attribute__((aligned(16))) d_list[128];
+	   void* const texture_vram_p =
+		   (void*)(0x44200000 - (Nes_Emu::image_width * Nes_Emu::image_height)); // max VRAM address - frame size
 
-   sceKernelDcacheWritebackRange(retro_palette, sizeof(retro_palette));
-   sceKernelDcacheWritebackRange(frame.pixels, Nes_Emu::image_width * Nes_Emu::image_height);
 
-   sceGuStart(GU_DIRECT, d_list);
+	   sceGuSync(0, 0);
 
-   /* sceGuCopyImage doesnt seem to work correctly with GU_PSM_T8
-    * so we use GU_PSM_4444 ( 2 Bytes per pixel ) instead
-    * with half the values for pitch / width / x offset
-    */
+	   for (unsigned i = 0; i < 256; i++)
+	   {
+		   const Nes_Emu::rgb_t& rgb = emu->nes_colors[frame.palette[i]];
+		   retro_palette[i] = ((rgb.blue & 0xf8) << 8) | ((rgb.green & 0xfc) << 3) | ((rgb.red & 0xf8) >> 3);
+	   }
 
-   sceGuCopyImage(GU_PSM_4444,
-                  (use_overscan? 0 : 4) + ((u32)frame.pixels & 0xF) / 2,
-                  (use_overscan? 0 : 4),
-                  Nes_Emu::image_width / 2 - (use_overscan? 0 : 8),
-                  Nes_Emu::image_height    - (use_overscan? 0 : 16),
-                  Nes_Emu::image_width / 2, (void*)((u32)frame.pixels & ~0xF), 0, 0,
-                  Nes_Emu::image_width / 2, texture_vram_p);
+	   sceKernelDcacheWritebackRange(retro_palette, sizeof(retro_palette));
+	   sceKernelDcacheWritebackRange(frame.pixels, Nes_Emu::image_width * Nes_Emu::image_height);
 
-   sceGuTexSync();
-   sceGuTexImage(0, 256, 256, 256, texture_vram_p);
-   sceGuTexMode(GU_PSM_T8, 0, 0, GU_FALSE);
-   sceGuTexFunc(GU_TFX_REPLACE, GU_TCC_RGB);
-   sceGuDisable(GU_BLEND);
-   sceGuClutMode(GU_PSM_5650, 0, 0xFF, 0);
-   sceGuClutLoad(32, retro_palette);
+	   sceGuStart(GU_DIRECT, d_list);
 
-   sceGuFinish();
+	   /* sceGuCopyImage doesnt seem to work correctly with GU_PSM_T8
+		* so we use GU_PSM_4444 ( 2 Bytes per pixel ) instead
+		* with half the values for pitch / width / x offset
+		*/
 
-   video_cb(texture_vram_p,
-            Nes_Emu::image_width  - (use_overscan? 0 : 16),
-            Nes_Emu::image_height - (use_overscan? 0 : 16),
-            256);
+	   sceGuCopyImage(GU_PSM_4444,
+		   (use_overscan ? 0 : 4) + ((u32)frame.pixels & 0xF) / 2,
+		   (use_overscan ? 0 : 4),
+		   Nes_Emu::image_width / 2 - (use_overscan ? 0 : 8),
+		   Nes_Emu::image_height - (use_overscan ? 0 : 16),
+		   Nes_Emu::image_width / 2, (void*)((u32)frame.pixels & ~0xF), 0, 0,
+		   Nes_Emu::image_width / 2, texture_vram_p);
+
+	   sceGuTexSync();
+	   sceGuTexImage(0, 256, 256, 256, texture_vram_p);
+	   sceGuTexMode(GU_PSM_T8, 0, 0, GU_FALSE);
+	   sceGuTexFunc(GU_TFX_REPLACE, GU_TCC_RGB);
+	   sceGuDisable(GU_BLEND);
+	   sceGuClutMode(GU_PSM_5650, 0, 0xFF, 0);
+	   sceGuClutLoad(32, retro_palette);
+
+	   sceGuFinish();
+
+	   video_cb(texture_vram_p,
+		   Nes_Emu::image_width - (use_overscan ? 0 : 16),
+		   Nes_Emu::image_height - (use_overscan ? 0 : 16),
+		   256);
 #else
 
-   static uint16_t video_buffer[Nes_Emu::image_width * Nes_Emu::image_height];
-   static uint16_t retro_palette[256];
+	   static uint16_t video_buffer[Nes_Emu::image_width * Nes_Emu::image_height];
+	   static uint16_t retro_palette[256];
 
-   for (unsigned i = 0; i < 256; i++)
-   {
-      const Nes_Emu::rgb_t& rgb = emu->nes_colors[frame.palette[i]];
-      retro_palette[i] = ((rgb.red & 0xf8) << 8) | ((rgb.green & 0xfc) << 3) | ((rgb.blue & 0xf8) >> 3);
-   }
+	   for (unsigned i = 0; i < 256; i++)
+	   {
+		   const Nes_Emu::rgb_t& rgb = emu->nes_colors[frame.palette[i]];
+		   retro_palette[i] = ((rgb.red & 0xf8) << 8) | ((rgb.green & 0xfc) << 3) | ((rgb.blue & 0xf8) >> 3);
+	   }
 
-   for (int y = 0; y < Nes_Emu::image_height; y++)
-   {
-       uint16_t *out_scanline = video_buffer + Nes_Emu::image_width * y;
-       uint8_t *in_scanline = frame.pixels + videoBufferWidth * y;
-       for (int x = 0; x < Nes_Emu::image_width; x++)
-           out_scanline[x] = retro_palette[in_scanline[x]];
-   }
+	   for (int y = 0; y < Nes_Emu::image_height; y++)
+	   {
+		   uint16_t *out_scanline = video_buffer + Nes_Emu::image_width * y;
+		   uint8_t *in_scanline = frame.pixels + videoBufferWidth * y;
+		   for (int x = 0; x < Nes_Emu::image_width; x++)
+			   out_scanline[x] = retro_palette[in_scanline[x]];
+	   }
 
-   video_cb(video_buffer    + (use_overscan_v ? (use_overscan_h ? 0 : 8) : ((use_overscan_h ? 0 : 8) + 256 * 8)),
-      Nes_Emu::image_width  - (use_overscan_h ? 0 : 16),
-      Nes_Emu::image_height - (use_overscan_v ? 0 : 16),
-      Nes_Emu::image_width  * sizeof(uint16_t));
+	   video_cb(video_buffer + (use_overscan_v ? (use_overscan_h ? 0 : 8) : ((use_overscan_h ? 0 : 8) + 256 * 8)),
+		   Nes_Emu::image_width - (use_overscan_h ? 0 : 16),
+		   Nes_Emu::image_height - (use_overscan_v ? 0 : 16),
+		   Nes_Emu::image_width * sizeof(uint16_t));
 #endif
-   // Mono -> Stereo.
-   int16_t samples[2048];
-   long read_samples = emu->read_samples(samples, 2048);
-   int16_t out_samples[4096];
-   for (long i = 0; i < read_samples; i++)
-      out_samples[(i << 1)] = out_samples[(i << 1) + 1] = samples[i];
+   }
+   else
+   {
+	   emu->emulate_skip_frame(pads[0], pads[1]);
+   }
 
-   audio_batch_cb(out_samples, read_samples);
+   if (!audioDisabledForThisFrame)
+   {
+	   // Mono -> Stereo.
+	   int16_t samples[2048];
+	   long read_samples = emu->read_samples(samples, 2048);
+	   int16_t out_samples[4096];
+	   for (long i = 0; i < read_samples; i++)
+		   out_samples[(i << 1)] = out_samples[(i << 1) + 1] = samples[i];
+
+	   audio_batch_cb(out_samples, read_samples);
+   }
+   else
+   {
+	   emu->read_samples(NULL, 2048);
+   }
 }
 
 bool retro_load_game(const struct retro_game_info *info)

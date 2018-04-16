@@ -50,6 +50,10 @@ Nes_Emu::Nes_Emu()
 	init_called = false;
 	set_palette_range( 0 );
 	memset( single_frame.palette, 0, sizeof single_frame.palette );
+
+	extra_fade_sound_in = false;
+	extra_fade_sound_out = false;
+	extra_sound_buf_changed_count = 0;
 }
 
 Nes_Emu::~Nes_Emu()
@@ -118,6 +122,15 @@ void Nes_Emu::set_palette_range( int begin, int end )
 	// round up to alignment
 	emu.ppu.palette_begin = (begin + palette_alignment - 1) & ~(palette_alignment - 1);
 	host_palette_size = end - emu.ppu.palette_begin;
+}
+
+const char * Nes_Emu::emulate_skip_frame( int joypad1, int joypad2 )
+{
+	char *old_host_pixels = host_pixels;
+	host_pixels = NULL;
+	const char *result = emulate_frame(joypad1, joypad2);
+	host_pixels = old_host_pixels;
+	return result;
 }
 
 const char * Nes_Emu::emulate_frame( int joypad1, int joypad2 )
@@ -342,14 +355,16 @@ long Nes_Emu::read_samples( short* out, long out_size )
 	if ( fade_sound_in )
 	{
 		fade_sound_in = false;
-		fade_samples( out, count, 1 );
+		if (out != NULL)
+			fade_samples( out, count, 1 );
 	}
 
 	if ( fade_sound_out )
 	{
 		fade_sound_out = false;
 		fade_sound_in = true; // next buffer should be faded in
-		fade_samples( out, count, -1 );
+		if (out != NULL)
+			fade_samples( out, count, -1 );
 	}
 	return count;
 }
@@ -487,3 +502,18 @@ Nes_Emu::rgb_t const Nes_Emu::nes_colors [color_table_size] =
 	{183,184,104},{162,195,106},{145,200,126},{135,198,160},
 	{136,190,197},{184,184,184},{  0,  0,  0},{  0,  0,  0}
 };
+
+void Nes_Emu::SaveAudioBufferState()
+{
+	extra_fade_sound_in = fade_sound_in;
+	extra_fade_sound_out = fade_sound_out;
+	extra_sound_buf_changed_count = sound_buf_changed_count;
+	sound_buf->SaveAudioBufferState();
+}
+void Nes_Emu::RestoreAudioBufferState()
+{
+	fade_sound_in = extra_fade_sound_in;
+	fade_sound_out = extra_fade_sound_out;
+	sound_buf_changed_count = extra_sound_buf_changed_count;
+	sound_buf->RestoreAudioBufferState();
+}

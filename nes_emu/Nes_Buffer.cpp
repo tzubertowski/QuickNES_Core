@@ -104,15 +104,27 @@ long Nes_Buffer::read_samples( blip_sample_t* out, long count )
 		int lin_bass = lin.begin( buf );
 		int nonlin_bass = nonlin.begin( tnd );
 		
-		for ( int n = count; n--; )
+		if (out != NULL)
 		{
-			int s = lin.read() + nonlin.read();
-			lin.next( lin_bass );
-			nonlin.next( nonlin_bass );
-			*out++ = s;
-			
-			if ( (int16_t) s != s )
-				out [-1] = 0x7FFF - (s >> 24);
+			for ( int n = count; n--; )
+			{
+				int s = lin.read() + nonlin.read();
+				lin.next( lin_bass );
+				nonlin.next( nonlin_bass );
+				*out++ = s;
+
+				if ( (int16_t) s != s )
+					out [-1] = 0x7FFF - (s >> 24);
+			}
+		}
+		else
+		{
+			//only run accumulators, do not output audio
+			for (int n = count; n--; )
+			{
+				lin.next(lin_bass);
+				nonlin.next(nonlin_bass);
+			}
 		}
 		
 		lin.end( buf );
@@ -123,6 +135,22 @@ long Nes_Buffer::read_samples( blip_sample_t* out, long count )
 	}
 	
 	return count;
+}
+
+void Nes_Buffer::SaveAudioBufferState()
+{
+	SaveAudioBufferStatePrivate();
+	nonlin.SaveAudioBufferState();
+	buf.SaveAudioBufferState();
+	tnd.SaveAudioBufferState();
+}
+
+void Nes_Buffer::RestoreAudioBufferState()
+{
+	RestoreAudioBufferStatePrivate();
+	nonlin.RestoreAudioBufferState();
+	buf.RestoreAudioBufferState();
+	tnd.RestoreAudioBufferState();
 }
 
 // Nes_Nonlinearizer
@@ -144,6 +172,8 @@ Nes_Nonlinearizer::Nes_Nonlinearizer()
 		int out = (int) d;
 		table [j & (table_size - 1)] = out;
 	}
+	extra_accum = 0;
+	extra_prev = 0;
 }
 
 Nes_Apu* Nes_Nonlinearizer::enable( bool b, Blip_Buffer* buf )
@@ -192,4 +222,16 @@ void Nes_Nonlinearizer::clear()
 	accum = 0;
 	prev = ENTRY( 86016000 ); // avoid thump due to APU's triangle dc bias
 	// TODO: still results in slight clicks and thumps
+}
+
+void Nes_Nonlinearizer::SaveAudioBufferState()
+{
+	extra_accum = accum;
+	extra_prev = prev;
+}
+
+void Nes_Nonlinearizer::RestoreAudioBufferState()
+{
+	accum = extra_accum;
+	prev = extra_prev;
 }
