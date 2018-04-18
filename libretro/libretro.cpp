@@ -105,7 +105,7 @@ void retro_get_system_av_info(struct retro_system_av_info *info)
 void retro_set_environment(retro_environment_t cb)
 {
    static const struct retro_variable vars[] = {
-      { "quicknes_up_down_allowed", "Allow Up+Down / Left+Right; disabled|enabled" },
+      { "quicknes_up_down_allowed", "Allow Opposing Directions; disabled|enabled" },
       { "quicknes_aspect_ratio_par", "Aspect ratio; PAR|4:3" },
 #ifndef PSP
       { "quicknes_use_overscan_h", "Show horizontal overscan; enabled|disabled" },
