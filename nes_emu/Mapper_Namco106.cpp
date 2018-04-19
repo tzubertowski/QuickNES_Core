@@ -36,8 +36,6 @@ struct namco106_state_t
 BOOST_STATIC_ASSERT( sizeof (namco106_state_t) == 20 + sizeof (namco_state_t) );
 
 class Mapper_Namco106 : public Nes_Mapper, namco106_state_t {
-	Nes_Namco_Apu sound;
-	nes_time_t last_time;
 public:
 	Mapper_Namco106()
 	{
@@ -190,6 +188,9 @@ public:
 			sound.write_addr( data );
 		}
 	}
+
+	Nes_Namco_Apu sound;
+	nes_time_t last_time;
 };
 
 void namco106_state_t::swap()
