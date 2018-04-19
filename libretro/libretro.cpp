@@ -149,7 +149,7 @@ void retro_set_video_refresh(retro_video_refresh_t cb)
 void retro_reset(void)
 {
    if (emu)
-      emu->reset();
+      emu->reset( false, false );
 }
 
 static void update_audio_mode(void)
@@ -509,6 +509,7 @@ bool retro_load_game(const struct retro_game_info *info)
 
    emu = new Nes_Emu;
    register_optional_mappers();
+   register_extra_mappers();
 
    check_variables();
 

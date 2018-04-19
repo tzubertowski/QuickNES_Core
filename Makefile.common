@@ -51,4 +51,22 @@ SOURCES_CXX := \
 	$(CORE_DIR)/nes_emu/Nes_State.cpp \
 	$(CORE_DIR)/nes_emu/nes_util.cpp \
 	$(CORE_DIR)/nes_emu/Nes_Vrc6_Apu.cpp \
-	$(CORE_DIR)/nes_emu/Data_Reader.cpp
+	$(CORE_DIR)/nes_emu/Data_Reader.cpp \
+	$(CORE_DIR)/nes_emu/Mappers.cpp \
+	$(CORE_DIR)/nes_emu/Mapper_74x161x162x32.cpp \
+	$(CORE_DIR)/nes_emu/Mapper_180.cpp \
+	$(CORE_DIR)/nes_emu/Mapper_193.cpp \
+	$(CORE_DIR)/nes_emu/Mapper_240.cpp \
+	$(CORE_DIR)/nes_emu/Mapper_241.cpp \
+	$(CORE_DIR)/nes_emu/Mapper_244.cpp \
+	$(CORE_DIR)/nes_emu/Mapper_246.cpp \
+	$(CORE_DIR)/nes_emu/Mapper_AveNina.cpp \
+	$(CORE_DIR)/nes_emu/Mapper_IremG101.cpp \
+	$(CORE_DIR)/nes_emu/Mapper_IremTamS1.cpp \
+	$(CORE_DIR)/nes_emu/Mapper_JalecoJF11.cpp \
+	$(CORE_DIR)/nes_emu/Mapper_Namco54xx.cpp \
+	$(CORE_DIR)/nes_emu/Mapper_Sunsoft1.cpp \
+	$(CORE_DIR)/nes_emu/Mapper_Sunsoft2.cpp \
+	$(CORE_DIR)/nes_emu/Mapper_TaitoX1005.cpp \
+	$(CORE_DIR)/nes_emu/Mapper_TaitoTC0190.cpp \
+	$(CORE_DIR)/nes_emu/Mapper_Un1rom.cpp
