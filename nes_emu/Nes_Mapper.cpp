@@ -161,7 +161,7 @@ int Nes_Mapper::handle_bus_conflict( nes_addr_t addr, int data )
 
 // Mapper registration
 
-int const max_mappers = 32;
+int const max_mappers = 64;
 Nes_Mapper::mapping_t Nes_Mapper::mappers [max_mappers] =
 {
 	{ 0, Nes_Mapper::make_nrom },
