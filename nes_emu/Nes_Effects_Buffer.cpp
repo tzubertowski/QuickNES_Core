@@ -81,3 +81,11 @@ long Nes_Effects_Buffer::read_samples( blip_sample_t* out, long count )
 	count = 2 * nonlin.make_nonlinear( *channel( 2 ).center, count / 2 );
 	return Effects_Buffer::read_samples( out, count );
 }
+
+void Nes_Effects_Buffer::SaveAudioBufferState()
+{
+}
+
+void Nes_Effects_Buffer::RestoreAudioBufferState()
+{
+}

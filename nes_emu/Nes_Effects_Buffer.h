@@ -28,6 +28,9 @@ public:
 	void clear();
 	channel_t channel( int );
 	long read_samples( blip_sample_t*, long );
+
+	void SaveAudioBufferState();
+	void RestoreAudioBufferState();
 	
 private:
 	Nes_Nonlinearizer nonlin;
