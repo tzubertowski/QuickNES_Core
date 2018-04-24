@@ -113,7 +113,7 @@ void retro_set_environment(retro_environment_t cb)
       { "quicknes_use_overscan_v", "Show vertical overscan; disabled|enabled" },
 #endif
       { "quicknes_no_sprite_limit", "No sprite limit; enabled|disabled" },
-      { "quicknes_audio_nonlinear", "Audio linear/nonlinear; nonlinear|linear|stereo panning"},
+      { "quicknes_audio_nonlinear", "Audio mode; nonlinear|linear|stereo panning"},
       { "quicknes_audio_eq", "Audio equalizer preset; default|famicom|tv|flat|crisp|tinny"},
       { NULL, NULL },
    };
