@@ -7,7 +7,7 @@
 #include "Nes_Emu.h"
 #include "Data_Reader.h"
 #include "abstract_file.h"
-#include "Nes_Buffer.h"
+#include "Nes_Effects_Buffer.h"
 
 #ifdef PSP
 #include "pspkernel.h"
@@ -41,6 +41,7 @@ const int videoBufferHeight = Nes_Emu::image_height + 2;
 
 Mono_Buffer mono_buffer;
 Nes_Buffer nes_buffer;
+Nes_Effects_Buffer effects_buffer;
 Silent_Buffer silent_buffer;
 Multi_Buffer *current_buffer = NULL;
 bool use_silent_buffer = false;
@@ -112,8 +113,8 @@ void retro_set_environment(retro_environment_t cb)
       { "quicknes_use_overscan_v", "Show vertical overscan; disabled|enabled" },
 #endif
       { "quicknes_no_sprite_limit", "No sprite limit; enabled|disabled" },
-	  { "quicknes_audio_nonlinear", "Audio linear/nonlinear; nonlinear|linear"} ,
-	  { "quicknes_audio_eq", "Audio equalizer preset; default|famicom|tv|flat|crisp|tinny"},
+      { "quicknes_audio_nonlinear", "Audio linear/nonlinear; nonlinear|linear|stereo panning"},
+      { "quicknes_audio_eq", "Audio equalizer preset; default|famicom|tv|flat|crisp|tinny"},
       { NULL, NULL },
    };
 
@@ -161,6 +162,7 @@ static void update_audio_mode(void)
 		return;
 	}
 	struct retro_variable var = { 0 };
+
 	var.key = "quicknes_audio_nonlinear";
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 	{
@@ -171,6 +173,25 @@ static void update_audio_mode(void)
 				emu->set_sample_rate(44100, &nes_buffer);
 				current_buffer = &nes_buffer;
 			}
+		}
+		else if (0 == strcmp(var.value, "stereo panning"))
+		{
+			if (current_buffer != &effects_buffer)
+			{
+				emu->set_sample_rate(44100, &effects_buffer);
+				current_buffer = &effects_buffer;
+			}
+
+			Effects_Buffer::config_t c;
+			c.pan_1             = -0.6f; // no full panning
+			c.pan_2             =  0.6f;
+			c.delay_variance    =  18.0f;
+			c.reverb_delay      =  88.0f;
+			c.echo_delay        =  61.0;
+			c.reverb_level      =  0.2f; // adds a bit of "depth" instead of just being dry for each channel
+			c.echo_level        =  0.2f;
+			c.effects_enabled   =  1;
+			effects_buffer.config( c );
 		}
 		else
 		{
@@ -463,10 +484,15 @@ void retro_run(void)
 	   int16_t samples[2048];
 	   long read_samples = emu->read_samples(samples, 2048);
 	   int16_t out_samples[4096];
-	   for (long i = 0; i < read_samples; i++)
-		   out_samples[(i << 1)] = out_samples[(i << 1) + 1] = samples[i];
 
-	   audio_batch_cb(out_samples, read_samples);
+	   if ( current_buffer != &effects_buffer)
+	   {
+			for (long i = 0; i < read_samples; i++)
+				out_samples[(i << 1)] = out_samples[(i << 1) + 1] = samples[i];
+			audio_batch_cb(out_samples, read_samples);
+	   }
+	   else
+			audio_batch_cb(samples, read_samples >> 1);
    }
    else
    {
