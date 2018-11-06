@@ -196,6 +196,17 @@ else ifeq ($(platform), psl1ght)
 	PLATFORM_DEFINES := -D__CELLOS_LV2__ -DMSB_FIRST
 	STATIC_LINKING = 1
 
+# PS2
+else ifeq ($(platform), ps2)
+	TARGET := $(TARGET_NAME)_libretro_$(platform).a
+	CC = ee-gcc$(EXE_EXT)
+	CXX = ee-g++$(EXE_EXT)
+	AR = ee-ar$(EXE_EXT)
+	PLATFORM_DEFINES := -DPS2 -G0 -DNO_UNALIGNED_ACCESS -fsingle-precision-constant
+	PLATFORM_DEFINES += -I$(PS2SDK)/ee/include -I$(PS2SDK)/common/include -Ips2/
+	CXXFLAGS += -fno-rtti -fno-exceptions
+	STATIC_LINKING = 1
+
 # PSP
 else ifeq ($(platform), psp1)
 	TARGET := $(TARGET_NAME)_libretro_$(platform).a
