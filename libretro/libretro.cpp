@@ -98,8 +98,8 @@ void retro_get_system_av_info(struct retro_system_av_info *info)
 
    info->geometry.base_width   = width;
    info->geometry.base_height  = height;
-   info->geometry.max_width    = width;
-   info->geometry.max_height   = height;
+   info->geometry.max_width    = Nes_Emu::image_width;
+   info->geometry.max_height   = Nes_Emu::image_height;
    info->geometry.aspect_ratio = get_aspect_ratio(width, height);
 }
 
