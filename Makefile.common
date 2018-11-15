@@ -69,4 +69,5 @@ SOURCES_CXX := \
 	$(CORE_DIR)/nes_emu/Mapper_Sunsoft2.cpp \
 	$(CORE_DIR)/nes_emu/Mapper_TaitoX1005.cpp \
 	$(CORE_DIR)/nes_emu/Mapper_TaitoTC0190.cpp \
-	$(CORE_DIR)/nes_emu/Mapper_Un1rom.cpp
+	$(CORE_DIR)/nes_emu/Mapper_Un1rom.cpp \
+	$(CORE_DIR)/nes_emu/nes_ntsc.cpp
