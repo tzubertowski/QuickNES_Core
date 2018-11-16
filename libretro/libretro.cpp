@@ -369,6 +369,14 @@ static Nes_Emu::rgb_t current_nes_colors[Nes_Emu::color_table_size];
  * Palette additions END
  * ======================================== */
 
+#define MAX_PLAYERS 2
+#define NUM_TURBO_BUTTONS 2
+
+static unsigned char turbo_enabled[MAX_PLAYERS] = {0};
+static unsigned turbo_pulse_width = 0;
+static unsigned char turbo_counter[MAX_PLAYERS][NUM_TURBO_BUTTONS] = { {0} };
+static unsigned char turbo_state[MAX_PLAYERS][NUM_TURBO_BUTTONS] = { {1} };
+
 void retro_init(void)
 {
    // Assign nes_ntsc setup pointers
@@ -458,6 +466,8 @@ ntsc-hardware-fbx|\
 nes-classic-fbx-fs|\
 nescap|\
 wavebeam" },
+      { "quicknes_turbo_enable", "Turbo enable; none|player 1|player 2|both" },
+      { "quicknes_turbo_pulse_width", "Turbo pulse width (in frames); 3|5|10|15|30|60|1|2" },
       { NULL, NULL },
    };
 
@@ -739,6 +749,38 @@ static void check_variables(void)
       set_current_palette();
    }
 
+   var.key = "quicknes_turbo_enable";
+   for (unsigned i = 0; i < MAX_PLAYERS; i++) { turbo_enabled[i] = 0; }
+
+   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   {
+      if (!strcmp(var.value, "player 1")) {
+         turbo_enabled[0] = 1;
+      } else if (!strcmp(var.value, "player 2")) {
+         turbo_enabled[1] = 1;
+      } else if (!strcmp(var.value, "both")) {
+         for (unsigned i = 0; i < MAX_PLAYERS; i++) { turbo_enabled[i] = 1; }
+      }
+   }
+
+   var.key = "quicknes_turbo_pulse_width";
+   turbo_pulse_width = 0;
+
+   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   {
+      turbo_pulse_width = atoi(var.value);
+   }
+
+   // This is also a good place to reset the turbo
+   // counter/state arrays...
+   for (unsigned i = 0; i < MAX_PLAYERS; i++) {
+      for (unsigned j = 0; j < NUM_TURBO_BUTTONS; j++) {
+         turbo_counter[i][j] = 0;
+         turbo_state[i][j] = 1;
+         // 'state' starts at 1 -> turbo engaged as soon as button is pressed
+      }
+   }
+
    if (video_changed)
    {
       struct retro_system_av_info info;
@@ -773,23 +815,53 @@ static const keymap bindmap[] = {
    { RETRO_DEVICE_ID_JOYPAD_RIGHT, JOY_RIGHT },
 };
 
-static void update_input(int pads[2])
+static const keymap turbomap[] = {
+   { RETRO_DEVICE_ID_JOYPAD_X, JOY_A },
+   { RETRO_DEVICE_ID_JOYPAD_Y, JOY_B },
+};
+
+static void update_input(int pads[MAX_PLAYERS])
 {
    unsigned p;
 
    pads[0] = pads[1] = 0;
    input_poll_cb();
 
-   for (p = 0; p < 2; p++)
+   for (p = 0; p < MAX_PLAYERS; p++)
    {
       unsigned bind;
-      for (bind = 0; bind < sizeof(bindmap) / sizeof(bindmap[0]); bind++)
+      for (bind = 0; bind < sizeof(bindmap) / sizeof(bindmap[0]); bind++) {
          pads[p] |= input_state_cb(p, RETRO_DEVICE_JOYPAD, 0, bindmap[bind].retro) ? bindmap[bind].nes : 0;
+      }
+
+      if (turbo_enabled[p] == 1)
+      {
+         for (unsigned i = 0; i < NUM_TURBO_BUTTONS; i++)
+         {
+            if (input_state_cb(p, RETRO_DEVICE_JOYPAD, 0, turbomap[i].retro))
+            {
+               if (turbo_state[p][i] == 1) {
+                  pads[p] |= turbomap[i].nes;
+               }
+
+               turbo_counter[p][i] += 1;
+               if (turbo_counter[p][i] >= turbo_pulse_width) {
+                  turbo_state[p][i] = !turbo_state[p][i];
+                  turbo_counter[p][i] = 0;
+               }
+            }
+            else
+            {
+               turbo_state[p][i] = 1;
+               turbo_counter[p][i] = 0;
+            }
+         }
+      }
    }
 
    if (!up_down_allowed)
    {
-      for (p = 0; p < 2; p++)
+      for (p = 0; p < MAX_PLAYERS; p++)
       {
          if (pads[p] & JOY_UP)
             if (pads[p] & JOY_DOWN)
@@ -805,7 +877,7 @@ static void update_input(int pads[2])
 void retro_run(void)
 {
    bool updated = false;
-   int  pads[2] = {0};
+   int  pads[MAX_PLAYERS] = {0};
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE_UPDATE, &updated) && updated)
       check_variables();
@@ -935,23 +1007,27 @@ void retro_run(void)
 bool retro_load_game(const struct retro_game_info *info)
 {
    struct retro_input_descriptor desc[] = {
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT,  "D-Pad Left" },
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP,    "D-Pad Up" },
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN,  "D-Pad Down" },
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT, "D-Pad Right" },
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_B,     "B" },
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_A,     "A" },
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_SELECT,   "Select" },
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_START,    "Start" },
+      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT,   "D-Pad Left" },
+      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP,     "D-Pad Up" },
+      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN,   "D-Pad Down" },
+      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT,  "D-Pad Right" },
+      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_B,      "B" },
+      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_A,      "A" },
+      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_Y,      "Turbo B" },
+      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_X,      "Turbo A" },
+      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_SELECT, "Select" },
+      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_START,  "Start" },
 
-      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT,  "D-Pad Left" },
-      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP,    "D-Pad Up" },
-      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN,  "D-Pad Down" },
-      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT, "D-Pad Right" },
-      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_B,     "B" },
-      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_A,     "A" },
-      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_SELECT,   "Select" },
-      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_START,    "Start" },
+      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT,   "D-Pad Left" },
+      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP,     "D-Pad Up" },
+      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN,   "D-Pad Down" },
+      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT,  "D-Pad Right" },
+      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_B,      "B" },
+      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_A,      "A" },
+      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_Y,      "Turbo B" },
+      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_X,      "Turbo A" },
+      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_SELECT, "Select" },
+      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_START,  "Start" },
 
       { 0 },
    };
