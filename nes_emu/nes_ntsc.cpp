@@ -242,7 +242,7 @@ void nes_ntsc_blit( nes_ntsc_t const* ntsc, NES_NTSC_IN_T const* input, long in_
 		NES_NTSC_IN_T const* line_in = input;
 		NES_NTSC_BEGIN_ROW( ntsc, burst_phase,
 				nes_ntsc_black, nes_ntsc_black, NES_NTSC_ADJ_IN( *line_in ) );
-		nes_ntsc_out_t* restrict line_out = (nes_ntsc_out_t*) rgb_out;
+		nes_ntsc_out_t* line_out = (nes_ntsc_out_t*) rgb_out;
 		int n;
 		++line_in;
 		
