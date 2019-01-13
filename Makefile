@@ -202,7 +202,7 @@ else ifeq ($(platform), ps2)
 	CC = ee-gcc$(EXE_EXT)
 	CXX = ee-g++$(EXE_EXT)
 	AR = ee-ar$(EXE_EXT)
-	PLATFORM_DEFINES := -DPS2 -G0 -DNO_UNALIGNED_ACCESS -fsingle-precision-constant
+	PLATFORM_DEFINES := -DPS2 -G0 -DNO_UNALIGNED_ACCESS -ABGR1555 -fsingle-precision-constant
 	PLATFORM_DEFINES += -I$(PS2SDK)/ee/include -I$(PS2SDK)/common/include -Ips2/
 	CXXFLAGS += -fno-rtti -fno-exceptions
 	STATIC_LINKING = 1

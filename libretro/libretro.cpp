@@ -960,7 +960,11 @@ void retro_run(void)
 	   for (unsigned i = 0; i < 256; i++)
 	   {
 		   const Nes_Emu::rgb_t& rgb = current_nes_colors[frame.palette[i]];
-		   retro_palette[i] = ((rgb.red & 0xf8) << 8) | ((rgb.green & 0xfc) << 3) | ((rgb.blue & 0xf8) >> 3);
+#if defined(ABGR1555)
+         retro_palette[i] = ((rgb.blue & 0xf8) << 7) | ((rgb.green & 0xf8) << 2) | ((rgb.red & 0xf8) >> 3);
+#else
+         retro_palette[i] = ((rgb.red & 0xf8) << 8) | ((rgb.green & 0xfc) << 3) | ((rgb.blue & 0xf8) >> 3);
+#endif
 	   }
 
 	   for (int y = 0; y < Nes_Emu::image_height; y++)
