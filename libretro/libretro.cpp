@@ -960,58 +960,50 @@ void retro_run(void)
 
    RETRO_HW_RENDER_INTEFACE_GSKIT_PS2 *ps2 = NULL;
    uint32_t *buf = (uint32_t *)RETRO_HW_FRAME_BUFFER_VALID;
-   static uint8_t video_buffer[Nes_Emu::image_width * Nes_Emu::image_height];
-	static uint16_t retro_palette[256];
 
-   if (!environ_cb(RETRO_ENVIRONMENT_GET_HW_RENDER_INTERFACE, (void **)&ps2) || !ps2) {
-		printf("Failed to get HW rendering interface!\n");
-		return;
-	}
+   if (!ps2) {
+      static uint32_t retro_palette[256];
+      
+      if (!environ_cb(RETRO_ENVIRONMENT_GET_HW_RENDER_INTERFACE, (void **)&ps2) || !ps2) {
+         printf("Failed to get HW rendering interface!\n");
+         return;
+	   }
 
-	if (ps2->interface_version != RETRO_HW_RENDER_INTERFACE_GSKIT_PS2_VERSION) {
-		printf("HW render interface mismatch, expected %u, got %u!\n", 
-               RETRO_HW_RENDER_INTERFACE_GSKIT_PS2_VERSION, ps2->interface_version);
-		return;
-	}
-
-   if (ps2->clearTexture || !ps2->coreTexture->Clut || !ps2->coreTexture->Mem ) {
-      /* If it is empty we need to create it */
-      ps2->coreTexture->Width = Nes_Emu::image_width - (use_overscan_h ? 0 : 16);
-      ps2->coreTexture->Height = Nes_Emu::image_height - (use_overscan_v ? 0 : 16);
-      ps2->coreTexture->PSM = GS_PSM_T8;
-      ps2->coreTexture->ClutPSM = GS_PSM_CT16;
-      ps2->coreTexture->Filter = GS_FILTER_LINEAR;
-   }
-
-   for (unsigned i = 0; i < 256; i++) {
-      const Nes_Emu::rgb_t& rgb = current_nes_colors[frame.palette[i]];
-      retro_palette[i] = ((rgb.blue & 0xf8) << 7) | ((rgb.green & 0xf8) << 2) | ((rgb.red & 0xf8) >> 3);
-   }
-
-   // Modification for GS
-   for (unsigned i = 0; i < 256; i++) {
-      int modi = i & 63;
-      if ((modi >= 8 && modi < 16) || (modi >= 40 && modi < 48)) {
-         uint16_t tmp = retro_palette[i];
-         retro_palette[i] = retro_palette[i + 8];
-         retro_palette[i + 8] = tmp;
+      if (ps2->interface_version != RETRO_HW_RENDER_INTERFACE_GSKIT_PS2_VERSION) {
+         printf("HW render interface mismatch, expected %u, got %u!\n", 
+                  RETRO_HW_RENDER_INTERFACE_GSKIT_PS2_VERSION, ps2->interface_version);
+         return;
       }
+
+      for (unsigned i = 0; i < 256; i++) {
+         const Nes_Emu::rgb_t& rgb = current_nes_colors[frame.palette[i]];
+         int dest_index = i;
+         int modi = i & 63;
+         if ((modi >= 8 && modi < 16) || (modi >= 40 && modi < 48)) {
+            dest_index += 8;
+         } else if ((modi >= 16 && modi < 24) || (modi >= 48 && modi < 56)) {
+            dest_index -= 8;
+         }
+
+         retro_palette[dest_index] = (rgb.blue << 16) | (rgb.green << 8) | rgb.red;
+      }
+      
+      ps2->coreTexture->Width = videoBufferWidth;
+      ps2->coreTexture->Height = videoBufferHeight;
+      ps2->coreTexture->PSM = GS_PSM_T8;
+      ps2->coreTexture->ClutPSM = GS_PSM_CT32;
+      ps2->coreTexture->Filter = GS_FILTER_LINEAR;
+      ps2->coreTexture->Clut = (u32*)retro_palette;
+      ps2->updatedPalette = true;
+      ps2->padding = (retro_hw_ps2_insets){8.0f, 8.0f, 8.0f, 8.0f};
    }
 
-   for (unsigned y = 0; y < Nes_Emu::image_height; y++) {
-      uint8_t *out_scanline = video_buffer + Nes_Emu::image_width * y;
-      uint8_t *in_scanline = frame.pixels + videoBufferWidth * y;
-      memcpy(out_scanline, in_scanline, Nes_Emu::image_width);
-   }
-
-
-   ps2->coreTexture->Clut = (u32*)retro_palette;
-   ps2->coreTexture->Mem = (u32*)(video_buffer + (use_overscan_v ? (use_overscan_h ? 0 : 8) : ((use_overscan_h ? 0 : 8) + 256 * 8)));
+   ps2->coreTexture->Mem = (u32*)frame.pixels;
 
    video_cb(buf,
-		   Nes_Emu::image_width - (use_overscan_h ? 0 : 16),
-		   Nes_Emu::image_height - (use_overscan_v ? 0 : 16),
-		   Nes_Emu::image_width * sizeof(uint16_t));
+		   videoBufferWidth,
+		   videoBufferHeight,
+		   videoBufferWidth * sizeof(uint16_t));
 #else
 
 	   static uint16_t video_buffer[Nes_Emu::image_width * Nes_Emu::image_height];

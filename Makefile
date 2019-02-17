@@ -204,7 +204,8 @@ else ifeq ($(platform), ps2)
 	AR = ee-ar$(EXE_EXT)
 	PLATFORM_DEFINES := -DPS2 -G0 -DNO_UNALIGNED_ACCESS -DABGR1555 -DRENDER_GSKIT_PS2 -fsingle-precision-constant
 	PLATFORM_DEFINES += -Ips2 -I$(PS2SDK)/ee/include -I$(PS2SDK)/common/include  -I$(PS2DEV)/gsKit/include
-	CXXFLAGS += -fno-rtti -fno-exceptions
+	PLATFORM_DEFINES += -O3
+	CXXFLAGS += -fno-rtti -fno-exceptions -ffast-math
 	STATIC_LINKING = 1
 
 # PSP
