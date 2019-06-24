@@ -40,6 +40,7 @@ static bool use_overscan_v;
 static bool use_overscan_h;
 #endif
 static bool up_down_allowed = false;
+static bool libretro_supports_bitmasks = false;
 
 const int videoBufferWidth = Nes_Emu::image_width + 16;
 const int videoBufferHeight = Nes_Emu::image_height + 2;
@@ -387,10 +388,14 @@ void retro_init(void)
    // (Seems the best place to do it...)
    nes_ntsc_setup.base_palette = base_palette;
    nes_ntsc_setup.palette_out = palette_out;
+
+   if (environ_cb(RETRO_ENVIRONMENT_GET_INPUT_BITMASKS, NULL))
+      libretro_supports_bitmasks = true;
 }
 
 void retro_deinit(void)
 {
+   libretro_supports_bitmasks = false;
 }
 
 unsigned retro_api_version(void)
@@ -834,29 +839,47 @@ static void update_input(int pads[MAX_PLAYERS])
    for (p = 0; p < MAX_PLAYERS; p++)
    {
       unsigned bind;
-      for (bind = 0; bind < sizeof(bindmap) / sizeof(bindmap[0]); bind++) {
-         pads[p] |= input_state_cb(p, RETRO_DEVICE_JOYPAD, 0, bindmap[bind].retro) ? bindmap[bind].nes : 0;
+      bool turbo_btn[2];
+
+      if (libretro_supports_bitmasks)
+      {
+         int16_t ret = input_state_cb(p, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_MASK);
+         for (bind = 0; bind < sizeof(bindmap) / sizeof(bindmap[0]); bind++)
+            if (ret & (1 << bindmap[bind].retro))
+               pads[p] |= bindmap[bind].nes;
+         turbo_btn[0] = (ret & (1 << RETRO_DEVICE_ID_JOYPAD_X));
+         turbo_btn[1] = (ret & (1 << RETRO_DEVICE_ID_JOYPAD_Y));
+      }
+      else
+      {
+         for (bind = 0; bind < sizeof(bindmap) / sizeof(bindmap[0]); bind++)
+            pads[p] |= input_state_cb(p, RETRO_DEVICE_JOYPAD, 0, bindmap[bind].retro) ? bindmap[bind].nes : 0;
+         if (turbo_enabled[p])
+         {
+            turbo_btn[0] = input_state_cb(p, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_X);
+            turbo_btn[1] = input_state_cb(p, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_Y);
+         }
       }
 
-      if (turbo_enabled[p] == 1)
+      if (turbo_enabled[p])
       {
          for (unsigned i = 0; i < NUM_TURBO_BUTTONS; i++)
          {
-            if (input_state_cb(p, RETRO_DEVICE_JOYPAD, 0, turbomap[i].retro))
+            if (turbo_btn[i])
             {
-               if (turbo_state[p][i] == 1) {
+               if (turbo_state[p][i] == 1)
                   pads[p] |= turbomap[i].nes;
-               }
 
                turbo_counter[p][i] += 1;
-               if (turbo_counter[p][i] >= turbo_pulse_width) {
+               if (turbo_counter[p][i] >= turbo_pulse_width)
+               {
                   turbo_state[p][i] = !turbo_state[p][i];
                   turbo_counter[p][i] = 0;
                }
             }
             else
             {
-               turbo_state[p][i] = 1;
+               turbo_state[p][i]   = 1;
                turbo_counter[p][i] = 0;
             }
          }
