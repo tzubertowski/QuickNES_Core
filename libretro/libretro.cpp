@@ -1,4 +1,4 @@
-#include "libretro.h"
+#include <libretro.h>
 #include <stdint.h>
 #include <string.h>
 #include <math.h>
@@ -16,8 +16,10 @@
 #endif
 
 #if defined(RENDER_GSKIT_PS2)
-#include "libretro_gskit_ps2.h"
+#include <libretro_gskit_ps2.h>
 #endif
+
+#include "libretro_core_options.h"
 
 #define CORE_VERSION "1.0-WIP"
 
@@ -447,41 +449,8 @@ void retro_get_system_av_info(struct retro_system_av_info *info)
 
 void retro_set_environment(retro_environment_t cb)
 {
-   static const struct retro_variable vars[] = {
-      { "quicknes_up_down_allowed", "Allow Opposing Directions; disabled|enabled" },
-      { "quicknes_aspect_ratio_par", "Aspect ratio; PAR|4:3" },
-#ifndef PSP
-      { "quicknes_use_overscan_h", "Show horizontal overscan; enabled|disabled" },
-      { "quicknes_use_overscan_v", "Show vertical overscan; disabled|enabled" },
-#endif
-      { "quicknes_no_sprite_limit", "No sprite limit; enabled|disabled" },
-      { "quicknes_audio_nonlinear", "Audio mode; nonlinear|linear|stereo panning"},
-      { "quicknes_audio_eq", "Audio equalizer preset; default|famicom|tv|flat|crisp|tinny"},
-      { "quicknes_palette", "Color Palette; \
-default|\
-asqrealc|\
-nintendo-vc|\
-rgb|\
-yuv-v3|\
-unsaturated-final|\
-sony-cxa2025as-us|\
-pal|\
-bmf-final2|\
-bmf-final3|\
-smooth-fbx|\
-composite-direct-fbx|\
-pvm-style-d93-fbx|\
-ntsc-hardware-fbx|\
-nes-classic-fbx-fs|\
-nescap|\
-wavebeam" },
-      { "quicknes_turbo_enable", "Turbo enable; none|player 1|player 2|both" },
-      { "quicknes_turbo_pulse_width", "Turbo pulse width (in frames); 3|5|10|15|30|60|1|2" },
-      { NULL, NULL },
-   };
-
    environ_cb = cb;
-   cb(RETRO_ENVIRONMENT_SET_VARIABLES, (void*)vars);
+   libretro_set_core_options(environ_cb);
 }
 
 void retro_set_audio_sample(retro_audio_sample_t cb)

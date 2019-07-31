@@ -1,5 +1,8 @@
 LIBRETRO_COMM_DIR := $(CORE_DIR)/libretro/libretro-common
-INCFLAGS := -I$(CORE_DIR) -I$(CORE_DIR)/nes_emu -I$(CORE_DIR)/libretro
+INCFLAGS := -I$(CORE_DIR) \
+				-I$(CORE_DIR)/nes_emu \
+				-I$(CORE_DIR)/libretro \
+				-I$(LIBRETRO_COMM_DIR)/include
 
 ifneq (,$(findstring msvc200,$(platform)))
 INCFLAGS += -I$(LIBRETRO_COMM_DIR)/include/compat/msvc
