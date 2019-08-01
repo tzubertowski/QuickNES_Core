@@ -206,6 +206,150 @@ struct retro_core_option_definition option_defs_us[] = {
 
 /* RETRO_LANGUAGE_TURKISH */
 
+struct retro_core_option_definition option_defs_tr[] = {
+   {
+      "quicknes_up_down_allowed",
+      "Karşı Yönlere İzin Ver",
+      "Bunu etkinleştirmek aynı anda hem sola hem de sağa (veya bazı oyunlarda yukarı ve aşağı) yönlere basma / hızlı değiştirme / tutma olanağı sağlar. Bu, bazı oyunlarda harekete dayalı hataların oluşmasına neden olabilir. Bu core seçeneğinin devre dışı bırakılması en iyisidir.",
+      {
+         { "disabled",  NULL },
+         { "enabled",  NULL },
+         { NULL, NULL},
+      },
+      "disabled",
+   },
+   {
+      "quicknes_aspect_ratio_par",
+      "En Boy Oranı",
+      "QuickNES Core'un sağlanan en boy oranını yapılandırın.",
+      {
+         { "PAR", NULL },
+         { "4:3",     NULL },
+         { NULL, NULL},
+      },
+      "PAR",
+   },
+#ifndef PSP
+   {
+      "quicknes_use_overscan_h",
+      "Yatay ekran taşmasını göster",
+      "Standart bir televizyon ekranının kenarına çerçeve tarafından gizlenmiş potansiyel olarak rastgele rastlanan video çıkışını kesmek (yatay olarak) için bunu devre dışı olarak ayarlayın.",
+      {
+         { "enabled", NULL },
+         { "disabled",     NULL },
+         { NULL, NULL},
+      },
+      "enabled",
+   },
+   {
+      "quicknes_use_overscan_v",
+      "Yatay ekran taşmasını göster",
+      "Standart bir televizyon ekranının kenarına çerçeve tarafından gizlenmiş potansiyel olarak rastgele rastlanan video çıkışını kesmek (dikey olarak) için bunu devre dışı olarak ayarlayın.",
+      {
+         { "disabled",     NULL },
+         { "enabled", NULL },
+         { NULL, NULL},
+      },
+      "enabled",
+   },
+#endif
+   {
+      "quicknes_no_sprite_limit",
+      "Sprite Sınırı Yok",
+      "Scanline başına 8 donanım sınırını kaldırır. Bu, sprite titremesini azaltır ancak bazı efektler için bunu kullandığında bazı oyunların hata yapmasına neden olabilir.",
+      {
+         { "disabled", NULL },
+         { "enabled",  NULL },
+         { NULL, NULL},
+      },
+      "disabled",
+   },
+   {
+      "quicknes_audio_nonlinear",
+      "Ses Modu",
+      "Ses modunu yapılandırın. Stereo kaydırma, derinlik yöntemi eklemek için kaydırma yöntemi ve bazı yankı efektleri kullanarak stereoyu simüle eder.",
+      {
+         { "nonlinear",  NULL },
+         { "linear",  NULL },
+         { "stereo spanning",  NULL },
+         { NULL, NULL },
+      },
+      "nonlinear",
+   },
+   {
+      "quicknes_audio_eq",
+      "Ses ekolayzer ön ayarı",
+      "Sesi eşitlemeye bir ön ayar uygular",
+      {
+         { "default",      "Varsayılan" },
+         { "famicom",      "Famicom" },
+         { "tv",           "TV" },
+         { "flat",         "Flat" },
+         { "crisp",        "Crisp" },
+         { "tinny",        "Tinny" },
+         { NULL, NULL},
+      },
+      "default",
+   },
+   {
+      "quicknes_palette",
+      "Renk paleti",
+      "NTS tarafından NTSC video sinyali çıkışının kodunu çözerken hangi renk paletinin kullanılacağını belirtir.",
+      {
+         { "default",              "Varsayılan" },
+         { "asqrealc",             NULL },
+         { "nintendo-vc",          NULL },
+         { "rgb",                  NULL },
+         { "yuv-v3",               NULL },
+         { "unsaturated-final",    NULL },
+         { "sony-cxa2025as-us",    NULL },
+         { "pal",                  NULL },
+         { "bmf-final2",           NULL },
+         { "bmf-final3",           NULL },
+         { "smooth-fbx",           NULL },
+         { "composite-direct-fbx", NULL },
+         { "pvm-style-d93-fbx",    NULL },
+         { "ntsc-hardware-fbx",    NULL },
+         { "nes-classic-fbx-fs",   NULL },
+         { "nescap",               NULL },
+         { "wavebeam",             NULL },
+         { NULL, NULL},
+      },
+      "default",
+   },
+   {
+      "quicknes_turbo_enable",
+      "Turbo'yu Etkinleştir",
+      "Turbo A ve Turbo B düğmelerinin kullanılmasını sağlar.",
+      {
+         { "none", "Hiçbiri" },
+         { "player 1",  "1. Oyuncu" },
+         { "player 2",  "2. Oyuncu" },
+         { "both",  "ikisi içinde" },
+         { NULL, NULL},
+      },
+      "none",
+   },
+   {
+      "quicknes_turbo_pulse_width",
+      "Turbo darbe genişliği (çerçevelerde)",
+      "Turbo A ve Turbo B düğmeleri basılı tutulduğunda 'darbelerin' girişinin hem genişliğini hem de aralığını (çerçevelerde) belirtir. Örneğin, varsayılan '3' ayarı bir (60 / (3 + 3)) = 10 Hz turbo frekansına (saniyede 10 basma) karşılık gelir.",
+      {
+         { "1",     NULL },
+         { "2",     NULL },
+         { "3",     NULL },
+         { "5",     NULL },
+         { "10",     NULL },
+         { "15",     NULL },
+         { "30",     NULL },
+         { "60",     NULL },
+         { NULL, NULL},
+      },
+      "3",
+   },
+   { NULL, NULL, NULL, { NULL, NULL }, NULL },
+};
+
 /*
  ********************************
  * Language Mapping
@@ -231,7 +375,7 @@ struct retro_core_option_definition *option_defs_intl[RETRO_LANGUAGE_LAST] = {
    NULL,           /* RETRO_LANGUAGE_VIETNAMESE */
    NULL,           /* RETRO_LANGUAGE_ARABIC */
    NULL,           /* RETRO_LANGUAGE_GREEK */
-   NULL,           /* RETRO_LANGUAGE_TURKISH */
+   option_defs_tr, /* RETRO_LANGUAGE_TURKISH */
 };
 
 /*
