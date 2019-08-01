@@ -26,90 +26,88 @@ extern "C" {
  * - Will be used as a fallback for any missing entries in
  *   frontend language definition */
 
-#define MAX_CORE_OPTIONS 32
-
 struct retro_core_option_definition option_defs_us[] = {
    {
       "quicknes_up_down_allowed",
       "Allow Opposing Directions",
-      "Enabling this will allow pressing / quickly alternating / holding both left and right (or up and down in some games) directions at the same time. This may cause movement based glitches to occur in certain games. It's best to keep this core option disabled.",
+      "Enabling this will allow pressing / quickly alternating / holding both left and right (or up and down) directions at the same time. This may cause movement-based glitches.",
       {
-         { "disabled",  NULL },
+         { "disabled", NULL },
          { "enabled",  NULL },
-         { NULL, NULL},
+         { NULL, NULL },
       },
       "disabled",
    },
    {
       "quicknes_aspect_ratio_par",
       "Aspect Ratio",
-      "Configure QuickNES's core provided aspect ratio.",
+      "Choose the preferred content aspect ratio. This will only apply when RetroArch's aspect ratio is set to 'Core provided' in the Video settings.",
       {
          { "PAR", NULL },
-         { "4:3",     NULL },
-         { NULL, NULL},
+         { "4:3", NULL },
+         { NULL, NULL },
       },
       "PAR",
    },
 #ifndef PSP
    {
       "quicknes_use_overscan_h",
-      "Show horizontal overscan",
-      "Set this to disabled to crop out (horizontally) the potentially random glitchy video output that would have been hidden by the bezel around the edge of a standard-definition television screen.",
+      "Show Horizontal Overscan",
+      "Disable this to crop out (horizontally) the potentially random glitchy video output that would have been hidden by the bezel around the edge of a standard-definition television screen.",
       {
-         { "enabled", NULL },
-         { "disabled",     NULL },
+         { "enabled",  NULL },
+         { "disabled", NULL },
          { NULL, NULL},
       },
       "enabled",
    },
    {
       "quicknes_use_overscan_v",
-      "Show vertical overscan",
-      "Set this to disabled to crop out (vertically) the potentially random glitchy video output that would have been hidden by the bezel around the edge of a standard-definition television screen.",
+      "Show Vertical Overscan",
+      "Disable this to crop out (vertically) the potentially random glitchy video output that would have been hidden by the bezel around the edge of a standard-definition television screen.",
       {
-         { "disabled",     NULL },
-         { "enabled", NULL },
-         { NULL, NULL},
+         { "disabled", NULL },
+         { "enabled",  NULL },
+         { NULL, NULL },
       },
-      "enabled",
+      "disabled",
    },
 #endif
    {
       "quicknes_no_sprite_limit",
       "No Sprite Limit",
-      "Removes the 8-per-scanline hardware limit. This reduces sprite flickering but can cause some games to glitch since some use this for effects.",
+      "Removes the 8-sprite-per-scanline hardware limit. This reduces flickering but can cause visual glitches, as some games exploit the hardware limit to generate special effects.",
       {
          { "disabled", NULL },
          { "enabled",  NULL },
-         { NULL, NULL},
+         { NULL, NULL },
       },
       "disabled",
    },
    {
       "quicknes_audio_nonlinear",
-      "Audio mode",
-      "Configure audio mode. Stereo panning simulates stereo by using a panning method and some reverb effects to add some depth.",
+      "Audio Mode",
+      "Configure audio emulation. 'Non-Linear' simulates the non-linear channel mixing of the NES APU. 'Linear' uses a less accurate approximation, which reduces quality but increases performance on low-end hardware. 'Stereo Panning' adds depth to the NES mono output through the use of panning techniques and reverb effects.",
       {
-         { "nonlinear",  NULL },
-         { "linear",  NULL },
-         { "stereo spanning",  NULL },
+         { "nonlinear",      "Non-Linear" },
+         { "linear",         "Linear" },
+         { "stereo panning", "Stereo Panning" },
          { NULL, NULL },
       },
       "nonlinear",
    },
    {
       "quicknes_audio_eq",
-      "Audio equalizer preset",
-      "Applies a preset to the audio equalize",
+      "Audio Equalizer Preset",
+      "Adjust the balance between audio frequency components with a custom equalizer preset.",
       {
-         { "default",      "Default" },
-         { "famicom",      "Famicom" },
-         { "tv",           "TV" },
-         { "flat",         "Flat" },
-         { "crisp",        "Crisp" },
-         { "tinny",        "Tinny" },
-         { NULL, NULL},
+         { "default", "Default" },
+         { "famicom", "Famicom" },
+         { "tv",      "TV" },
+         { "flat",    "Flat" },
+         { "crisp",   "Crisp" },
+         { "tinny",   "Tinny" },
+         { NULL, NULL },
       },
       "default",
    },
@@ -144,32 +142,32 @@ struct retro_core_option_definition option_defs_us[] = {
       "Turbo Enable",
       "Enables the use of the Turbo A and Turbo B buttons.",
       {
-         { "none", NULL },
-         { "player 1",  NULL },
-         { "player 2",  NULL },
-         { "both",  NULL },
-         { NULL, NULL},
+         { "none",     "None" },
+         { "player 1", "Player 1" },
+         { "player 2", "Player 2" },
+         { "both",     "Player 1 & 2" },
+         { NULL, NULL },
       },
       "none",
    },
    {
       "quicknes_turbo_pulse_width",
-      "Turbo pulse width (in frames)",
+      "Turbo Pulse Width (in frames)",
       "Specifies both the width and spacing (in frames) of input 'pulses' when the Turbo A and Turbo B buttons are held down. For example, the default setting of '3' corresponds to a (60/(3+3)) = 10 Hz turbo frequency (10 presses per second).",
       {
-         { "1",     NULL },
-         { "2",     NULL },
-         { "3",     NULL },
-         { "5",     NULL },
-         { "10",     NULL },
-         { "15",     NULL },
-         { "30",     NULL },
-         { "60",     NULL },
-         { NULL, NULL},
+         { "1",  NULL },
+         { "2",  NULL },
+         { "3",  NULL },
+         { "5",  NULL },
+         { "10", NULL },
+         { "15", NULL },
+         { "30", NULL },
+         { "60", NULL },
+         { NULL, NULL },
       },
       "3",
    },
-   { NULL, NULL, NULL, { NULL, NULL }, NULL },
+   { NULL, NULL, NULL, {{0}}, NULL },
 };
 
 /* RETRO_LANGUAGE_JAPANESE */
@@ -243,7 +241,8 @@ struct retro_core_option_definition *option_defs_intl[RETRO_LANGUAGE_LAST] = {
 */
 
 /* Handles configuration/setting of core options.
- * Should only be called inside retro_set_environment().
+ * Should be called as early as possible - ideally inside
+ * retro_set_environment(), and no later than retro_load_game()
  * > We place the function body in the header to avoid the
  *   necessity of adding more .c files (i.e. want this to
  *   be as painless as possible for core devs)
@@ -273,17 +272,11 @@ static INLINE void libretro_set_core_options(retro_environment_t environ_cb)
    else
    {
       size_t i;
-      size_t option_index              = 0;
       size_t num_options               = 0;
       struct retro_variable *variables = NULL;
       char **values_buf                = NULL;
 
-      /* Determine number of options
-       * > Note: We are going to skip a number of irrelevant
-       *   core options when building the retro_variable array,
-       *   but we'll allocate space for all of them. The difference
-       *   in resource usage is negligible, and this allows us to
-       *   keep the code 'cleaner' */
+      /* Determine number of options */
       while (true)
       {
          if (option_defs_us[num_options].key)
@@ -310,11 +303,6 @@ static INLINE void libretro_set_core_options(retro_environment_t environ_cb)
          size_t default_index                   = 0;
 
          values_buf[i] = NULL;
-
-         /* Skip options that are irrelevant when using the
-          * old style core options interface */
-         if ((strcmp(key, "fceumm_advance_sound_options") == 0))
-            continue;
 
          if (desc)
          {
@@ -367,11 +355,10 @@ static INLINE void libretro_set_core_options(retro_environment_t environ_cb)
             }
          }
 
-         variables[option_index].key   = key;
-         variables[option_index].value = values_buf[i];
-         option_index++;
+         variables[i].key   = key;
+         variables[i].value = values_buf[i];
       }
-
+      
       /* Set variables */
       environ_cb(RETRO_ENVIRONMENT_SET_VARIABLES, variables);
 
