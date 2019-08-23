@@ -168,7 +168,10 @@ Nes_Nonlinearizer::Nes_Nonlinearizer()
 		int const offset = table_size - range;
 		int j = i - offset;
 		float n = 202.0f / (range - 1) * j;
-		float d = gain * 163.67f / (24329.0f / n + 100.0f);
+		float d = 0;
+		// Prevent division by zero
+		if ( n )
+			d = gain * 163.67f / (24329.0f / n + 100.0f);
 		int out = (int) d;
 		table [j & (table_size - 1)] = out;
 	}
