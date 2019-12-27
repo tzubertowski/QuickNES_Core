@@ -12,17 +12,17 @@ unixcygpath = /$(subst :,,$(call unixpath,$1))
 
 ifeq ($(platform),)
 	platform = unix
-	ifeq ($(shell uname -a),)
+	ifeq ($(shell uname -s),)
 		platform = win
-	else ifneq ($(findstring MINGW,$(shell uname -a)),)
+	else ifneq ($(findstring MINGW,$(shell uname -s)),)
 		platform = win
-	else ifneq ($(findstring Darwin,$(shell uname -a)),)
+	else ifneq ($(findstring Darwin,$(shell uname -s)),)
 		platform = osx
 		arch = intel
 	ifeq ($(shell uname -p),powerpc)
 		arch = ppc
 	endif
-	else ifneq ($(findstring win,$(shell uname -a)),)
+	else ifneq ($(findstring win,$(shell uname -s)),)
 		platform = win
 	endif
 endif
@@ -70,8 +70,10 @@ else ifeq ($(platform), osx)
 	ifeq ($(OSX_LT_MAVERICKS),"YES")
 		fpic += -mmacosx-version-min=10.2
 	endif
-        ifeq ($(arch),ppc)
+   ifeq ($(arch),ppc)
 		PLATFORM_DEFINES += -DMSB_FIRST
+		CFLAGS += -DHAVE_NO_LANGEXTRA
+		CXXFLAGS += -DHAVE_NO_LANGEXTRA
 	endif
 # iOS
 else ifneq (,$(findstring ios,$(platform)))
@@ -647,7 +649,6 @@ include $(THEOS_MAKE_PATH)/library.mk
 else
 all: $(TARGET)
 $(TARGET): $(OBJECTS)
-	@echo "** BUILDING $(TARGET) FOR PLATFORM $(platform) **"
 ifeq ($(STATIC_LINKING), 1)
 	$(AR) rcs $@ $(OBJECTS)
 else
