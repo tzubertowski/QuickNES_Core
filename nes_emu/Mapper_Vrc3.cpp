@@ -34,8 +34,6 @@ struct vrc3_state_t
 	uint16_t next_time;
 };
 
-BOOST_STATIC_ASSERT( sizeof ( vrc3_state_t ) == 10 );
-
 class Mapper_VRC3 : public Nes_Mapper, vrc3_state_t {
 public:
 	Mapper_VRC3()
