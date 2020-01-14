@@ -986,7 +986,6 @@ void retro_run(void)
       ps2->coreTexture->ClutPSM = GS_PSM_CT32;
       ps2->coreTexture->Filter = GS_FILTER_LINEAR;
       ps2->coreTexture->Clut = (u32*)retro_palette;
-      ps2->updatedPalette = true;
       ps2->padding = (retro_hw_ps2_insets){8.0f, 8.0f, 8.0f, 8.0f};
    }
 

@@ -214,8 +214,8 @@ else ifeq ($(platform), ps2)
 	CC = ee-gcc$(EXE_EXT)
 	CXX = ee-g++$(EXE_EXT)
 	AR = ee-ar$(EXE_EXT)
-	PLATFORM_DEFINES := -DPS2 -G0 -DNO_UNALIGNED_ACCESS -DABGR1555 -DRENDER_GSKIT_PS2 -fsingle-precision-constant
-	PLATFORM_DEFINES += -Ips2 -I$(PS2SDK)/ee/include -I$(PS2SDK)/common/include  -I$(PS2DEV)/gsKit/include
+	PLATFORM_DEFINES := -G0 -Wall -DPS2 -DNO_UNALIGNED_ACCESS -DABGR1555 -DRENDER_GSKIT_PS2 -fsingle-precision-constant
+	PLATFORM_DEFINES += -I$(PS2SDK)/ee/include -I$(PS2SDK)/common/include  -I$(PS2DEV)/gsKit/include
 	PLATFORM_DEFINES += -O3
 	PLATFORM_DEFINES += -DHAVE_NO_LANGEXTRA
 	CXXFLAGS += -fno-rtti -fno-exceptions -ffast-math
