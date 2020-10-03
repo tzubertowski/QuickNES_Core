@@ -6,8 +6,6 @@
 
 #undef BLARGG_CONFIG_H
 
-#include <stdio.h>
-
 #include "Data_Reader.h"
 
 // Supports writing
