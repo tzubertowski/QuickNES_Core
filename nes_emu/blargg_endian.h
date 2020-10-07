@@ -69,7 +69,6 @@ inline void set_be32( void* p, unsigned long n ) {
 		#define SET_BE32( addr, data )  (void) (*(uint32_t*) (addr) = (data))
 #else
 		#define GET_LE16( addr )        (*(uint16_t*) (addr))
-		#define GET_LE32( addr )        (*(uint32_t*) (addr))
 		#define SET_LE16( addr, data )  (void) (*(uint16_t*) (addr) = (data))
 		#define SET_LE32( addr, data )  (void) (*(uint32_t*) (addr) = (data))
 #endif
@@ -79,7 +78,6 @@ inline void set_be32( void* p, unsigned long n ) {
 		// to do: assumes that PowerPC is running in big-endian mode
 		// to do: implement for other compilers which don't support these macros
 		#define GET_LE16( addr )        (__lhbrx( (addr), 0 ))
-		#define GET_LE32( addr )        (__lwbrx( (addr), 0 ))
 		#define SET_LE16( addr, data )  (__sthbrx( (data), (addr), 0 ))
 		#define SET_LE32( addr, data )  (__stwbrx( (data), (addr), 0 ))
 	#endif
@@ -87,7 +85,6 @@ inline void set_be32( void* p, unsigned long n ) {
 
 #ifndef GET_LE16
 	#define GET_LE16( addr )        get_le16( addr )
-	#define GET_LE32( addr )        get_le32( addr )
 	#define SET_LE16( addr, data )  set_le16( addr, data )
 	#define SET_LE32( addr, data )  set_le32( addr, data )
 #endif
@@ -105,8 +102,6 @@ inline void set_le( uint16_t* p, unsigned      n ) { SET_LE16( p, n ); }
 inline void set_le( uint32_t* p, unsigned long n ) { SET_LE32( p, n ); }
 inline void set_be( uint16_t* p, unsigned      n ) { SET_BE16( p, n ); }
 inline void set_be( uint32_t* p, unsigned long n ) { SET_BE32( p, n ); }
-inline unsigned      get_le( uint16_t* p ) { return GET_LE16( p ); }
-inline unsigned long get_le( uint32_t* p ) { return GET_LE32( p ); }
 inline unsigned      get_be( uint16_t* p ) { return GET_BE16( p ); }
 inline unsigned long get_be( uint32_t* p ) { return GET_BE32( p ); }
 

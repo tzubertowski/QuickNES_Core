@@ -37,16 +37,4 @@ otherwise continues normally. */
 template<typename T> T min( T x, T y ) { return x < y ? x : y; }
 template<typename T> T max( T x, T y ) { return x > y ? x : y; }
 
-#define BLARGG_DEF_MIN_MAX( type )
-
-BLARGG_DEF_MIN_MAX( int )
-BLARGG_DEF_MIN_MAX( unsigned )
-BLARGG_DEF_MIN_MAX( long )
-BLARGG_DEF_MIN_MAX( unsigned long )
-BLARGG_DEF_MIN_MAX( float )
-BLARGG_DEF_MIN_MAX( double )
-#if __WORDSIZE != 64
-BLARGG_DEF_MIN_MAX( uint64_t )
-#endif
-
 #endif

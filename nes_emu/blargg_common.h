@@ -9,19 +9,6 @@
 #include <stdint.h>
 #include <limits.h>
 
-/* BLARGG_STATIC_ASSERT( expr ): Generates compile error if expr is 0.
-Can be used at file, function, or class scope. */
-#ifdef _MSC_VER
-	// MSVC6 (_MSC_VER < 1300) __LINE__ fails when /Zl is specified
-	#define BLARGG_STATIC_ASSERT( expr )    \
-		void blargg_failed_( int (*arg) [2 / (int) !!(expr) - 1] )
-#else
-	// Others fail when declaring same function multiple times in class,
-	// so differentiate them by line
-	#define BLARGG_STATIC_ASSERT( expr )    \
-		void blargg_failed_( int (*arg) [2 / !!(expr) - 1] [__LINE__] )
-#endif
-
 /* Pure virtual functions cause a vtable entry to a "called pure virtual"
 error handler, requiring linkage to the C++ runtime library. This macro is
 used in place of the "= 0", and simply expands to its argument. During
@@ -46,7 +33,6 @@ arithmetic on smaller types. */
 
 // In case compiler doesn't support these properly. Used rarely.
 #define STATIC_CAST(T,expr) static_cast<T> (expr)
-#define CONST_CAST( T,expr) const_cast<T> (expr)
 
 // User configuration can override the above macros if necessary
 #include "blargg_config.h"
