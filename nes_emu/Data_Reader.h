@@ -73,9 +73,6 @@ public:
 	// Current position in file
 	uint64_t tell() const                    { return size_ - remain(); }
 
-	// Goes to new position
-	const char * seek( uint64_t );
-
 // Derived interface
 protected:
 	// Sets size and resets position
@@ -85,17 +82,10 @@ protected:
 	
 	// Sets reported position
 	void set_tell( uint64_t i )              { Data_Reader::set_remain( size_ - i ); }
-	
-	// Do same as seek(). Guaranteed that 0 <= n <= size().  Value of tell() is updated
-	// AFTER this call succeeds, not before. set_* functions should NOT be called from this.
-	virtual const char * seek_v( uint64_t n ) BLARGG_PURE( { (void)n; return 0; } )
-	
 // Implementation
 protected:
 	File_Reader()                       : size_( 0 ) { }
 	
-	virtual const char * skip_v( uint64_t );
-
 private:
 	uint64_t size_;
 	
@@ -112,7 +102,6 @@ public:
 // Implementation
 protected:
 	virtual const char * read_v( void*, int );
-	virtual const char * seek_v( int );
 
 private:
 	const char* const begin;

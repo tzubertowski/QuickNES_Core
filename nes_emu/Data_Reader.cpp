@@ -101,29 +101,6 @@ const char * Data_Reader::skip( int n )
 
 // File_Reader
 
-const char * File_Reader::seek( uint64_t n )
-{
-	if ( n < 0 )
-		return "Internal usage bug";
-	
-	if ( n == tell() )
-		return 0;
-	
-	if ( n > size() )
-		return "Truncated file";
-	
-	const char * err = seek_v( n );
-	if ( !err )
-		set_tell( n );
-	
-	return err;
-}
-
-const char * File_Reader::skip_v( uint64_t n )
-{
-	return seek_v( tell() + n );
-}
-
 // Mem_File_Reader
 
 Mem_File_Reader::Mem_File_Reader( const void* p, long s ) :
@@ -135,10 +112,5 @@ Mem_File_Reader::Mem_File_Reader( const void* p, long s ) :
 const char * Mem_File_Reader::read_v( void* p, int s )
 {
 	memcpy( p, begin + tell(), s );
-	return 0;
-}
-
-const char * Mem_File_Reader::seek_v( int )
-{
 	return 0;
 }
