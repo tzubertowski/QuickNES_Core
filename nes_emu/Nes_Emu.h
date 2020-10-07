@@ -33,8 +33,7 @@ public:
 
 	// Size and depth of graphics buffer required for rendering. Note that this
 	// is larger than the actual image, with a temporary area around the edge
-	// that gets filled with junk. Its height is many times larger in Nes_Recorder
-	// to allow caching of multiple images.
+	// that gets filled with junk.
 	enum { buffer_width  = Nes_Ppu::buffer_width };
 	int buffer_height() const { return buffer_height_; }
 	enum { bits_per_pixel = 8 };
@@ -212,7 +211,6 @@ public:
 	const char * set_sample_rate( long rate, class Nes_Effects_Buffer* );
 	void irq_changed() { emu.irq_changed(); }
 private:
-	friend class Nes_Recorder;
 
 	frame_t* frame_;
 	int buffer_height_;

@@ -108,7 +108,6 @@ private:
 	friend class Nes_Emu;
 	friend class Nes_State_Writer;
 	friend class Nes_State_Reader;
-	friend class Nes_Recorder;
 };
 
 frame_count_t const invalid_frame_count = LONG_MAX / 2 + 1; // a large positive value
