@@ -71,5 +71,3 @@ libretro-build-ps2:
   extends:
     - .core-defs
     - .libretro-ps2-static-retroarch-master
-  variables:
-    MAKEFILE: Makefile.libretro
