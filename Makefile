@@ -329,7 +329,7 @@ else ifeq ($(platform), gcw0)
 	fpic := -fPIC
 	SHARED := -shared -Wl,-version-script=link.T -Wl,-no-undefined
 	PLATFORM_DEFINES := -DNO_UNALIGNED_ACCESS
-	PLATFORM_DEFINES += -O3 -fomit-frame-pointer -march=mips32 -mtune=mips32r2 -mhard-float
+	PLATFORM_DEFINES += -O3 -fomit-frame-pointer -march=mips32 -mtune=mips32r2 -mhard-float -ffast-math
 	CXXFLAGS += -fno-rtti -fno-exceptions
 
 # Windows MSVC 2017 all architectures
