@@ -954,7 +954,7 @@ void retro_run(void)
    uint32_t *buf = (uint32_t *)RETRO_HW_FRAME_BUFFER_VALID;
 
    if (!ps2) {
-      static uint32_t retro_palette[256];
+      static __attribute__((aligned(16))) uint16_t retro_palette[256];
       
       if (!environ_cb(RETRO_ENVIRONMENT_GET_HW_RENDER_INTERFACE, (void **)&ps2) || !ps2) {
          printf("Failed to get HW rendering interface!\n");
