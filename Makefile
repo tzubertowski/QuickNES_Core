@@ -211,10 +211,10 @@ else ifeq ($(platform), psl1ght)
 # PS2
 else ifeq ($(platform), ps2)
 	TARGET := $(TARGET_NAME)_libretro_$(platform).a
-	CC = ee-gcc$(EXE_EXT)
-	CXX = ee-g++$(EXE_EXT)
-	AR = ee-ar$(EXE_EXT)
-	PLATFORM_DEFINES := -G0 -Wall -DPS2 -DNO_UNALIGNED_ACCESS -DABGR1555 -DRENDER_GSKIT_PS2 -fsingle-precision-constant
+	CC = mips64r5900el-ps2-elf-gcc$(EXE_EXT)
+	CXX = mips64r5900el-ps2-elf-g++$(EXE_EXT)
+	AR = mips64r5900el-ps2-elf-ar$(EXE_EXT)
+	PLATFORM_DEFINES := -G0 -Wall -DPS2 -D_EE -DNO_UNALIGNED_ACCESS -DABGR1555 -fsingle-precision-constant
 	PLATFORM_DEFINES += -I$(PS2SDK)/ee/include -I$(PS2SDK)/common/include  -I$(PS2DEV)/gsKit/include
 	PLATFORM_DEFINES += -O3
 	PLATFORM_DEFINES += -DHAVE_NO_LANGEXTRA
