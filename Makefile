@@ -19,6 +19,9 @@ ifeq ($(platform),)
 	else ifneq ($(findstring Darwin,$(shell uname -s)),)
 		platform = osx
 		arch = intel
+	ifeq ($(shell uname -p),arm64)
+		arch = arm
+	endif
 	ifeq ($(shell uname -p),powerpc)
 		arch = ppc
 	endif
@@ -35,6 +38,9 @@ ifeq ($(shell uname -a),)
 else ifneq ($(findstring Darwin,$(shell uname -a)),)
 	system_platform = osx
 	arch = intel
+	ifeq ($(shell uname -p),arm64)
+		arch = arm
+	endif
 	ifeq ($(shell uname -p),powerpc)
 		arch = ppc
 	endif
@@ -75,6 +81,14 @@ else ifeq ($(platform), osx)
 		CFLAGS += -DHAVE_NO_LANGEXTRA
 		CXXFLAGS += -DHAVE_NO_LANGEXTRA
 	endif
+
+   ifeq ($(CROSS_COMPILE),1)
+		TARGET_RULE   = -target $(LIBRETRO_APPLE_PLATFORM) -isysroot $(LIBRETRO_APPLE_ISYSROOT)
+		CFLAGS   += $(TARGET_RULE)
+		CPPFLAGS += $(TARGET_RULE)
+		CXXFLAGS += $(TARGET_RULE)
+		LDFLAGS  += $(TARGET_RULE)
+   endif
 # iOS
 else ifneq (,$(findstring ios,$(platform)))
 	TARGET := $(TARGET_NAME)_libretro_ios.dylib
