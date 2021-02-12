@@ -509,7 +509,7 @@ WindowsSdkDirInc ?= $(shell reg query "HKLM\SOFTWARE\Microsoft\Microsoft SDKs\Wi
 
 WindowsSDKIncludeDir := $(shell cygpath -w "$(WindowsSdkDir)\Include")
 WindowsSDKGlIncludeDir := $(shell cygpath -w "$(WindowsSdkDir)\Include\gl")
-WindowsSDKLibDir := $(shell cygpath -w "$(WindowsSdkDir)\Lib\x64")
+WindowsSDKLibDir := $(shell cygpath -w "$(WindowsSdkDir)\Lib")
 
 INCFLAGS_PLATFORM = -I"$(WindowsSDKIncludeDir)"
 export INCLUDE := $(INCLUDE);$(WindowsSDKIncludeDir);$(WindowsSDKGlIncludeDir)
