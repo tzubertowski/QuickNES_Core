@@ -34,11 +34,6 @@ static retro_audio_sample_batch_t audio_batch_cb;
 static retro_environment_t environ_cb;
 static retro_input_poll_t input_poll_cb;
 static retro_input_state_t input_state_cb;
-
-static uint8_t *rom_buf              = NULL;
-static const uint8_t *rom_data       = NULL;
-static size_t rom_size               = 0;
-
 static bool aspect_ratio_par;
 #ifdef PSP
 static bool use_overscan;
@@ -1058,7 +1053,6 @@ void retro_run(void)
 
 bool retro_load_game(const struct retro_game_info *info)
 {
-   const struct retro_game_info_ext *info_ext = NULL;
    struct retro_input_descriptor desc[] = {
       { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT,   "D-Pad Left" },
       { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP,     "D-Pad Up" },
@@ -1133,36 +1127,7 @@ bool retro_load_game(const struct retro_game_info *info)
 
    environ_cb(RETRO_ENVIRONMENT_SET_MEMORY_MAPS, &retromap);
 
-   /* Quicknes requires a persistent ROM data buffer */
-   rom_buf  = NULL;
-   rom_data = NULL;
-   rom_size = 0;
-
-   if (environ_cb(RETRO_ENVIRONMENT_GET_GAME_INFO_EXT, &info_ext) &&
-         info_ext->persistent_data)
-   {
-      rom_data = (const uint8_t*)info_ext->data;
-      rom_size = info_ext->size;
-   }
-
-   /* If frontend does not support persistent
-    * content data, must create a copy */
-   if (!rom_data)
-   {
-      if (!info)
-         return false;
-
-      rom_size = info->size;
-      rom_buf  = (uint8_t*)malloc(rom_size);
-
-      if (!rom_buf)
-         return false;
-
-      memcpy(rom_buf, (const uint8_t*)info->data, rom_size);
-      rom_data = (const uint8_t*)rom_buf;
-   }
-
-   Mem_File_Reader reader(rom_data, rom_size);
+   Mem_File_Reader reader(info->data, info->size);
    return !emu->load_ines(reader);
 }
 
@@ -1170,12 +1135,6 @@ void retro_unload_game(void)
 {
    if (emu)
       emu->close();
-   if (rom_buf)
-      free(rom_buf);
-
-   rom_buf               = NULL;
-   rom_data              = NULL;
-   rom_size              = 0;
    delete emu;
    emu = 0;
 }
