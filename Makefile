@@ -371,6 +371,18 @@ else ifeq ($(platform), retrofw)
 	PLATFORM_DEFINES += -O3 -fomit-frame-pointer -march=mips32 -mtune=mips32 -ffast-math
 	CXXFLAGS += -fno-rtti -fno-exceptions
 
+# MIYOO
+else ifeq ($(platform), miyoo)
+	TARGET := $(TARGET_NAME)_libretro.so
+	CC = /opt/miyoo/usr/bin/arm-linux-gcc
+	CXX = /opt/miyoo/usr/bin/arm-linux-g++
+	AR = /opt/miyoo/usr/bin/arm-linux-ar
+	fpic := -fPIC
+	SHARED := -shared -Wl,-version-script=link.T -Wl,-no-undefined
+	PLATFORM_DEFINES := -DNO_UNALIGNED_ACCESS
+	PLATFORM_DEFINES += -O3 -fomit-frame-pointer -march=armv5te -mtune=arm926ej-s -ffast-math
+	CXXFLAGS += -fno-rtti -fno-exceptions
+
 # Windows MSVC 2017 all architectures
 else ifneq (,$(findstring windows_msvc2017,$(platform)))
 
