@@ -11,9 +11,10 @@
 
 /*
  ********************************
- * VERSION: 1.3
+ * VERSION: 2.0
  ********************************
  *
+ * - 2.0: Add support for core options v2 interface
  * - 1.3: Move translations to libretro_core_options_intl.h
  *        - libretro_core_options_intl.h includes BOM and utf-8
  *          fix for MSVC 2010-2013
@@ -73,23 +74,19 @@ extern "C" {
 
 /* RETRO_LANGUAGE_TURKISH */
 
-struct retro_core_option_definition option_defs_tr[] = {
-   {
-      "quicknes_up_down_allowed",
-      "Karşı Yönlere İzin Ver",
-      "Bunu etkinleştirmek aynı anda hem sola hem de sağa (veya bazı oyunlarda yukarı ve aşağı) yönlere basma / hızlı değiştirme / tutma olanağı sağlar. Bu, bazı oyunlarda harekete dayalı hataların oluşmasına neden olabilir. Bu core seçeneğinin devre dışı bırakılması en iyisidir.",
-      {
-         { NULL, NULL },
-      },
-      NULL,
-   },
+struct retro_core_option_v2_category option_cats_tr[] = {
+   { NULL, NULL, NULL },
+};
+
+struct retro_core_option_v2_definition option_defs_tr[] = {
    {
       "quicknes_aspect_ratio_par",
       "En Boy Oranı",
+      NULL,
       "QuickNES Core'un sağlanan en boy oranını yapılandırın.",
+      NULL,
+      NULL,
       {
-         { "PAR", NULL },
-         { "4:3", NULL },
          { NULL, NULL },
       },
       NULL,
@@ -98,7 +95,10 @@ struct retro_core_option_definition option_defs_tr[] = {
    {
       "quicknes_use_overscan_h",
       "Yatay ekran taşmasını göster",
+      NULL,
       "Standart bir televizyon ekranının kenarına çerçeve tarafından gizlenmiş potansiyel olarak rastgele rastlanan video çıkışını kesmek (yatay olarak) için bunu devre dışı olarak ayarlayın.",
+      NULL,
+      NULL,
       {
          { NULL, NULL },
       },
@@ -107,7 +107,10 @@ struct retro_core_option_definition option_defs_tr[] = {
    {
       "quicknes_use_overscan_v",
       "Yatay ekran taşmasını göster",
+      NULL,
       "Standart bir televizyon ekranının kenarına çerçeve tarafından gizlenmiş potansiyel olarak rastgele rastlanan video çıkışını kesmek (dikey olarak) için bunu devre dışı olarak ayarlayın.",
+      NULL,
+      NULL,
       {
          { NULL, NULL },
       },
@@ -115,9 +118,25 @@ struct retro_core_option_definition option_defs_tr[] = {
    },
 #endif
    {
+      "quicknes_palette",
+      "Renk paleti",
+      NULL,
+      "NTS tarafından NTSC video sinyali çıkışının kodunu çözerken hangi renk paletinin kullanılacağını belirtir.",
+      NULL,
+      NULL,
+      {
+         { "default", "Varsayılan" },
+         { NULL, NULL },
+      },
+      NULL,
+   },
+   {
       "quicknes_no_sprite_limit",
       "Sprite Sınırı Yok",
+      NULL,
       "Scanline başına 8 donanım sınırını kaldırır. Bu, sprite titremesini azaltır ancak bazı efektler için bunu kullandığında bazı oyunların hata yapmasına neden olabilir.",
+      NULL,
+      NULL,
       {
          { NULL, NULL },
       },
@@ -126,11 +145,11 @@ struct retro_core_option_definition option_defs_tr[] = {
    {
       "quicknes_audio_nonlinear",
       "Ses Modu",
+      NULL,
       "Ses modunu yapılandırın. Stereo kaydırma, derinlik yöntemi eklemek için kaydırma yöntemi ve bazı yankı efektleri kullanarak stereoyu simüle eder.",
+      NULL,
+      NULL,
       {
-         { "nonlinear",       NULL },
-         { "linear",          NULL },
-         { "stereo spanning", NULL },
          { NULL, NULL },
       },
       NULL,
@@ -138,40 +157,12 @@ struct retro_core_option_definition option_defs_tr[] = {
    {
       "quicknes_audio_eq",
       "Ses ekolayzer ön ayarı",
+      NULL,
       "Sesi eşitlemeye bir ön ayar uygular",
+      NULL,
+      NULL,
       {
          { "default", "Varsayılan" },
-         { "famicom", "Famicom" },
-         { "tv",      "TV" },
-         { "flat",    "Flat" },
-         { "crisp",   "Crisp" },
-         { "tinny",   "Tinny" },
-         { NULL, NULL },
-      },
-      NULL,
-   },
-   {
-      "quicknes_palette",
-      "Renk paleti",
-      "NTS tarafından NTSC video sinyali çıkışının kodunu çözerken hangi renk paletinin kullanılacağını belirtir.",
-      {
-         { "default",              "Varsayılan" },
-         { "asqrealc",             NULL },
-         { "nintendo-vc",          NULL },
-         { "rgb",                  NULL },
-         { "yuv-v3",               NULL },
-         { "unsaturated-final",    NULL },
-         { "sony-cxa2025as-us",    NULL },
-         { "pal",                  NULL },
-         { "bmf-final2",           NULL },
-         { "bmf-final3",           NULL },
-         { "smooth-fbx",           NULL },
-         { "composite-direct-fbx", NULL },
-         { "pvm-style-d93-fbx",    NULL },
-         { "ntsc-hardware-fbx",    NULL },
-         { "nes-classic-fbx-fs",   NULL },
-         { "nescap",               NULL },
-         { "wavebeam",             NULL },
          { NULL, NULL },
       },
       NULL,
@@ -179,7 +170,10 @@ struct retro_core_option_definition option_defs_tr[] = {
    {
       "quicknes_turbo_enable",
       "Turbo'yu Etkinleştir",
+      NULL,
       "Turbo A ve Turbo B düğmelerinin kullanılmasını sağlar.",
+      NULL,
+      NULL,
       {
          { "none",     "Hiçbiri" },
          { "player 1", "1. Oyuncu" },
@@ -192,13 +186,33 @@ struct retro_core_option_definition option_defs_tr[] = {
    {
       "quicknes_turbo_pulse_width",
       "Turbo darbe genişliği (çerçevelerde)",
+      NULL,
       "Turbo A ve Turbo B düğmeleri basılı tutulduğunda 'darbelerin' girişinin hem genişliğini hem de aralığını (çerçevelerde) belirtir. Örneğin, varsayılan '3' ayarı bir (60 / (3 + 3)) = 10 Hz turbo frekansına (saniyede 10 basma) karşılık gelir.",
+      NULL,
+      NULL,
       {
          { NULL, NULL },
       },
       NULL,
    },
-   { NULL, NULL, NULL, {{0}}, NULL },
+   {
+      "quicknes_up_down_allowed",
+      "Karşı Yönlere İzin Ver",
+      NULL,
+      "Bunu etkinleştirmek aynı anda hem sola hem de sağa (veya bazı oyunlarda yukarı ve aşağı) yönlere basma / hızlı değiştirme / tutma olanağı sağlar. Bu, bazı oyunlarda harekete dayalı hataların oluşmasına neden olabilir. Bu core seçeneğinin devre dışı bırakılması en iyisidir.",
+      NULL,
+      NULL,
+      {
+         { NULL, NULL },
+      },
+      NULL,
+   },
+   { NULL, NULL, NULL, NULL, NULL, NULL, {{0}}, NULL },
+};
+
+struct retro_core_options_v2 options_tr = {
+   option_cats_tr,
+   option_defs_tr
 };
 
 #ifdef __cplusplus
