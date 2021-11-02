@@ -56,7 +56,6 @@ if the origin of this software is not misrepresented.
     YM2143 data sheet
 
 **************************************************************************************/
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
@@ -164,7 +163,6 @@ static void makeDB2LinTable (OPLL * opll)
   {
     opll->DB2LIN_TABLE[i] = (e_int16) ((double) ((1 << DB2LIN_AMP_BITS) - 1) * powf(10, -(double) i * DB_STEP / 20));
     if (i >= DB_MUTE) opll->DB2LIN_TABLE[i] = 0;
-    //printf("%d\n",DB2LIN_TABLE[i]);
     opll->DB2LIN_TABLE[i + DB_MUTE + DB_MUTE] = (e_int16) (-opll->DB2LIN_TABLE[i]);
   }
 }
@@ -174,8 +172,7 @@ static e_int32 lin2db (double d)
 {
   if (d == 0)
     return (DB_MUTE - 1);
-  else
-    return Min (-(e_int32) (20.0 * log10 (d) / DB_STEP), DB_MUTE-1);  /* 0 -- 127 */
+  return Min (-(e_int32) (20.0 * log10 (d) / DB_STEP), DB_MUTE-1);  /* 0 -- 127 */
 }
 
 

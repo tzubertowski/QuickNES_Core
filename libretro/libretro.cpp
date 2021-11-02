@@ -3,7 +3,6 @@
 #include <string.h>
 #include <math.h>
 #include <stdlib.h>
-#include <stdio.h>
 #include "Nes_Emu.h"
 #include "Data_Reader.h"
 #include "abstract_file.h"
@@ -1317,10 +1316,7 @@ bool retro_load_game(const struct retro_game_info *info)
 
    enum retro_pixel_format fmt = RETRO_PIXEL_FORMAT_RGB565;
    if (!environ_cb(RETRO_ENVIRONMENT_SET_PIXEL_FORMAT, &fmt))
-   {
-      fprintf(stderr, "RGB565 is not supported.\n");
       return false;
-   }
 
    emu = new Nes_Emu;
    register_optional_mappers();

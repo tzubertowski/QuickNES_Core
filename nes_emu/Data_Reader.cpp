@@ -3,7 +3,6 @@
 #include "Data_Reader.h"
 
 #include "blargg_endian.h"
-#include <stdio.h>
 #include <errno.h>
 
 /* Copyright (C) 2005-2009 Shay Green. This module is free software; you
