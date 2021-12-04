@@ -59,7 +59,7 @@ struct retro_core_option_v2_definition option_defs_us[] = {
       "quicknes_aspect_ratio_par",
       "Aspect Ratio",
       NULL,
-      "Choose the preferred content aspect ratio. This will only apply when RetroArch's aspect ratio is set to 'Core provided' in the Video settings.",
+      "This will only apply when RetroArch's aspect ratio is set to 'Core provided' in the Video settings.",
       NULL,
       NULL,
       {
