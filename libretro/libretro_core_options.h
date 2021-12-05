@@ -121,7 +121,7 @@ struct retro_core_option_v2_definition option_defs_us[] = {
          { "composite-direct-fbx", "FBX's Composite Direct" },
          { "pvm-style-d93-fbx",    "FBX's PVM Style D93" },
          { "ntsc-hardware-fbx",    "FBX's NTSC Hardware" },
-         { "nes-classic-fbx-fs",   "FBX's NES-Classic FS" },
+         { "nes-classic-fbx-fs",   "FBX's NES-Classic (fixed)" },
          { "nescap",               "RGBSource's NESCAP" },
          { "wavebeam",             "nakedarthur's Wavebeam" },
          { NULL, NULL},
