@@ -6149,57 +6149,57 @@ struct retro_core_options_v2 options_pl = {
 
 /* RETRO_LANGUAGE_PT_BR */
 
-#define QUICKNES_ASPECT_RATIO_PAR_LABEL_PT_BR NULL
+#define QUICKNES_ASPECT_RATIO_PAR_LABEL_PT_BR "Proporção de tela"
 #define QUICKNES_ASPECT_RATIO_PAR_INFO_0_PT_BR "Isto só se aplicará quando a proporção de tela do RetroarArch estiver definida como 'Fornecida pelo núcleo' nas configurações de vídeo."
-#define OPTION_VAL_PAR_PT_BR NULL
+#define OPTION_VAL_PAR_PT_BR "PAR (Relação de aspecto do pixel)"
 #define OPTION_VAL_4_3_PT_BR NULL
-#define QUICKNES_USE_OVERSCAN_H_LABEL_PT_BR NULL
-#define QUICKNES_USE_OVERSCAN_H_INFO_0_PT_BR NULL
-#define QUICKNES_USE_OVERSCAN_V_LABEL_PT_BR NULL
-#define QUICKNES_USE_OVERSCAN_V_INFO_0_PT_BR NULL
-#define QUICKNES_PALETTE_LABEL_PT_BR NULL
-#define QUICKNES_PALETTE_INFO_0_PT_BR NULL
-#define OPTION_VAL_DEFAULT_PT_BR NULL
-#define OPTION_VAL_ASQREALC_PT_BR NULL
+#define QUICKNES_USE_OVERSCAN_H_LABEL_PT_BR "Mostrar overscan horizontal"
+#define QUICKNES_USE_OVERSCAN_H_INFO_0_PT_BR "Desabilite esta opção para cortar (a parte horizontal) dos possíveis defeitos visuais aleatórios no vídeo que normalmente seriam escondidos pelo enquadramento de uma televisão de definição padrão."
+#define QUICKNES_USE_OVERSCAN_V_LABEL_PT_BR "Mostrar overscan vertical"
+#define QUICKNES_USE_OVERSCAN_V_INFO_0_PT_BR "Desabilite esta opção para cortar (a parte vertical) dos possíveis defeitos visuais aleatórios no vídeo que normalmente seriam escondidos pelo enquadramento de uma televisão de definição padrão."
+#define QUICKNES_PALETTE_LABEL_PT_BR "Paleta de cores"
+#define QUICKNES_PALETTE_INFO_0_PT_BR "Especifica qual paleta de cores será usada ao decodificar o sinal de vídeo NTSC pelo NES."
+#define OPTION_VAL_DEFAULT_PT_BR "Padrão"
+#define OPTION_VAL_ASQREALC_PT_BR "Real de AspiringSquire"
 #define OPTION_VAL_NINTENDO_VC_PT_BR NULL
-#define OPTION_VAL_RGB_PT_BR NULL
-#define OPTION_VAL_YUV_V3_PT_BR NULL
-#define OPTION_VAL_UNSATURATED_FINAL_PT_BR NULL
-#define OPTION_VAL_SONY_CXA2025AS_US_PT_BR NULL
+#define OPTION_VAL_RGB_PT_BR "PPU RGB do Nintendo"
+#define OPTION_VAL_YUV_V3_PT_BR "YUV-V3 de FBX"
+#define OPTION_VAL_UNSATURATED_FINAL_PT_BR "Final sem saturação de FBX"
+#define OPTION_VAL_SONY_CXA2025AS_US_PT_BR "Sony CXA2025AS dos EUA"
 #define OPTION_VAL_PAL_PT_BR NULL
-#define OPTION_VAL_BMF_FINAL2_PT_BR NULL
-#define OPTION_VAL_BMF_FINAL3_PT_BR NULL
-#define OPTION_VAL_SMOOTH_FBX_PT_BR NULL
-#define OPTION_VAL_COMPOSITE_DIRECT_FBX_PT_BR NULL
-#define OPTION_VAL_PVM_STYLE_D93_FBX_PT_BR NULL
-#define OPTION_VAL_NTSC_HARDWARE_FBX_PT_BR NULL
+#define OPTION_VAL_BMF_FINAL2_PT_BR "Final 2 de BMF"
+#define OPTION_VAL_BMF_FINAL3_PT_BR "Final 3 de BMF"
+#define OPTION_VAL_SMOOTH_FBX_PT_BR "Suavização de FBX"
+#define OPTION_VAL_COMPOSITE_DIRECT_FBX_PT_BR "Sinal direto de vídeo composto de FBX"
+#define OPTION_VAL_PVM_STYLE_D93_FBX_PT_BR "PVM estilo D93 de FBX"
+#define OPTION_VAL_NTSC_HARDWARE_FBX_PT_BR "Hardware NTSC de FBX"
 #define OPTION_VAL_NES_CLASSIC_FBX_FS_PT_BR "NES-Classic do FBX (corrigido)"
-#define OPTION_VAL_NESCAP_PT_BR NULL
-#define OPTION_VAL_WAVEBEAM_PT_BR NULL
-#define QUICKNES_NO_SPRITE_LIMIT_LABEL_PT_BR NULL
-#define QUICKNES_NO_SPRITE_LIMIT_INFO_0_PT_BR NULL
-#define QUICKNES_AUDIO_NONLINEAR_LABEL_PT_BR NULL
-#define QUICKNES_AUDIO_NONLINEAR_INFO_0_PT_BR NULL
-#define OPTION_VAL_NONLINEAR_PT_BR NULL
+#define OPTION_VAL_NESCAP_PT_BR "NESCAP de RGBSource"
+#define OPTION_VAL_WAVEBEAM_PT_BR "Wavebeam de nakedarthur"
+#define QUICKNES_NO_SPRITE_LIMIT_LABEL_PT_BR "Sem limite de sprite"
+#define QUICKNES_NO_SPRITE_LIMIT_INFO_0_PT_BR "Remove o limite de 8 sprites por linha de varredura que o hardware original tinha. Reduz a tremulação, mas pode causar falhas gráficas, já que alguns jogos aproveitam esta limitação para gerar efeitos especiais."
+#define QUICKNES_AUDIO_NONLINEAR_LABEL_PT_BR "Modo de áudio"
+#define QUICKNES_AUDIO_NONLINEAR_INFO_0_PT_BR "Configura a emulação de áudio. 'Não linear' simula a mistura não linear de canais da APU do NES. 'Linear' usa uma aproximação menos precisa, o que reduz a qualidade, mas aumenta o desempenho em hardware de baixo custo. 'Balanço do estéreo' aumenta a profundidade de saída do mono do NES através do uso de técnicas de balanço e efeitos de reverberação."
+#define OPTION_VAL_NONLINEAR_PT_BR "Não linear"
 #define OPTION_VAL_LINEAR_PT_BR NULL
-#define OPTION_VAL_STEREO_PANNING_PT_BR NULL
-#define QUICKNES_AUDIO_EQ_LABEL_PT_BR NULL
-#define QUICKNES_AUDIO_EQ_INFO_0_PT_BR NULL
+#define OPTION_VAL_STEREO_PANNING_PT_BR "Balanço do estéreo"
+#define QUICKNES_AUDIO_EQ_LABEL_PT_BR "Predefinição do equalizador de áudio"
+#define QUICKNES_AUDIO_EQ_INFO_0_PT_BR "Ajuste o equilíbrio entre os componentes de frequência de áudio com uma predefinição personalizada do equalizador."
 #define OPTION_VAL_FAMICOM_PT_BR NULL
 #define OPTION_VAL_TV_PT_BR NULL
-#define OPTION_VAL_FLAT_PT_BR NULL
-#define OPTION_VAL_CRISP_PT_BR NULL
-#define OPTION_VAL_TINNY_PT_BR NULL
-#define QUICKNES_TURBO_ENABLE_LABEL_PT_BR NULL
-#define QUICKNES_TURBO_ENABLE_INFO_0_PT_BR NULL
-#define OPTION_VAL_NONE_PT_BR NULL
-#define OPTION_VAL_PLAYER_1_PT_BR NULL
-#define OPTION_VAL_PLAYER_2_PT_BR NULL
-#define OPTION_VAL_BOTH_PT_BR NULL
-#define QUICKNES_TURBO_PULSE_WIDTH_LABEL_PT_BR NULL
-#define QUICKNES_TURBO_PULSE_WIDTH_INFO_0_PT_BR NULL
-#define QUICKNES_UP_DOWN_ALLOWED_LABEL_PT_BR NULL
-#define QUICKNES_UP_DOWN_ALLOWED_INFO_0_PT_BR "Esta opção permitira pressionar, alternar ou segurar rapidamente as direções esquerda e direita (ou cima e baixo) ao mesmo tempo. Pode causar falhas de movimento."
+#define OPTION_VAL_FLAT_PT_BR "Puro"
+#define OPTION_VAL_CRISP_PT_BR "Nítido"
+#define OPTION_VAL_TINNY_PT_BR "Metálico"
+#define QUICKNES_TURBO_ENABLE_LABEL_PT_BR "Ativa o turbo"
+#define QUICKNES_TURBO_ENABLE_INFO_0_PT_BR "Habilita o uso dos botões de Turbo A e Turbo B."
+#define OPTION_VAL_NONE_PT_BR "Nenhum"
+#define OPTION_VAL_PLAYER_1_PT_BR "Jogador 1"
+#define OPTION_VAL_PLAYER_2_PT_BR "Jogador 2"
+#define OPTION_VAL_BOTH_PT_BR "Jogador 1 e 2"
+#define QUICKNES_TURBO_PULSE_WIDTH_LABEL_PT_BR "Comprimento do pressionamento do turbo (em quadros)"
+#define QUICKNES_TURBO_PULSE_WIDTH_INFO_0_PT_BR "Especifica tanto a duração do pressionamento como a do não pressionamento (em quadros) quando é apertado os botões Turbo A e Turbo B. Por exemplo, o valor padrão de 3 corresponde a a fórmula (60 ÷ (3 + 3)) = frequência de 10Hz do turbo (10 pressionamentos por segundo)."
+#define QUICKNES_UP_DOWN_ALLOWED_LABEL_PT_BR "Permite direções contrárias"
+#define QUICKNES_UP_DOWN_ALLOWED_INFO_0_PT_BR "Esta opção permitirá pressionar, alternar ou segurar rapidamente as direções esquerda e direita (ou cima e baixo) ao mesmo tempo. Pode causar falhas de movimento."
 
 struct retro_core_option_v2_category option_cats_pt_br[] = {
    { NULL, NULL, NULL },
@@ -6888,23 +6888,23 @@ struct retro_core_options_v2 options_ro = {
 #define OPTION_VAL_NONLINEAR_RU NULL
 #define OPTION_VAL_LINEAR_RU NULL
 #define OPTION_VAL_STEREO_PANNING_RU NULL
-#define QUICKNES_AUDIO_EQ_LABEL_RU NULL
+#define QUICKNES_AUDIO_EQ_LABEL_RU "Пресет эквалайзера"
 #define QUICKNES_AUDIO_EQ_INFO_0_RU NULL
 #define OPTION_VAL_FAMICOM_RU NULL
-#define OPTION_VAL_TV_RU NULL
-#define OPTION_VAL_FLAT_RU NULL
-#define OPTION_VAL_CRISP_RU NULL
+#define OPTION_VAL_TV_RU "ТВ"
+#define OPTION_VAL_FLAT_RU "Плоский"
+#define OPTION_VAL_CRISP_RU "Яркий"
 #define OPTION_VAL_TINNY_RU NULL
-#define QUICKNES_TURBO_ENABLE_LABEL_RU NULL
-#define QUICKNES_TURBO_ENABLE_INFO_0_RU NULL
-#define OPTION_VAL_NONE_RU NULL
-#define OPTION_VAL_PLAYER_1_RU NULL
-#define OPTION_VAL_PLAYER_2_RU NULL
-#define OPTION_VAL_BOTH_RU NULL
-#define QUICKNES_TURBO_PULSE_WIDTH_LABEL_RU NULL
-#define QUICKNES_TURBO_PULSE_WIDTH_INFO_0_RU NULL
-#define QUICKNES_UP_DOWN_ALLOWED_LABEL_RU NULL
-#define QUICKNES_UP_DOWN_ALLOWED_INFO_0_RU NULL
+#define QUICKNES_TURBO_ENABLE_LABEL_RU "Включить турбо"
+#define QUICKNES_TURBO_ENABLE_INFO_0_RU "Активирует использование кнопок Turbo A и Turbo B."
+#define OPTION_VAL_NONE_RU "Нет"
+#define OPTION_VAL_PLAYER_1_RU "Игрок 1"
+#define OPTION_VAL_PLAYER_2_RU "Игрок 2"
+#define OPTION_VAL_BOTH_RU "Игроки 1 & 2"
+#define QUICKNES_TURBO_PULSE_WIDTH_LABEL_RU "Ширина турбо-импульса (в кадрах)"
+#define QUICKNES_TURBO_PULSE_WIDTH_INFO_0_RU "Устанавливает ширину и интервал (в кадрах) для выходных импульсов при удерживании кнопок Turbo A и Turbo B. Например, значение по умолчанию '3' соответствует частоте турбо (60/(3+3)) = 10 Гц (10 нажатий в секунду)."
+#define QUICKNES_UP_DOWN_ALLOWED_LABEL_RU "Разрешить нажатия в разные стороны"
+#define QUICKNES_UP_DOWN_ALLOWED_INFO_0_RU "Позволяет нажимать / быстро менять / зажимать одновременно направления влево и вправо (или вверх и вниз). Может вызывать глитчи, связанные с перемещением."
 
 struct retro_core_option_v2_category option_cats_ru[] = {
    { NULL, NULL, NULL },
@@ -8033,11 +8033,11 @@ struct retro_core_options_v2 options_sv = {
 #define QUICKNES_ASPECT_RATIO_PAR_INFO_0_TR NULL
 #define OPTION_VAL_PAR_TR NULL
 #define OPTION_VAL_4_3_TR NULL
-#define QUICKNES_USE_OVERSCAN_H_LABEL_TR "Yatay ekran taşmasını göster"
+#define QUICKNES_USE_OVERSCAN_H_LABEL_TR "Yatay Aşırı Taramayı Göster"
 #define QUICKNES_USE_OVERSCAN_H_INFO_0_TR "Standart bir televizyon ekranının kenarına çerçeve tarafından gizlenmiş potansiyel olarak rastgele rastlanan video çıkışını kesmek (yatay olarak) için bunu devre dışı olarak ayarlayın."
-#define QUICKNES_USE_OVERSCAN_V_LABEL_TR NULL
+#define QUICKNES_USE_OVERSCAN_V_LABEL_TR "Dikey Aşırı Taramayı Göster"
 #define QUICKNES_USE_OVERSCAN_V_INFO_0_TR "Standart bir televizyon ekranının kenarına çerçeve tarafından gizlenmiş potansiyel olarak rastgele rastlanan video çıkışını kesmek (dikey olarak) için bunu devre dışı olarak ayarlayın."
-#define QUICKNES_PALETTE_LABEL_TR "Renk paleti"
+#define QUICKNES_PALETTE_LABEL_TR "Renk Paleti"
 #define QUICKNES_PALETTE_INFO_0_TR "NTS tarafından NTSC video sinyali çıkışının kodunu çözerken hangi renk paletinin kullanılacağını belirtir."
 #define OPTION_VAL_DEFAULT_TR "Varsayılan"
 #define OPTION_VAL_ASQREALC_TR NULL
@@ -8058,7 +8058,7 @@ struct retro_core_options_v2 options_sv = {
 #define OPTION_VAL_WAVEBEAM_TR NULL
 #define QUICKNES_NO_SPRITE_LIMIT_LABEL_TR "Sprite Sınırı Yok"
 #define QUICKNES_NO_SPRITE_LIMIT_INFO_0_TR "Scanline başına 8 donanım sınırını kaldırır. Bu, sprite titremesini azaltır ancak bazı efektler için bunu kullandığında bazı oyunların hata yapmasına neden olabilir."
-#define QUICKNES_AUDIO_NONLINEAR_LABEL_TR "Ses Modu"
+#define QUICKNES_AUDIO_NONLINEAR_LABEL_TR "Ses Kipi"
 #define QUICKNES_AUDIO_NONLINEAR_INFO_0_TR "Ses modunu yapılandırın. Stereo kaydırma, derinlik yöntemi eklemek için kaydırma yöntemi ve bazı yankı efektleri kullanarak stereoyu simüle eder."
 #define OPTION_VAL_NONLINEAR_TR NULL
 #define OPTION_VAL_LINEAR_TR NULL
@@ -8075,8 +8075,8 @@ struct retro_core_options_v2 options_sv = {
 #define OPTION_VAL_NONE_TR "Hiçbiri"
 #define OPTION_VAL_PLAYER_1_TR "1. Oyuncu"
 #define OPTION_VAL_PLAYER_2_TR "2. Oyuncu"
-#define OPTION_VAL_BOTH_TR "ikisi içinde"
-#define QUICKNES_TURBO_PULSE_WIDTH_LABEL_TR "Turbo darbe genişliği (çerçevelerde)"
+#define OPTION_VAL_BOTH_TR "İkisi içinde"
+#define QUICKNES_TURBO_PULSE_WIDTH_LABEL_TR "Turbo Darbe Genişliği (çerçevelerde)"
 #define QUICKNES_TURBO_PULSE_WIDTH_INFO_0_TR "Turbo A ve Turbo B düğmeleri basılı tutulduğunda 'darbelerin' girişinin hem genişliğini hem de aralığını (çerçevelerde) belirtir. Örneğin, varsayılan '3' ayarı bir (60 / (3 + 3)) = 10 Hz turbo frekansına (saniyede 10 basma) karşılık gelir."
 #define QUICKNES_UP_DOWN_ALLOWED_LABEL_TR "Karşı Yönlere İzin Ver"
 #define QUICKNES_UP_DOWN_ALLOWED_INFO_0_TR "Bunu etkinleştirmek aynı anda hem sola hem de sağa (veya bazı oyunlarda yukarı ve aşağı) yönlere basma / hızlı değiştirme / tutma olanağı sağlar. Bu, bazı oyunlarda harekete dayalı hataların oluşmasına neden olabilir. Bu core seçeneğinin devre dışı bırakılması en iyisidir."
