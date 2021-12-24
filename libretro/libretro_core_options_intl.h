@@ -39,7 +39,7 @@ extern "C" {
 */
 /* RETRO_LANGUAGE_AR */
 
-#define QUICKNES_ASPECT_RATIO_PAR_LABEL_AR NULL
+#define QUICKNES_ASPECT_RATIO_PAR_LABEL_AR "نسبة الجانب"
 #define QUICKNES_ASPECT_RATIO_PAR_INFO_0_AR NULL
 #define OPTION_VAL_PAR_AR NULL
 #define OPTION_VAL_4_3_AR NULL
@@ -71,7 +71,7 @@ extern "C" {
 #define QUICKNES_AUDIO_NONLINEAR_LABEL_AR NULL
 #define QUICKNES_AUDIO_NONLINEAR_INFO_0_AR NULL
 #define OPTION_VAL_NONLINEAR_AR NULL
-#define OPTION_VAL_LINEAR_AR NULL
+#define OPTION_VAL_LINEAR_AR "خطي"
 #define OPTION_VAL_STEREO_PANNING_AR NULL
 #define QUICKNES_AUDIO_EQ_LABEL_AR NULL
 #define QUICKNES_AUDIO_EQ_INFO_0_AR NULL
@@ -82,7 +82,7 @@ extern "C" {
 #define OPTION_VAL_TINNY_AR NULL
 #define QUICKNES_TURBO_ENABLE_LABEL_AR NULL
 #define QUICKNES_TURBO_ENABLE_INFO_0_AR NULL
-#define OPTION_VAL_NONE_AR NULL
+#define OPTION_VAL_NONE_AR "لاشيء"
 #define OPTION_VAL_PLAYER_1_AR NULL
 #define OPTION_VAL_PLAYER_2_AR NULL
 #define OPTION_VAL_BOTH_AR NULL
@@ -744,7 +744,7 @@ struct retro_core_options_v2 options_ca = {
 
 /* RETRO_LANGUAGE_CHS */
 
-#define QUICKNES_ASPECT_RATIO_PAR_LABEL_CHS NULL
+#define QUICKNES_ASPECT_RATIO_PAR_LABEL_CHS "纵横比"
 #define QUICKNES_ASPECT_RATIO_PAR_INFO_0_CHS NULL
 #define OPTION_VAL_PAR_CHS NULL
 #define OPTION_VAL_4_3_CHS NULL
@@ -752,9 +752,9 @@ struct retro_core_options_v2 options_ca = {
 #define QUICKNES_USE_OVERSCAN_H_INFO_0_CHS NULL
 #define QUICKNES_USE_OVERSCAN_V_LABEL_CHS NULL
 #define QUICKNES_USE_OVERSCAN_V_INFO_0_CHS NULL
-#define QUICKNES_PALETTE_LABEL_CHS NULL
+#define QUICKNES_PALETTE_LABEL_CHS "色板"
 #define QUICKNES_PALETTE_INFO_0_CHS NULL
-#define OPTION_VAL_DEFAULT_CHS NULL
+#define OPTION_VAL_DEFAULT_CHS "默认值"
 #define OPTION_VAL_ASQREALC_CHS NULL
 #define OPTION_VAL_NINTENDO_VC_CHS NULL
 #define OPTION_VAL_RGB_CHS NULL
@@ -776,20 +776,20 @@ struct retro_core_options_v2 options_ca = {
 #define QUICKNES_AUDIO_NONLINEAR_LABEL_CHS NULL
 #define QUICKNES_AUDIO_NONLINEAR_INFO_0_CHS NULL
 #define OPTION_VAL_NONLINEAR_CHS NULL
-#define OPTION_VAL_LINEAR_CHS NULL
+#define OPTION_VAL_LINEAR_CHS "线性"
 #define OPTION_VAL_STEREO_PANNING_CHS NULL
 #define QUICKNES_AUDIO_EQ_LABEL_CHS NULL
 #define QUICKNES_AUDIO_EQ_INFO_0_CHS NULL
 #define OPTION_VAL_FAMICOM_CHS NULL
 #define OPTION_VAL_TV_CHS NULL
-#define OPTION_VAL_FLAT_CHS NULL
-#define OPTION_VAL_CRISP_CHS NULL
+#define OPTION_VAL_FLAT_CHS "扁平"
+#define OPTION_VAL_CRISP_CHS "快速"
 #define OPTION_VAL_TINNY_CHS NULL
 #define QUICKNES_TURBO_ENABLE_LABEL_CHS NULL
 #define QUICKNES_TURBO_ENABLE_INFO_0_CHS NULL
-#define OPTION_VAL_NONE_CHS NULL
-#define OPTION_VAL_PLAYER_1_CHS NULL
-#define OPTION_VAL_PLAYER_2_CHS NULL
+#define OPTION_VAL_NONE_CHS "无"
+#define OPTION_VAL_PLAYER_1_CHS "玩家甲"
+#define OPTION_VAL_PLAYER_2_CHS "玩家乙"
 #define OPTION_VAL_BOTH_CHS NULL
 #define QUICKNES_TURBO_PULSE_WIDTH_LABEL_CHS NULL
 #define QUICKNES_TURBO_PULSE_WIDTH_INFO_0_CHS NULL
@@ -979,7 +979,7 @@ struct retro_core_options_v2 options_chs = {
 
 /* RETRO_LANGUAGE_CHT */
 
-#define QUICKNES_ASPECT_RATIO_PAR_LABEL_CHT NULL
+#define QUICKNES_ASPECT_RATIO_PAR_LABEL_CHT "長寬比"
 #define QUICKNES_ASPECT_RATIO_PAR_INFO_0_CHT NULL
 #define OPTION_VAL_PAR_CHT NULL
 #define OPTION_VAL_4_3_CHT NULL
@@ -1011,7 +1011,7 @@ struct retro_core_options_v2 options_chs = {
 #define QUICKNES_AUDIO_NONLINEAR_LABEL_CHT NULL
 #define QUICKNES_AUDIO_NONLINEAR_INFO_0_CHT NULL
 #define OPTION_VAL_NONLINEAR_CHT NULL
-#define OPTION_VAL_LINEAR_CHT NULL
+#define OPTION_VAL_LINEAR_CHT "線性"
 #define OPTION_VAL_STEREO_PANNING_CHT NULL
 #define QUICKNES_AUDIO_EQ_LABEL_CHT NULL
 #define QUICKNES_AUDIO_EQ_INFO_0_CHT NULL
@@ -1022,7 +1022,7 @@ struct retro_core_options_v2 options_chs = {
 #define OPTION_VAL_TINNY_CHT NULL
 #define QUICKNES_TURBO_ENABLE_LABEL_CHT NULL
 #define QUICKNES_TURBO_ENABLE_INFO_0_CHT NULL
-#define OPTION_VAL_NONE_CHT NULL
+#define OPTION_VAL_NONE_CHT "無"
 #define OPTION_VAL_PLAYER_1_CHT NULL
 #define OPTION_VAL_PLAYER_2_CHT NULL
 #define OPTION_VAL_BOTH_CHT NULL
@@ -1492,7 +1492,7 @@ struct retro_core_options_v2 options_cs = {
 #define OPTION_VAL_TINNY_CY NULL
 #define QUICKNES_TURBO_ENABLE_LABEL_CY NULL
 #define QUICKNES_TURBO_ENABLE_INFO_0_CY NULL
-#define OPTION_VAL_NONE_CY NULL
+#define OPTION_VAL_NONE_CY "Dim"
 #define OPTION_VAL_PLAYER_1_CY NULL
 #define OPTION_VAL_PLAYER_2_CY NULL
 #define OPTION_VAL_BOTH_CY NULL
@@ -1919,7 +1919,7 @@ struct retro_core_options_v2 options_da = {
 
 /* RETRO_LANGUAGE_DE */
 
-#define QUICKNES_ASPECT_RATIO_PAR_LABEL_DE NULL
+#define QUICKNES_ASPECT_RATIO_PAR_LABEL_DE "Bildseitenverhältnis"
 #define QUICKNES_ASPECT_RATIO_PAR_INFO_0_DE NULL
 #define OPTION_VAL_PAR_DE NULL
 #define OPTION_VAL_4_3_DE NULL
@@ -1927,25 +1927,25 @@ struct retro_core_options_v2 options_da = {
 #define QUICKNES_USE_OVERSCAN_H_INFO_0_DE NULL
 #define QUICKNES_USE_OVERSCAN_V_LABEL_DE NULL
 #define QUICKNES_USE_OVERSCAN_V_INFO_0_DE NULL
-#define QUICKNES_PALETTE_LABEL_DE NULL
+#define QUICKNES_PALETTE_LABEL_DE "Farbpalette"
 #define QUICKNES_PALETTE_INFO_0_DE NULL
-#define OPTION_VAL_DEFAULT_DE NULL
+#define OPTION_VAL_DEFAULT_DE "Standard"
 #define OPTION_VAL_ASQREALC_DE NULL
-#define OPTION_VAL_NINTENDO_VC_DE NULL
+#define OPTION_VAL_NINTENDO_VC_DE "Nintendo Virtuelle Konsole"
 #define OPTION_VAL_RGB_DE NULL
 #define OPTION_VAL_YUV_V3_DE NULL
-#define OPTION_VAL_UNSATURATED_FINAL_DE NULL
+#define OPTION_VAL_UNSATURATED_FINAL_DE "FBX's Ungesättigt-Final"
 #define OPTION_VAL_SONY_CXA2025AS_US_DE NULL
 #define OPTION_VAL_PAL_DE NULL
 #define OPTION_VAL_BMF_FINAL2_DE NULL
 #define OPTION_VAL_BMF_FINAL3_DE NULL
-#define OPTION_VAL_SMOOTH_FBX_DE NULL
-#define OPTION_VAL_COMPOSITE_DIRECT_FBX_DE NULL
-#define OPTION_VAL_PVM_STYLE_D93_FBX_DE NULL
+#define OPTION_VAL_SMOOTH_FBX_DE "FBX's Glatt"
+#define OPTION_VAL_COMPOSITE_DIRECT_FBX_DE "FBX's Komposit Direkt"
+#define OPTION_VAL_PVM_STYLE_D93_FBX_DE "FBX's PVM-Stil D93"
 #define OPTION_VAL_NTSC_HARDWARE_FBX_DE NULL
 #define OPTION_VAL_NES_CLASSIC_FBX_FS_DE NULL
 #define OPTION_VAL_NESCAP_DE NULL
-#define OPTION_VAL_WAVEBEAM_DE NULL
+#define OPTION_VAL_WAVEBEAM_DE "nakedarthur's Wellenstrahl"
 #define QUICKNES_NO_SPRITE_LIMIT_LABEL_DE NULL
 #define QUICKNES_NO_SPRITE_LIMIT_INFO_0_DE NULL
 #define QUICKNES_AUDIO_NONLINEAR_LABEL_DE NULL
@@ -1962,7 +1962,7 @@ struct retro_core_options_v2 options_da = {
 #define OPTION_VAL_TINNY_DE NULL
 #define QUICKNES_TURBO_ENABLE_LABEL_DE NULL
 #define QUICKNES_TURBO_ENABLE_INFO_0_DE NULL
-#define OPTION_VAL_NONE_DE NULL
+#define OPTION_VAL_NONE_DE "Keine"
 #define OPTION_VAL_PLAYER_1_DE NULL
 #define OPTION_VAL_PLAYER_2_DE NULL
 #define OPTION_VAL_BOTH_DE NULL
@@ -2154,7 +2154,7 @@ struct retro_core_options_v2 options_de = {
 
 /* RETRO_LANGUAGE_EL */
 
-#define QUICKNES_ASPECT_RATIO_PAR_LABEL_EL NULL
+#define QUICKNES_ASPECT_RATIO_PAR_LABEL_EL "Αναλογία Οθόνης"
 #define QUICKNES_ASPECT_RATIO_PAR_INFO_0_EL NULL
 #define OPTION_VAL_PAR_EL NULL
 #define OPTION_VAL_4_3_EL NULL
@@ -2186,7 +2186,7 @@ struct retro_core_options_v2 options_de = {
 #define QUICKNES_AUDIO_NONLINEAR_LABEL_EL NULL
 #define QUICKNES_AUDIO_NONLINEAR_INFO_0_EL NULL
 #define OPTION_VAL_NONLINEAR_EL NULL
-#define OPTION_VAL_LINEAR_EL NULL
+#define OPTION_VAL_LINEAR_EL "Γραμμικό"
 #define OPTION_VAL_STEREO_PANNING_EL NULL
 #define QUICKNES_AUDIO_EQ_LABEL_EL NULL
 #define QUICKNES_AUDIO_EQ_INFO_0_EL NULL
@@ -2197,7 +2197,7 @@ struct retro_core_options_v2 options_de = {
 #define OPTION_VAL_TINNY_EL NULL
 #define QUICKNES_TURBO_ENABLE_LABEL_EL NULL
 #define QUICKNES_TURBO_ENABLE_INFO_0_EL NULL
-#define OPTION_VAL_NONE_EL NULL
+#define OPTION_VAL_NONE_EL "Τίποτα"
 #define OPTION_VAL_PLAYER_1_EL NULL
 #define OPTION_VAL_PLAYER_2_EL NULL
 #define OPTION_VAL_BOTH_EL NULL
@@ -2652,7 +2652,7 @@ struct retro_core_options_v2 options_eo = {
 #define OPTION_VAL_NESCAP_ES "NESCAP de RGBSource"
 #define OPTION_VAL_WAVEBEAM_ES "Wavebeam de nakedarthur"
 #define QUICKNES_NO_SPRITE_LIMIT_LABEL_ES "Desactivar límite de sprites"
-#define QUICKNES_NO_SPRITE_LIMIT_INFO_0_ES "Elimina el límite de ocho sprites por líneas de exploración que tenía el hardware original. Reduce los parpadeos, pero puede provocar fallos gráficos, ya que algunos juegos aprovechan esta limitación para generar efectos especiales."
+#define QUICKNES_NO_SPRITE_LIMIT_INFO_0_ES "Elimina el límite de ocho sprites por línea de barrido que tenía el hardware original. Reduce los parpadeos, pero puede provocar fallos gráficos, ya que algunos juegos aprovechan esta limitación para generar efectos especiales."
 #define QUICKNES_AUDIO_NONLINEAR_LABEL_ES "Modo de audio"
 #define QUICKNES_AUDIO_NONLINEAR_INFO_0_ES "Configura la emulación de audio. «No lineal» simula la mezcla de canales no lineal de la APU de NES. «Lineal» utilizará una aproximación menos fiel, reduciendo la calidad pero mejorando el rendimiento en hardware poco potente. «Panoramizar a estéreo» añade más profundidad a la salida mono de NES mediante el uso de técnicas de paneo (panoramización) y efectos de reverberación."
 #define OPTION_VAL_NONLINEAR_ES "No lineal"
@@ -3117,8 +3117,8 @@ struct retro_core_options_v2 options_fa = {
 #define OPTION_VAL_SMOOTH_FBX_FI NULL
 #define OPTION_VAL_COMPOSITE_DIRECT_FBX_FI NULL
 #define OPTION_VAL_PVM_STYLE_D93_FBX_FI NULL
-#define OPTION_VAL_NTSC_HARDWARE_FBX_FI NULL
-#define OPTION_VAL_NES_CLASSIC_FBX_FS_FI NULL
+#define OPTION_VAL_NTSC_HARDWARE_FBX_FI "FBX:n NTSC laitteisto"
+#define OPTION_VAL_NES_CLASSIC_FBX_FS_FI "FBX:n NES-Classic (korjattu)"
 #define OPTION_VAL_NESCAP_FI NULL
 #define OPTION_VAL_WAVEBEAM_FI NULL
 #define QUICKNES_NO_SPRITE_LIMIT_LABEL_FI "Poista sprite-rajoitus"
@@ -3607,7 +3607,7 @@ struct retro_core_options_v2 options_fr = {
 #define OPTION_VAL_TINNY_GL NULL
 #define QUICKNES_TURBO_ENABLE_LABEL_GL NULL
 #define QUICKNES_TURBO_ENABLE_INFO_0_GL NULL
-#define OPTION_VAL_NONE_GL NULL
+#define OPTION_VAL_NONE_GL "Ningún"
 #define OPTION_VAL_PLAYER_1_GL NULL
 #define OPTION_VAL_PLAYER_2_GL NULL
 #define OPTION_VAL_BOTH_GL NULL
@@ -3799,7 +3799,7 @@ struct retro_core_options_v2 options_gl = {
 
 /* RETRO_LANGUAGE_HE */
 
-#define QUICKNES_ASPECT_RATIO_PAR_LABEL_HE NULL
+#define QUICKNES_ASPECT_RATIO_PAR_LABEL_HE "יחס גובה-רוחב"
 #define QUICKNES_ASPECT_RATIO_PAR_INFO_0_HE NULL
 #define OPTION_VAL_PAR_HE NULL
 #define OPTION_VAL_4_3_HE NULL
@@ -4034,7 +4034,7 @@ struct retro_core_options_v2 options_he = {
 
 /* RETRO_LANGUAGE_HU */
 
-#define QUICKNES_ASPECT_RATIO_PAR_LABEL_HU NULL
+#define QUICKNES_ASPECT_RATIO_PAR_LABEL_HU "Képarány"
 #define QUICKNES_ASPECT_RATIO_PAR_INFO_0_HU NULL
 #define OPTION_VAL_PAR_HU NULL
 #define OPTION_VAL_4_3_HU NULL
@@ -4269,7 +4269,7 @@ struct retro_core_options_v2 options_hu = {
 
 /* RETRO_LANGUAGE_ID */
 
-#define QUICKNES_ASPECT_RATIO_PAR_LABEL_ID NULL
+#define QUICKNES_ASPECT_RATIO_PAR_LABEL_ID "Rasio Aspek"
 #define QUICKNES_ASPECT_RATIO_PAR_INFO_0_ID NULL
 #define OPTION_VAL_PAR_ID NULL
 #define OPTION_VAL_4_3_ID NULL
@@ -4739,7 +4739,7 @@ struct retro_core_options_v2 options_it = {
 
 /* RETRO_LANGUAGE_JA */
 
-#define QUICKNES_ASPECT_RATIO_PAR_LABEL_JA NULL
+#define QUICKNES_ASPECT_RATIO_PAR_LABEL_JA "アスペクト比"
 #define QUICKNES_ASPECT_RATIO_PAR_INFO_0_JA NULL
 #define OPTION_VAL_PAR_JA NULL
 #define OPTION_VAL_4_3_JA NULL
@@ -4749,7 +4749,7 @@ struct retro_core_options_v2 options_it = {
 #define QUICKNES_USE_OVERSCAN_V_INFO_0_JA NULL
 #define QUICKNES_PALETTE_LABEL_JA NULL
 #define QUICKNES_PALETTE_INFO_0_JA NULL
-#define OPTION_VAL_DEFAULT_JA NULL
+#define OPTION_VAL_DEFAULT_JA "デフォルト"
 #define OPTION_VAL_ASQREALC_JA NULL
 #define OPTION_VAL_NINTENDO_VC_JA NULL
 #define OPTION_VAL_RGB_JA NULL
@@ -4771,7 +4771,7 @@ struct retro_core_options_v2 options_it = {
 #define QUICKNES_AUDIO_NONLINEAR_LABEL_JA NULL
 #define QUICKNES_AUDIO_NONLINEAR_INFO_0_JA NULL
 #define OPTION_VAL_NONLINEAR_JA NULL
-#define OPTION_VAL_LINEAR_JA NULL
+#define OPTION_VAL_LINEAR_JA "リニア"
 #define OPTION_VAL_STEREO_PANNING_JA NULL
 #define QUICKNES_AUDIO_EQ_LABEL_JA NULL
 #define QUICKNES_AUDIO_EQ_INFO_0_JA NULL
@@ -4782,7 +4782,7 @@ struct retro_core_options_v2 options_it = {
 #define OPTION_VAL_TINNY_JA NULL
 #define QUICKNES_TURBO_ENABLE_LABEL_JA NULL
 #define QUICKNES_TURBO_ENABLE_INFO_0_JA NULL
-#define OPTION_VAL_NONE_JA NULL
+#define OPTION_VAL_NONE_JA "なし"
 #define OPTION_VAL_PLAYER_1_JA NULL
 #define OPTION_VAL_PLAYER_2_JA NULL
 #define OPTION_VAL_BOTH_JA NULL
@@ -5444,7 +5444,7 @@ struct retro_core_options_v2 options_mt = {
 
 /* RETRO_LANGUAGE_NL */
 
-#define QUICKNES_ASPECT_RATIO_PAR_LABEL_NL NULL
+#define QUICKNES_ASPECT_RATIO_PAR_LABEL_NL "Beeldverhouding"
 #define QUICKNES_ASPECT_RATIO_PAR_INFO_0_NL NULL
 #define OPTION_VAL_PAR_NL NULL
 #define OPTION_VAL_4_3_NL NULL
@@ -5476,7 +5476,7 @@ struct retro_core_options_v2 options_mt = {
 #define QUICKNES_AUDIO_NONLINEAR_LABEL_NL NULL
 #define QUICKNES_AUDIO_NONLINEAR_INFO_0_NL NULL
 #define OPTION_VAL_NONLINEAR_NL NULL
-#define OPTION_VAL_LINEAR_NL NULL
+#define OPTION_VAL_LINEAR_NL "Lineair"
 #define OPTION_VAL_STEREO_PANNING_NL NULL
 #define QUICKNES_AUDIO_EQ_LABEL_NL NULL
 #define QUICKNES_AUDIO_EQ_INFO_0_NL NULL
@@ -5487,7 +5487,7 @@ struct retro_core_options_v2 options_mt = {
 #define OPTION_VAL_TINNY_NL NULL
 #define QUICKNES_TURBO_ENABLE_LABEL_NL NULL
 #define QUICKNES_TURBO_ENABLE_INFO_0_NL NULL
-#define OPTION_VAL_NONE_NL NULL
+#define OPTION_VAL_NONE_NL "Geen"
 #define OPTION_VAL_PLAYER_1_NL NULL
 #define OPTION_VAL_PLAYER_2_NL NULL
 #define OPTION_VAL_BOTH_NL NULL
@@ -5930,7 +5930,7 @@ struct retro_core_options_v2 options_oc = {
 #define OPTION_VAL_RGB_PL NULL
 #define OPTION_VAL_YUV_V3_PL "FBX YUV-V3"
 #define OPTION_VAL_UNSATURATED_FINAL_PL NULL
-#define OPTION_VAL_SONY_CXA2025AS_US_PL NULL
+#define OPTION_VAL_SONY_CXA2025AS_US_PL "Sony CXA2025AS USA"
 #define OPTION_VAL_PAL_PL NULL
 #define OPTION_VAL_BMF_FINAL2_PL NULL
 #define OPTION_VAL_BMF_FINAL3_PL NULL
@@ -5946,7 +5946,7 @@ struct retro_core_options_v2 options_oc = {
 #define QUICKNES_AUDIO_NONLINEAR_LABEL_PL NULL
 #define QUICKNES_AUDIO_NONLINEAR_INFO_0_PL NULL
 #define OPTION_VAL_NONLINEAR_PL NULL
-#define OPTION_VAL_LINEAR_PL NULL
+#define OPTION_VAL_LINEAR_PL "Liniowy"
 #define OPTION_VAL_STEREO_PANNING_PL NULL
 #define QUICKNES_AUDIO_EQ_LABEL_PL NULL
 #define QUICKNES_AUDIO_EQ_INFO_0_PL NULL
@@ -5957,13 +5957,13 @@ struct retro_core_options_v2 options_oc = {
 #define OPTION_VAL_TINNY_PL NULL
 #define QUICKNES_TURBO_ENABLE_LABEL_PL NULL
 #define QUICKNES_TURBO_ENABLE_INFO_0_PL NULL
-#define OPTION_VAL_NONE_PL NULL
+#define OPTION_VAL_NONE_PL "Brak"
 #define OPTION_VAL_PLAYER_1_PL NULL
 #define OPTION_VAL_PLAYER_2_PL NULL
 #define OPTION_VAL_BOTH_PL NULL
 #define QUICKNES_TURBO_PULSE_WIDTH_LABEL_PL NULL
 #define QUICKNES_TURBO_PULSE_WIDTH_INFO_0_PL NULL
-#define QUICKNES_UP_DOWN_ALLOWED_LABEL_PL NULL
+#define QUICKNES_UP_DOWN_ALLOWED_LABEL_PL "Zezwalaj na przeciwne kierunki"
 #define QUICKNES_UP_DOWN_ALLOWED_INFO_0_PL NULL
 
 struct retro_core_option_v2_category option_cats_pl[] = {
@@ -6384,7 +6384,7 @@ struct retro_core_options_v2 options_pt_br = {
 
 /* RETRO_LANGUAGE_PT_PT */
 
-#define QUICKNES_ASPECT_RATIO_PAR_LABEL_PT_PT NULL
+#define QUICKNES_ASPECT_RATIO_PAR_LABEL_PT_PT "Proporção do ecrã"
 #define QUICKNES_ASPECT_RATIO_PAR_INFO_0_PT_PT NULL
 #define OPTION_VAL_PAR_PT_PT NULL
 #define OPTION_VAL_4_3_PT_PT NULL
@@ -6427,7 +6427,7 @@ struct retro_core_options_v2 options_pt_br = {
 #define OPTION_VAL_TINNY_PT_PT NULL
 #define QUICKNES_TURBO_ENABLE_LABEL_PT_PT NULL
 #define QUICKNES_TURBO_ENABLE_INFO_0_PT_PT NULL
-#define OPTION_VAL_NONE_PT_PT NULL
+#define OPTION_VAL_NONE_PT_PT "Nenhum"
 #define OPTION_VAL_PLAYER_1_PT_PT NULL
 #define OPTION_VAL_PLAYER_2_PT_PT NULL
 #define OPTION_VAL_BOTH_PT_PT NULL
@@ -6854,7 +6854,7 @@ struct retro_core_options_v2 options_ro = {
 
 /* RETRO_LANGUAGE_RU */
 
-#define QUICKNES_ASPECT_RATIO_PAR_LABEL_RU NULL
+#define QUICKNES_ASPECT_RATIO_PAR_LABEL_RU "Соотношение сторон"
 #define QUICKNES_ASPECT_RATIO_PAR_INFO_0_RU NULL
 #define OPTION_VAL_PAR_RU NULL
 #define OPTION_VAL_4_3_RU NULL
@@ -6864,7 +6864,7 @@ struct retro_core_options_v2 options_ro = {
 #define QUICKNES_USE_OVERSCAN_V_INFO_0_RU NULL
 #define QUICKNES_PALETTE_LABEL_RU NULL
 #define QUICKNES_PALETTE_INFO_0_RU NULL
-#define OPTION_VAL_DEFAULT_RU NULL
+#define OPTION_VAL_DEFAULT_RU "Стандартный"
 #define OPTION_VAL_ASQREALC_RU NULL
 #define OPTION_VAL_NINTENDO_VC_RU NULL
 #define OPTION_VAL_RGB_RU NULL
@@ -6886,7 +6886,7 @@ struct retro_core_options_v2 options_ro = {
 #define QUICKNES_AUDIO_NONLINEAR_LABEL_RU NULL
 #define QUICKNES_AUDIO_NONLINEAR_INFO_0_RU NULL
 #define OPTION_VAL_NONLINEAR_RU NULL
-#define OPTION_VAL_LINEAR_RU NULL
+#define OPTION_VAL_LINEAR_RU "Линейный"
 #define OPTION_VAL_STEREO_PANNING_RU NULL
 #define QUICKNES_AUDIO_EQ_LABEL_RU "Пресет эквалайзера"
 #define QUICKNES_AUDIO_EQ_INFO_0_RU NULL
@@ -7324,7 +7324,7 @@ struct retro_core_options_v2 options_si = {
 
 /* RETRO_LANGUAGE_SK */
 
-#define QUICKNES_ASPECT_RATIO_PAR_LABEL_SK NULL
+#define QUICKNES_ASPECT_RATIO_PAR_LABEL_SK "Pomer strán"
 #define QUICKNES_ASPECT_RATIO_PAR_INFO_0_SK NULL
 #define OPTION_VAL_PAR_SK NULL
 #define OPTION_VAL_4_3_SK NULL
@@ -7356,7 +7356,7 @@ struct retro_core_options_v2 options_si = {
 #define QUICKNES_AUDIO_NONLINEAR_LABEL_SK NULL
 #define QUICKNES_AUDIO_NONLINEAR_INFO_0_SK NULL
 #define OPTION_VAL_NONLINEAR_SK NULL
-#define OPTION_VAL_LINEAR_SK NULL
+#define OPTION_VAL_LINEAR_SK "Lineárny"
 #define OPTION_VAL_STEREO_PANNING_SK NULL
 #define QUICKNES_AUDIO_EQ_LABEL_SK NULL
 #define QUICKNES_AUDIO_EQ_INFO_0_SK NULL
@@ -7367,7 +7367,7 @@ struct retro_core_options_v2 options_si = {
 #define OPTION_VAL_TINNY_SK NULL
 #define QUICKNES_TURBO_ENABLE_LABEL_SK NULL
 #define QUICKNES_TURBO_ENABLE_INFO_0_SK NULL
-#define OPTION_VAL_NONE_SK NULL
+#define OPTION_VAL_NONE_SK "Žiadne"
 #define OPTION_VAL_PLAYER_1_SK NULL
 #define OPTION_VAL_PLAYER_2_SK NULL
 #define OPTION_VAL_BOTH_SK NULL
@@ -7559,7 +7559,7 @@ struct retro_core_options_v2 options_sk = {
 
 /* RETRO_LANGUAGE_SR */
 
-#define QUICKNES_ASPECT_RATIO_PAR_LABEL_SR NULL
+#define QUICKNES_ASPECT_RATIO_PAR_LABEL_SR "Odnos ekrana"
 #define QUICKNES_ASPECT_RATIO_PAR_INFO_0_SR NULL
 #define OPTION_VAL_PAR_SR NULL
 #define OPTION_VAL_4_3_SR NULL
@@ -7794,7 +7794,7 @@ struct retro_core_options_v2 options_sr = {
 
 /* RETRO_LANGUAGE_SV */
 
-#define QUICKNES_ASPECT_RATIO_PAR_LABEL_SV NULL
+#define QUICKNES_ASPECT_RATIO_PAR_LABEL_SV "Bildförhållande"
 #define QUICKNES_ASPECT_RATIO_PAR_INFO_0_SV NULL
 #define OPTION_VAL_PAR_SV NULL
 #define OPTION_VAL_4_3_SV NULL
@@ -8030,15 +8030,15 @@ struct retro_core_options_v2 options_sv = {
 /* RETRO_LANGUAGE_TR */
 
 #define QUICKNES_ASPECT_RATIO_PAR_LABEL_TR "En Boy Oranı"
-#define QUICKNES_ASPECT_RATIO_PAR_INFO_0_TR NULL
+#define QUICKNES_ASPECT_RATIO_PAR_INFO_0_TR "Bu, yalnızca RetroArch en boy oranı Video ayarlarında 'Çekirdeğe özel' olarak ayarlandığında geçerli olacaktır."
 #define OPTION_VAL_PAR_TR NULL
 #define OPTION_VAL_4_3_TR NULL
 #define QUICKNES_USE_OVERSCAN_H_LABEL_TR "Yatay Aşırı Taramayı Göster"
-#define QUICKNES_USE_OVERSCAN_H_INFO_0_TR "Standart bir televizyon ekranının kenarına çerçeve tarafından gizlenmiş potansiyel olarak rastgele rastlanan video çıkışını kesmek (yatay olarak) için bunu devre dışı olarak ayarlayın."
+#define QUICKNES_USE_OVERSCAN_H_INFO_0_TR "Standart tanımlı bir televizyon ekranının kenarındaki çerçeve tarafından gizlenmiş olabilecek olası rastgele arızalı video çıkışını (yatay olarak) kırpmak için bunu devre dışı bırakın."
 #define QUICKNES_USE_OVERSCAN_V_LABEL_TR "Dikey Aşırı Taramayı Göster"
-#define QUICKNES_USE_OVERSCAN_V_INFO_0_TR "Standart bir televizyon ekranının kenarına çerçeve tarafından gizlenmiş potansiyel olarak rastgele rastlanan video çıkışını kesmek (dikey olarak) için bunu devre dışı olarak ayarlayın."
+#define QUICKNES_USE_OVERSCAN_V_INFO_0_TR "Standart tanımlı bir televizyon ekranının kenarındaki çerçeve tarafından gizlenmiş olabilecek olası rastgele arızalı video çıkışını (dikey olarak) kırpmak için bunu devre dışı bırakın."
 #define QUICKNES_PALETTE_LABEL_TR "Renk Paleti"
-#define QUICKNES_PALETTE_INFO_0_TR "NTS tarafından NTSC video sinyali çıkışının kodunu çözerken hangi renk paletinin kullanılacağını belirtir."
+#define QUICKNES_PALETTE_INFO_0_TR "NES tarafından NTSC video sinyali çıkışının kodunu çözerken hangi renk paletinin kullanılacağını belirtir."
 #define OPTION_VAL_DEFAULT_TR "Varsayılan"
 #define OPTION_VAL_ASQREALC_TR NULL
 #define OPTION_VAL_NINTENDO_VC_TR NULL
@@ -8056,20 +8056,20 @@ struct retro_core_options_v2 options_sv = {
 #define OPTION_VAL_NES_CLASSIC_FBX_FS_TR NULL
 #define OPTION_VAL_NESCAP_TR NULL
 #define OPTION_VAL_WAVEBEAM_TR NULL
-#define QUICKNES_NO_SPRITE_LIMIT_LABEL_TR "Sprite Sınırı Yok"
-#define QUICKNES_NO_SPRITE_LIMIT_INFO_0_TR "Scanline başına 8 donanım sınırını kaldırır. Bu, sprite titremesini azaltır ancak bazı efektler için bunu kullandığında bazı oyunların hata yapmasına neden olabilir."
+#define QUICKNES_NO_SPRITE_LIMIT_LABEL_TR "Hareket Sınırını Kaldır"
+#define QUICKNES_NO_SPRITE_LIMIT_INFO_0_TR "Tarama satırı başına 8 hareketli grafik donanım sınırını kaldırır. Bu, titremeyi azaltır ancak bazı oyunlar özel efektler oluşturmak için donanım sınırını kullandığından görsel hatalara neden olabilir."
 #define QUICKNES_AUDIO_NONLINEAR_LABEL_TR "Ses Kipi"
-#define QUICKNES_AUDIO_NONLINEAR_INFO_0_TR "Ses modunu yapılandırın. Stereo kaydırma, derinlik yöntemi eklemek için kaydırma yöntemi ve bazı yankı efektleri kullanarak stereoyu simüle eder."
-#define OPTION_VAL_NONLINEAR_TR NULL
-#define OPTION_VAL_LINEAR_TR NULL
-#define OPTION_VAL_STEREO_PANNING_TR NULL
-#define QUICKNES_AUDIO_EQ_LABEL_TR "Ses ekolayzer ön ayarı"
-#define QUICKNES_AUDIO_EQ_INFO_0_TR "Sesi eşitlemeye bir ön ayar uygular"
+#define QUICKNES_AUDIO_NONLINEAR_INFO_0_TR "Ses taklidini yapılandırın. 'Doğrusal Olmayan', NES APU'nun doğrusal olmayan kanal karıştırmasını taklit eder. 'Doğrusal', kaliteyi düşüren ancak düşük kaliteli donanımlarda performansı artıran daha az doğru bir tahmin kullanır. 'Stereo Kaydırma', kaydırma teknikleri ve yankı efektlerinin kullanımı yoluyla NES mono çıkışına derinlik katar."
+#define OPTION_VAL_NONLINEAR_TR "Doğrusal Olmayan"
+#define OPTION_VAL_LINEAR_TR "Doğrusal"
+#define OPTION_VAL_STEREO_PANNING_TR "Stereo Kaydırma"
+#define QUICKNES_AUDIO_EQ_LABEL_TR "Ses Karıştırıcı Ön Ayarı"
+#define QUICKNES_AUDIO_EQ_INFO_0_TR "Özel bir karıştırıcı ön ayarıyla ses frekansı bileşenleri arasındaki dengeyi ayarlayın."
 #define OPTION_VAL_FAMICOM_TR NULL
 #define OPTION_VAL_TV_TR NULL
-#define OPTION_VAL_FLAT_TR NULL
-#define OPTION_VAL_CRISP_TR NULL
-#define OPTION_VAL_TINNY_TR NULL
+#define OPTION_VAL_FLAT_TR "Düz"
+#define OPTION_VAL_CRISP_TR "Kıvrımlı"
+#define OPTION_VAL_TINNY_TR "Teneke"
 #define QUICKNES_TURBO_ENABLE_LABEL_TR "Turbo'yu Etkinleştir"
 #define QUICKNES_TURBO_ENABLE_INFO_0_TR "Turbo A ve Turbo B düğmelerinin kullanılmasını sağlar."
 #define OPTION_VAL_NONE_TR "Hiçbiri"
@@ -8077,9 +8077,9 @@ struct retro_core_options_v2 options_sv = {
 #define OPTION_VAL_PLAYER_2_TR "2. Oyuncu"
 #define OPTION_VAL_BOTH_TR "İkisi içinde"
 #define QUICKNES_TURBO_PULSE_WIDTH_LABEL_TR "Turbo Darbe Genişliği (çerçevelerde)"
-#define QUICKNES_TURBO_PULSE_WIDTH_INFO_0_TR "Turbo A ve Turbo B düğmeleri basılı tutulduğunda 'darbelerin' girişinin hem genişliğini hem de aralığını (çerçevelerde) belirtir. Örneğin, varsayılan '3' ayarı bir (60 / (3 + 3)) = 10 Hz turbo frekansına (saniyede 10 basma) karşılık gelir."
+#define QUICKNES_TURBO_PULSE_WIDTH_INFO_0_TR "Turbo A ve Turbo B düğmeleri basılı tutulduğunda 'darbeler' girişinin hem genişliğini hem de aralığını (çerçevelerde) belirtir. Örneğin, varsayılan '3' ayarı a (60/(3+3)) = 10 Hz turbo frekansına (saniyede 10 basma) karşılık gelir."
 #define QUICKNES_UP_DOWN_ALLOWED_LABEL_TR "Karşı Yönlere İzin Ver"
-#define QUICKNES_UP_DOWN_ALLOWED_INFO_0_TR "Bunu etkinleştirmek aynı anda hem sola hem de sağa (veya bazı oyunlarda yukarı ve aşağı) yönlere basma / hızlı değiştirme / tutma olanağı sağlar. Bu, bazı oyunlarda harekete dayalı hataların oluşmasına neden olabilir. Bu core seçeneğinin devre dışı bırakılması en iyisidir."
+#define QUICKNES_UP_DOWN_ALLOWED_INFO_0_TR "Bunun etkinleştirilmesi, aynı anda hem sol hem de sağ (veya yukarı ve aşağı) yönlere basılmasına / hızlı bir şekilde değiştirilmesine / basılı tutulmasına olanak tanır. Bu, hareket tabanlı aksaklıklara neden olabilir."
 
 struct retro_core_option_v2_category option_cats_tr[] = {
    { NULL, NULL, NULL },
@@ -8264,7 +8264,7 @@ struct retro_core_options_v2 options_tr = {
 
 /* RETRO_LANGUAGE_UK */
 
-#define QUICKNES_ASPECT_RATIO_PAR_LABEL_UK NULL
+#define QUICKNES_ASPECT_RATIO_PAR_LABEL_UK "Співвідношення сторін"
 #define QUICKNES_ASPECT_RATIO_PAR_INFO_0_UK NULL
 #define OPTION_VAL_PAR_UK NULL
 #define OPTION_VAL_4_3_UK NULL
@@ -8296,7 +8296,7 @@ struct retro_core_options_v2 options_tr = {
 #define QUICKNES_AUDIO_NONLINEAR_LABEL_UK NULL
 #define QUICKNES_AUDIO_NONLINEAR_INFO_0_UK NULL
 #define OPTION_VAL_NONLINEAR_UK NULL
-#define OPTION_VAL_LINEAR_UK NULL
+#define OPTION_VAL_LINEAR_UK "Лінійна"
 #define OPTION_VAL_STEREO_PANNING_UK NULL
 #define QUICKNES_AUDIO_EQ_LABEL_UK NULL
 #define QUICKNES_AUDIO_EQ_INFO_0_UK NULL
