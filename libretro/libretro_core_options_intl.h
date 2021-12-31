@@ -2162,7 +2162,7 @@ struct retro_core_options_v2 options_de = {
 #define QUICKNES_USE_OVERSCAN_H_INFO_0_EL NULL
 #define QUICKNES_USE_OVERSCAN_V_LABEL_EL NULL
 #define QUICKNES_USE_OVERSCAN_V_INFO_0_EL NULL
-#define QUICKNES_PALETTE_LABEL_EL NULL
+#define QUICKNES_PALETTE_LABEL_EL "Παλέτα Χρωμάτων"
 #define QUICKNES_PALETTE_INFO_0_EL NULL
 #define OPTION_VAL_DEFAULT_EL NULL
 #define OPTION_VAL_ASQREALC_EL NULL
@@ -2195,12 +2195,12 @@ struct retro_core_options_v2 options_de = {
 #define OPTION_VAL_FLAT_EL NULL
 #define OPTION_VAL_CRISP_EL NULL
 #define OPTION_VAL_TINNY_EL NULL
-#define QUICKNES_TURBO_ENABLE_LABEL_EL NULL
+#define QUICKNES_TURBO_ENABLE_LABEL_EL "Ενεργοποίηση Turbo"
 #define QUICKNES_TURBO_ENABLE_INFO_0_EL NULL
 #define OPTION_VAL_NONE_EL "Τίποτα"
-#define OPTION_VAL_PLAYER_1_EL NULL
-#define OPTION_VAL_PLAYER_2_EL NULL
-#define OPTION_VAL_BOTH_EL NULL
+#define OPTION_VAL_PLAYER_1_EL "Παίκτης 1"
+#define OPTION_VAL_PLAYER_2_EL "Παίκτης 2"
+#define OPTION_VAL_BOTH_EL "Παίκτης 1 & 2"
 #define QUICKNES_TURBO_PULSE_WIDTH_LABEL_EL NULL
 #define QUICKNES_TURBO_PULSE_WIDTH_INFO_0_EL NULL
 #define QUICKNES_UP_DOWN_ALLOWED_LABEL_EL NULL
@@ -6855,16 +6855,16 @@ struct retro_core_options_v2 options_ro = {
 /* RETRO_LANGUAGE_RU */
 
 #define QUICKNES_ASPECT_RATIO_PAR_LABEL_RU "Соотношение сторон"
-#define QUICKNES_ASPECT_RATIO_PAR_INFO_0_RU NULL
+#define QUICKNES_ASPECT_RATIO_PAR_INFO_0_RU "Применяется, только если в видеонастройках RetroArch выбрано 'Core provided' для соотношения сторон."
 #define OPTION_VAL_PAR_RU NULL
 #define OPTION_VAL_4_3_RU NULL
-#define QUICKNES_USE_OVERSCAN_H_LABEL_RU NULL
-#define QUICKNES_USE_OVERSCAN_H_INFO_0_RU NULL
-#define QUICKNES_USE_OVERSCAN_V_LABEL_RU NULL
-#define QUICKNES_USE_OVERSCAN_V_INFO_0_RU NULL
-#define QUICKNES_PALETTE_LABEL_RU NULL
-#define QUICKNES_PALETTE_INFO_0_RU NULL
-#define OPTION_VAL_DEFAULT_RU "Стандартный"
+#define QUICKNES_USE_OVERSCAN_H_LABEL_RU "Показывать гориз. вылеты развёртки"
+#define QUICKNES_USE_OVERSCAN_H_INFO_0_RU "Отключите, чтобы обрезать (горизонтально) графический мусор по краям изображения, который обычно скрыт боковыми рамками в телевизорах стандартной чёткости."
+#define QUICKNES_USE_OVERSCAN_V_LABEL_RU "Показывать верт. вылеты развёртки"
+#define QUICKNES_USE_OVERSCAN_V_INFO_0_RU "Отключите, чтобы обрезать (вертикально) графический мусор по краям изображения, который обычно скрыт боковыми рамками в телевизорах стандартной чёткости."
+#define QUICKNES_PALETTE_LABEL_RU "Цветовая палитра"
+#define QUICKNES_PALETTE_INFO_0_RU "Выбор цветовой палитры, используемой при декодировании NES видеосигнала NTSC."
+#define OPTION_VAL_DEFAULT_RU "По умолчанию"
 #define OPTION_VAL_ASQREALC_RU NULL
 #define OPTION_VAL_NINTENDO_VC_RU NULL
 #define OPTION_VAL_RGB_RU NULL
@@ -6881,20 +6881,20 @@ struct retro_core_options_v2 options_ro = {
 #define OPTION_VAL_NES_CLASSIC_FBX_FS_RU NULL
 #define OPTION_VAL_NESCAP_RU NULL
 #define OPTION_VAL_WAVEBEAM_RU NULL
-#define QUICKNES_NO_SPRITE_LIMIT_LABEL_RU NULL
-#define QUICKNES_NO_SPRITE_LIMIT_INFO_0_RU NULL
-#define QUICKNES_AUDIO_NONLINEAR_LABEL_RU NULL
-#define QUICKNES_AUDIO_NONLINEAR_INFO_0_RU NULL
-#define OPTION_VAL_NONLINEAR_RU NULL
+#define QUICKNES_NO_SPRITE_LIMIT_LABEL_RU "Без ограничения спрайтов"
+#define QUICKNES_NO_SPRITE_LIMIT_INFO_0_RU "Убирает аппаратное ограничение в 8 спрайтов на линию развёртки. Уменьшает мерцание, но может вызывать графические баги, т.к. в некоторых играх аппаратное ограничение используется для создания спецэффектов."
+#define QUICKNES_AUDIO_NONLINEAR_LABEL_RU "Аудиорежим"
+#define QUICKNES_AUDIO_NONLINEAR_INFO_0_RU "Настройка эмуляции звука. 'Нелинейный' имитирует нелинейное микширование блока обработки аудиосигналов NES. 'Линейное' использует точную аппроксимацию, снижая качество, но улучшая производительность на слабых устройствах. 'Стерео-панорамирование' добавляет глубину к монофоническому звучанию NES с помощью панорамирования и реверберации."
+#define OPTION_VAL_NONLINEAR_RU "Нелинейный"
 #define OPTION_VAL_LINEAR_RU "Линейный"
-#define OPTION_VAL_STEREO_PANNING_RU NULL
+#define OPTION_VAL_STEREO_PANNING_RU "Стерео-панорамирование"
 #define QUICKNES_AUDIO_EQ_LABEL_RU "Пресет эквалайзера"
-#define QUICKNES_AUDIO_EQ_INFO_0_RU NULL
+#define QUICKNES_AUDIO_EQ_INFO_0_RU "Регулировка баланса между частотами диапазона с помощью предустановок эквалайзера."
 #define OPTION_VAL_FAMICOM_RU NULL
 #define OPTION_VAL_TV_RU "ТВ"
 #define OPTION_VAL_FLAT_RU "Плоский"
-#define OPTION_VAL_CRISP_RU "Яркий"
-#define OPTION_VAL_TINNY_RU NULL
+#define OPTION_VAL_CRISP_RU "Чёткий"
+#define OPTION_VAL_TINNY_RU "Жестяной"
 #define QUICKNES_TURBO_ENABLE_LABEL_RU "Включить турбо"
 #define QUICKNES_TURBO_ENABLE_INFO_0_RU "Активирует использование кнопок Turbo A и Turbo B."
 #define OPTION_VAL_NONE_RU "Нет"
