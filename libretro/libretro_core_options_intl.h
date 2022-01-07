@@ -2628,9 +2628,9 @@ struct retro_core_options_v2 options_eo = {
 #define QUICKNES_ASPECT_RATIO_PAR_INFO_0_ES "Este ajuste solo surtirá efecto cuando la relación de aspecto de RetroArch esté configurada como «Indicada por el núcleo» (dentro de los ajustes de vídeo)."
 #define OPTION_VAL_PAR_ES "PAR (relación de aspecto de píxeles)"
 #define OPTION_VAL_4_3_ES NULL
-#define QUICKNES_USE_OVERSCAN_H_LABEL_ES "Mostrar «overscan» horizontal"
+#define QUICKNES_USE_OVERSCAN_H_LABEL_ES "Mostrar sobrebarrido horizontal"
 #define QUICKNES_USE_OVERSCAN_H_INFO_0_ES "Desactiva esta opción para recortar (la parte horizontal de) los posibles defectos visuales aleatorios de vídeo que normalmente ocultaría el marco de un televisor de definición estándar."
-#define QUICKNES_USE_OVERSCAN_V_LABEL_ES "Mostrar «overscan» vertical"
+#define QUICKNES_USE_OVERSCAN_V_LABEL_ES "Mostrar sobrebarrido vertical"
 #define QUICKNES_USE_OVERSCAN_V_INFO_0_ES "Desactiva esta opción para recortar (la parte vertical de) los posibles defectos visuales aleatorios de vídeo que normalmente ocultaría el marco de un televisor de definición estándar."
 #define QUICKNES_PALETTE_LABEL_ES "Paleta de colores"
 #define QUICKNES_PALETTE_INFO_0_ES "Establece la paleta de colores que se utilizará al descodificar la salida de vídeo NTSC usada por la NES."
@@ -7802,7 +7802,7 @@ struct retro_core_options_v2 options_sr = {
 #define QUICKNES_USE_OVERSCAN_H_INFO_0_SV NULL
 #define QUICKNES_USE_OVERSCAN_V_LABEL_SV NULL
 #define QUICKNES_USE_OVERSCAN_V_INFO_0_SV NULL
-#define QUICKNES_PALETTE_LABEL_SV NULL
+#define QUICKNES_PALETTE_LABEL_SV "Färgpalett"
 #define QUICKNES_PALETTE_INFO_0_SV NULL
 #define OPTION_VAL_DEFAULT_SV NULL
 #define OPTION_VAL_ASQREALC_SV NULL
@@ -7823,10 +7823,10 @@ struct retro_core_options_v2 options_sr = {
 #define OPTION_VAL_WAVEBEAM_SV NULL
 #define QUICKNES_NO_SPRITE_LIMIT_LABEL_SV NULL
 #define QUICKNES_NO_SPRITE_LIMIT_INFO_0_SV NULL
-#define QUICKNES_AUDIO_NONLINEAR_LABEL_SV NULL
+#define QUICKNES_AUDIO_NONLINEAR_LABEL_SV "Ljudläge"
 #define QUICKNES_AUDIO_NONLINEAR_INFO_0_SV NULL
 #define OPTION_VAL_NONLINEAR_SV NULL
-#define OPTION_VAL_LINEAR_SV NULL
+#define OPTION_VAL_LINEAR_SV "Linjär"
 #define OPTION_VAL_STEREO_PANNING_SV NULL
 #define QUICKNES_AUDIO_EQ_LABEL_SV NULL
 #define QUICKNES_AUDIO_EQ_INFO_0_SV NULL
@@ -7837,10 +7837,10 @@ struct retro_core_options_v2 options_sr = {
 #define OPTION_VAL_TINNY_SV NULL
 #define QUICKNES_TURBO_ENABLE_LABEL_SV NULL
 #define QUICKNES_TURBO_ENABLE_INFO_0_SV NULL
-#define OPTION_VAL_NONE_SV NULL
-#define OPTION_VAL_PLAYER_1_SV NULL
-#define OPTION_VAL_PLAYER_2_SV NULL
-#define OPTION_VAL_BOTH_SV NULL
+#define OPTION_VAL_NONE_SV "Ingen"
+#define OPTION_VAL_PLAYER_1_SV "Spelare 1"
+#define OPTION_VAL_PLAYER_2_SV "Spelare 2"
+#define OPTION_VAL_BOTH_SV "Spelare 1 & 2"
 #define QUICKNES_TURBO_PULSE_WIDTH_LABEL_SV NULL
 #define QUICKNES_TURBO_PULSE_WIDTH_INFO_0_SV NULL
 #define QUICKNES_UP_DOWN_ALLOWED_LABEL_SV NULL
