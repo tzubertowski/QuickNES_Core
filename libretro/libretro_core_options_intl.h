@@ -1214,7 +1214,7 @@ struct retro_core_options_v2 options_cht = {
 
 /* RETRO_LANGUAGE_CS */
 
-#define QUICKNES_ASPECT_RATIO_PAR_LABEL_CS NULL
+#define QUICKNES_ASPECT_RATIO_PAR_LABEL_CS "Poměr stran"
 #define QUICKNES_ASPECT_RATIO_PAR_INFO_0_CS NULL
 #define OPTION_VAL_PAR_CS NULL
 #define OPTION_VAL_4_3_CS NULL
@@ -5675,6 +5675,241 @@ struct retro_core_option_v2_definition option_defs_nl[] = {
 struct retro_core_options_v2 options_nl = {
    option_cats_nl,
    option_defs_nl
+};
+
+/* RETRO_LANGUAGE_NO */
+
+#define QUICKNES_ASPECT_RATIO_PAR_LABEL_NO NULL
+#define QUICKNES_ASPECT_RATIO_PAR_INFO_0_NO NULL
+#define OPTION_VAL_PAR_NO NULL
+#define OPTION_VAL_4_3_NO NULL
+#define QUICKNES_USE_OVERSCAN_H_LABEL_NO NULL
+#define QUICKNES_USE_OVERSCAN_H_INFO_0_NO NULL
+#define QUICKNES_USE_OVERSCAN_V_LABEL_NO NULL
+#define QUICKNES_USE_OVERSCAN_V_INFO_0_NO NULL
+#define QUICKNES_PALETTE_LABEL_NO NULL
+#define QUICKNES_PALETTE_INFO_0_NO NULL
+#define OPTION_VAL_DEFAULT_NO NULL
+#define OPTION_VAL_ASQREALC_NO NULL
+#define OPTION_VAL_NINTENDO_VC_NO NULL
+#define OPTION_VAL_RGB_NO NULL
+#define OPTION_VAL_YUV_V3_NO NULL
+#define OPTION_VAL_UNSATURATED_FINAL_NO NULL
+#define OPTION_VAL_SONY_CXA2025AS_US_NO NULL
+#define OPTION_VAL_PAL_NO NULL
+#define OPTION_VAL_BMF_FINAL2_NO NULL
+#define OPTION_VAL_BMF_FINAL3_NO NULL
+#define OPTION_VAL_SMOOTH_FBX_NO NULL
+#define OPTION_VAL_COMPOSITE_DIRECT_FBX_NO NULL
+#define OPTION_VAL_PVM_STYLE_D93_FBX_NO NULL
+#define OPTION_VAL_NTSC_HARDWARE_FBX_NO NULL
+#define OPTION_VAL_NES_CLASSIC_FBX_FS_NO NULL
+#define OPTION_VAL_NESCAP_NO NULL
+#define OPTION_VAL_WAVEBEAM_NO NULL
+#define QUICKNES_NO_SPRITE_LIMIT_LABEL_NO NULL
+#define QUICKNES_NO_SPRITE_LIMIT_INFO_0_NO NULL
+#define QUICKNES_AUDIO_NONLINEAR_LABEL_NO NULL
+#define QUICKNES_AUDIO_NONLINEAR_INFO_0_NO NULL
+#define OPTION_VAL_NONLINEAR_NO NULL
+#define OPTION_VAL_LINEAR_NO NULL
+#define OPTION_VAL_STEREO_PANNING_NO NULL
+#define QUICKNES_AUDIO_EQ_LABEL_NO NULL
+#define QUICKNES_AUDIO_EQ_INFO_0_NO NULL
+#define OPTION_VAL_FAMICOM_NO NULL
+#define OPTION_VAL_TV_NO NULL
+#define OPTION_VAL_FLAT_NO NULL
+#define OPTION_VAL_CRISP_NO NULL
+#define OPTION_VAL_TINNY_NO NULL
+#define QUICKNES_TURBO_ENABLE_LABEL_NO NULL
+#define QUICKNES_TURBO_ENABLE_INFO_0_NO NULL
+#define OPTION_VAL_NONE_NO NULL
+#define OPTION_VAL_PLAYER_1_NO NULL
+#define OPTION_VAL_PLAYER_2_NO NULL
+#define OPTION_VAL_BOTH_NO NULL
+#define QUICKNES_TURBO_PULSE_WIDTH_LABEL_NO NULL
+#define QUICKNES_TURBO_PULSE_WIDTH_INFO_0_NO NULL
+#define QUICKNES_UP_DOWN_ALLOWED_LABEL_NO NULL
+#define QUICKNES_UP_DOWN_ALLOWED_INFO_0_NO NULL
+
+struct retro_core_option_v2_category option_cats_no[] = {
+   { NULL, NULL, NULL },
+};
+struct retro_core_option_v2_definition option_defs_no[] = {
+   {
+      "quicknes_aspect_ratio_par",
+      QUICKNES_ASPECT_RATIO_PAR_LABEL_NO,
+      NULL,
+      QUICKNES_ASPECT_RATIO_PAR_INFO_0_NO,
+      NULL,
+      NULL,
+      {
+         { "PAR", OPTION_VAL_PAR_NO },
+         { "4:3", OPTION_VAL_4_3_NO },
+         { NULL, NULL },
+      },
+      "PAR",
+   },
+#ifndef PSP
+   {
+      "quicknes_use_overscan_h",
+      QUICKNES_USE_OVERSCAN_H_LABEL_NO,
+      NULL,
+      QUICKNES_USE_OVERSCAN_H_INFO_0_NO,
+      NULL,
+      NULL,
+      {
+         { "enabled",  NULL },
+         { "disabled", NULL },
+         { NULL, NULL},
+      },
+      "enabled",
+   },
+   {
+      "quicknes_use_overscan_v",
+      QUICKNES_USE_OVERSCAN_V_LABEL_NO,
+      NULL,
+      QUICKNES_USE_OVERSCAN_V_INFO_0_NO,
+      NULL,
+      NULL,
+      {
+         { "disabled", NULL },
+         { "enabled",  NULL },
+         { NULL, NULL },
+      },
+      "disabled",
+   },
+#endif
+   {
+      "quicknes_palette",
+      QUICKNES_PALETTE_LABEL_NO,
+      NULL,
+      QUICKNES_PALETTE_INFO_0_NO,
+      NULL,
+      NULL,
+      {
+         { "default",              OPTION_VAL_DEFAULT_NO },
+         { "asqrealc",             OPTION_VAL_ASQREALC_NO },
+         { "nintendo-vc",          OPTION_VAL_NINTENDO_VC_NO },
+         { "rgb",                  OPTION_VAL_RGB_NO },
+         { "yuv-v3",               OPTION_VAL_YUV_V3_NO },
+         { "unsaturated-final",    OPTION_VAL_UNSATURATED_FINAL_NO },
+         { "sony-cxa2025as-us",    OPTION_VAL_SONY_CXA2025AS_US_NO },
+         { "pal",                  OPTION_VAL_PAL_NO },
+         { "bmf-final2",           OPTION_VAL_BMF_FINAL2_NO },
+         { "bmf-final3",           OPTION_VAL_BMF_FINAL3_NO },
+         { "smooth-fbx",           OPTION_VAL_SMOOTH_FBX_NO },
+         { "composite-direct-fbx", OPTION_VAL_COMPOSITE_DIRECT_FBX_NO },
+         { "pvm-style-d93-fbx",    OPTION_VAL_PVM_STYLE_D93_FBX_NO },
+         { "ntsc-hardware-fbx",    OPTION_VAL_NTSC_HARDWARE_FBX_NO },
+         { "nes-classic-fbx-fs",   OPTION_VAL_NES_CLASSIC_FBX_FS_NO },
+         { "nescap",               OPTION_VAL_NESCAP_NO },
+         { "wavebeam",             OPTION_VAL_WAVEBEAM_NO },
+         { NULL, NULL},
+      },
+      "default",
+   },
+   {
+      "quicknes_no_sprite_limit",
+      QUICKNES_NO_SPRITE_LIMIT_LABEL_NO,
+      NULL,
+      QUICKNES_NO_SPRITE_LIMIT_INFO_0_NO,
+      NULL,
+      NULL,
+      {
+         { "disabled", NULL },
+         { "enabled",  NULL },
+         { NULL, NULL },
+      },
+      "disabled",
+   },
+   {
+      "quicknes_audio_nonlinear",
+      QUICKNES_AUDIO_NONLINEAR_LABEL_NO,
+      NULL,
+      QUICKNES_AUDIO_NONLINEAR_INFO_0_NO,
+      NULL,
+      NULL,
+      {
+         { "nonlinear",      OPTION_VAL_NONLINEAR_NO },
+         { "linear",         OPTION_VAL_LINEAR_NO },
+         { "stereo panning", OPTION_VAL_STEREO_PANNING_NO },
+         { NULL, NULL },
+      },
+      "nonlinear",
+   },
+   {
+      "quicknes_audio_eq",
+      QUICKNES_AUDIO_EQ_LABEL_NO,
+      NULL,
+      QUICKNES_AUDIO_EQ_INFO_0_NO,
+      NULL,
+      NULL,
+      {
+         { "default", OPTION_VAL_DEFAULT_NO },
+         { "famicom", OPTION_VAL_FAMICOM_NO },
+         { "tv",      OPTION_VAL_TV_NO },
+         { "flat",    OPTION_VAL_FLAT_NO },
+         { "crisp",   OPTION_VAL_CRISP_NO },
+         { "tinny",   OPTION_VAL_TINNY_NO },
+         { NULL, NULL },
+      },
+      "default",
+   },
+   {
+      "quicknes_turbo_enable",
+      QUICKNES_TURBO_ENABLE_LABEL_NO,
+      NULL,
+      QUICKNES_TURBO_ENABLE_INFO_0_NO,
+      NULL,
+      NULL,
+      {
+         { "none",     OPTION_VAL_NONE_NO },
+         { "player 1", OPTION_VAL_PLAYER_1_NO },
+         { "player 2", OPTION_VAL_PLAYER_2_NO },
+         { "both",     OPTION_VAL_BOTH_NO },
+         { NULL, NULL },
+      },
+      "none",
+   },
+   {
+      "quicknes_turbo_pulse_width",
+      QUICKNES_TURBO_PULSE_WIDTH_LABEL_NO,
+      NULL,
+      QUICKNES_TURBO_PULSE_WIDTH_INFO_0_NO,
+      NULL,
+      NULL,
+      {
+         { "1",  NULL },
+         { "2",  NULL },
+         { "3",  NULL },
+         { "5",  NULL },
+         { "10", NULL },
+         { "15", NULL },
+         { "30", NULL },
+         { "60", NULL },
+         { NULL, NULL },
+      },
+      "3",
+   },
+   {
+      "quicknes_up_down_allowed",
+      QUICKNES_UP_DOWN_ALLOWED_LABEL_NO,
+      NULL,
+      QUICKNES_UP_DOWN_ALLOWED_INFO_0_NO,
+      NULL,
+      NULL,
+      {
+         { "disabled", NULL },
+         { "enabled",  NULL },
+         { NULL, NULL },
+      },
+      "disabled",
+   },
+   { NULL, NULL, NULL, NULL, NULL, NULL, {{0}}, NULL },
+};
+struct retro_core_options_v2 options_no = {
+   option_cats_no,
+   option_defs_no
 };
 
 /* RETRO_LANGUAGE_OC */
