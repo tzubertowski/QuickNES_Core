@@ -196,30 +196,16 @@ else ifeq ($(platform), classic_armv7_a7)
 	endif
 #######################################
 
-# PS3
-else ifeq ($(platform), ps3)
-	TARGET := $(TARGET_NAME)_libretro_$(platform).a
-	CXX = $(CELL_SDK)/host-win32/ppu/bin/ppu-lv2-g++.exe
-	AR = $(CELL_SDK)/host-win32/ppu/bin/ppu-lv2-ar.exe
-	PLATFORM_DEFINES := -D__CELLOS_LV2__ -DMSB_FIRST
-	STATIC_LINKING = 1
-
-# sncps3
-else ifeq ($(platform), sncps3)
-	TARGET := $(TARGET_NAME)_libretro_ps3.a
-	CC = $(CELL_SDK)/host-win32/sn/bin/ps3ppusnc.exe
-	CXX = $(CELL_SDK)/host-win32/sn/bin/ps3ppusnc.exe
-	AR = $(CELL_SDK)/host-win32/sn/bin/ps3snarl.exe
-	PLATFORM_DEFINES := -D__CELLOS_LV2__ -DMSB_FIRST
-	STATIC_LINKING = 1
-
 # Lightweight PS3 Homebrew SDK
-else ifeq ($(platform), psl1ght)
+else ifneq (,$(filter $(platform), ps3 psl1ght))
 	TARGET := $(TARGET_NAME)_libretro_$(platform).a
-	CC = $(PS3DEV)/ppu/bin/ppu-gcc$(EXE_EXT)
-	CXX = $(PS3DEV)/ppu/bin/ppu-g++$(EXE_EXT)
-	AR = $(PS3DEV)/ppu/bin/ppu-ar$(EXE_EXT)
-	PLATFORM_DEFINES := -D__CELLOS_LV2__ -DMSB_FIRST
+	CC = $(PS3DEV)/ppu/bin/ppu-$(COMMONLV)gcc$(EXE_EXT)
+	AR = $(PS3DEV)/ppu/bin/ppu-$(COMMONLV)ar$(EXE_EXT)
+	CXX = $(PS3DEV)/ppu/bin/ppu-$(COMMONLV)g++$(EXE_EXT)
+	PLATFORM_DEFINES := -D__PS3__ -DMSB_FIRST
+	ifeq ($(platform), psl1ght)
+		PLATFORM_DEFINES += -D__PSL1GHT__
+	endif
 	STATIC_LINKING = 1
 
 # PS2
