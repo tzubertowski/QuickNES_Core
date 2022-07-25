@@ -1,5 +1,3 @@
-#include <cstring>
-
 #include "Nes_Mapper.h"
 #include "blargg_source.h"
 
@@ -26,7 +24,7 @@ public:
 
 	virtual void reset_state()
 	{
-		std::memset(regs, 0, sizeof(regs));
+		regs[0] = regs[1] = regs[2] = regs[3] = regs[4] = regs[5] = 0;
 	}
 
 	virtual void apply_mapping()
@@ -78,7 +76,7 @@ public:
 
 	virtual void reset_state()
 	{
-		std::memset(regs, 0, sizeof(regs));
+		regs[0] = regs[1] = regs[2] = regs[3] = regs[4] = regs[5] = 0;
 	}
 
 	virtual void apply_mapping()
