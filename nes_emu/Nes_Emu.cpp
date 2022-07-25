@@ -224,7 +224,7 @@ void Nes_Emu::load_state( Nes_State const& in )
 
 const char * Nes_Emu::load_state( Auto_File_Reader in )
 {
-	Nes_State* state = BLARGG_NEW Nes_State;
+	Nes_State* state = new Nes_State;
 	state->clear();  //initialize it
 	CHECK_ALLOC( state );
 	const char * err = state->read( in );
@@ -236,7 +236,7 @@ const char * Nes_Emu::load_state( Auto_File_Reader in )
 
 const char * Nes_Emu::save_state( Auto_File_Writer out ) const
 {
-	Nes_State* state = BLARGG_NEW Nes_State;
+	Nes_State* state = new Nes_State;
 	CHECK_ALLOC( state );
 	save_state( state );
 	const char * err = state->write( out );
@@ -291,7 +291,7 @@ const char * Nes_Emu::set_sample_rate( long rate, Multi_Buffer* new_buf )
 const char * Nes_Emu::set_sample_rate( long rate )
 {
 	if ( !default_sound_buf )
-		CHECK_ALLOC( default_sound_buf = BLARGG_NEW Mono_Buffer );
+		CHECK_ALLOC( default_sound_buf = new Mono_Buffer );
 	return set_sample_rate( rate, default_sound_buf );
 }
 

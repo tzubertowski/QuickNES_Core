@@ -65,7 +65,7 @@ const char *Nes_Ppu_Impl::open_chr( uint8_t const* new_chr, long chr_data_size )
 	
 	if ( !impl )
 	{
-		impl = BLARGG_NEW impl_t;
+		impl = new impl_t;
 		CHECK_ALLOC( impl );
 		chr_ram = impl->chr_ram;
 	}
@@ -84,7 +84,7 @@ const char *Nes_Ppu_Impl::open_chr( uint8_t const* new_chr, long chr_data_size )
 	
 	// allocate aligned memory for cache
 	long tile_count = chr_size / bytes_per_tile;
-	tile_cache_mem = BLARGG_NEW uint8_t [tile_count * sizeof (cached_tile_t) * 2 + cache_line_size];
+	tile_cache_mem  = new uint8_t [tile_count * sizeof (cached_tile_t) * 2 + cache_line_size];
 	CHECK_ALLOC( tile_cache_mem );
 	tile_cache = (cached_tile_t*) (tile_cache_mem + cache_line_size -
 			(uintptr_t) tile_cache_mem % cache_line_size);

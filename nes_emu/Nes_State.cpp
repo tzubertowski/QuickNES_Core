@@ -70,7 +70,7 @@ void Nes_State_::clear()
 
 const char * Nes_State_Writer::end( Nes_Emu const& emu )
 {
-	Nes_State* state = BLARGG_NEW Nes_State;
+	Nes_State* state = new Nes_State;
 	CHECK_ALLOC( state );
 	emu.save_state( state );
 	const char * err = end( *state );
@@ -167,7 +167,7 @@ const char * Nes_State_Reader::begin( Auto_File_Reader dr, Nes_State* out )
 {
 	state_ = out;
 	if ( !out )
-		CHECK_ALLOC( state_ = owned = BLARGG_NEW Nes_State );
+		CHECK_ALLOC( state_ = owned = new Nes_State );
 	
 	RETURN_ERR( Nes_File_Reader::begin( dr ) );
 	if ( block_tag() != state_file_tag )

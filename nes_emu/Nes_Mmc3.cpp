@@ -242,5 +242,5 @@ void Mapper_Mmc3::write( nes_time_t time, nes_addr_t addr, int data )
 
 Nes_Mapper* Nes_Mapper::make_mmc3()
 {
-	return BLARGG_NEW Mapper_Mmc3;
+	return new Mapper_Mmc3;
 }

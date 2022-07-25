@@ -193,7 +193,7 @@ private:
 template<class T>
 struct register_mapper {
 	/*void*/ register_mapper( int code ) { Nes_Mapper::register_mapper( code, create ); }
-	static Nes_Mapper* create() { return BLARGG_NEW T; }
+	static Nes_Mapper* create() { return new T; }
 };
 
 #ifdef NDEBUG

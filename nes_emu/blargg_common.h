@@ -37,12 +37,6 @@ arithmetic on smaller types. */
 // User configuration can override the above macros if necessary
 #include "blargg_config.h"
 
-// BLARGG_NEW is used in place of new in library code
-#include <new>
-#ifndef BLARGG_NEW
-#define BLARGG_NEW new (std::nothrow)
-#endif
-
 // BOOST_STATIC_ASSERT( expr ): Generates compile error if expr is 0.
 #ifndef BOOST_STATIC_ASSERT
 #ifdef _MSC_VER

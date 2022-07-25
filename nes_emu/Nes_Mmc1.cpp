@@ -118,5 +118,5 @@ void Mapper_Mmc1::register_changed( int reg )
 
 Nes_Mapper* Nes_Mapper::make_mmc1()
 {
-	return BLARGG_NEW Mapper_Mmc1;
+	return new Mapper_Mmc1;
 }

@@ -44,7 +44,7 @@ const char * Nes_Core::init()
 {
 	if ( !impl )
 	{
-		CHECK_ALLOC( impl = BLARGG_NEW impl_t );
+		CHECK_ALLOC( impl = new impl_t );
 		impl->apu.dmc_reader( read_dmc, this );
 		impl->apu.irq_notifier( apu_irq_changed, this );
 	}

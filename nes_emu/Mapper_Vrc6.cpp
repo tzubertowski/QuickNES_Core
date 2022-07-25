@@ -243,14 +243,14 @@ void Mapper_Vrc6::write_bank( nes_addr_t addr, int data )
 	}
 }
 
-static Nes_Mapper* make_vrc6a()
+static Nes_Mapper* make_vrc6a(void)
 {
-	return BLARGG_NEW Mapper_Vrc6( 0 );
+	return new Mapper_Vrc6( 0 );
 }
 
-static Nes_Mapper* make_vrc6b()
+static Nes_Mapper* make_vrc6b(void)
 {
-	return BLARGG_NEW Mapper_Vrc6( 3 );
+	return new Mapper_Vrc6( 3 );
 }
 
 void register_vrc6_mapper();
