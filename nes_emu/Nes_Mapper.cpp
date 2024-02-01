@@ -224,7 +224,7 @@ int Nes_Mapper::handle_bus_conflict( nes_addr_t addr, int data )
 Nes_Mapper* Nes_Mapper::create( Nes_Cart const* cart, Nes_Core* emu )
 {
   // Getting cartdrige mapper code
-  auto mapperCode = cart->mapper_code();
+  int mapperCode = cart->mapper_code();
 	
   // Storage for the mapper, NULL by default	
   Nes_Mapper* mapper = NULL;
