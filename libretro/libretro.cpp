@@ -76,6 +76,11 @@ static struct {
 static bool rewind_button_pressed = false;
 static bool rewind_button_held = false;
 
+// SF2000 Fast Forward Variables
+static int fast_forward_speed = 1;  // 1x, 2x, 3x speed multiplier
+static bool fast_forward_button_pressed = false;
+static bool fast_forward_button_held = false;
+
 Mono_Buffer mono_buffer;
 Nes_Buffer nes_buffer;
 Nes_Effects_Buffer effects_buffer;
@@ -91,6 +96,7 @@ static void rewind_deinit();
 static void rewind_save_state();
 static void rewind_load_state();
 static void rewind_check_buttons();
+static void fast_forward_check_buttons();
 
 /* ========================================
  * Palette additions START
@@ -1033,7 +1039,9 @@ static void update_input(int pads[MAX_PLAYERS])
          if (p == 0) {
             bool select_pressed = (ret & (1 << RETRO_DEVICE_ID_JOYPAD_SELECT));
             bool l_pressed = (ret & (1 << RETRO_DEVICE_ID_JOYPAD_L));
+            bool r_pressed = (ret & (1 << RETRO_DEVICE_ID_JOYPAD_R));
             rewind_button_pressed = select_pressed && l_pressed;
+            fast_forward_button_pressed = select_pressed && r_pressed;
          }
       }
       else
@@ -1053,10 +1061,13 @@ static void update_input(int pads[MAX_PLAYERS])
          }
 
          // SF2000 Rewind: Check for SELECT + L button combination
+         // SF2000 Fast Forward: Check for SELECT + R button combination
          if (p == 0) {
             bool select_pressed = input_state_cb(p, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_SELECT);
             bool l_pressed = input_state_cb(p, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L);
+            bool r_pressed = input_state_cb(p, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_R);
             rewind_button_pressed = select_pressed && l_pressed;
+            fast_forward_button_pressed = select_pressed && r_pressed;
          }
       }
 
@@ -1158,7 +1169,10 @@ void retro_run(void)
 
    if (!videoDisabledForThisFrame)
    {
-	   emu->emulate_frame(pads[0], pads[1]);
+      // SF2000 Fast Forward: Run multiple frames based on speed setting
+      for (int ff_frame = 0; ff_frame < fast_forward_speed; ff_frame++) {
+         emu->emulate_frame(pads[0], pads[1]);
+      }
 	   const Nes_Emu::frame_t &frame = emu->frame();
 #ifdef PSP
 	   static uint16_t     __attribute__((aligned(16))) retro_palette[256];
@@ -1285,7 +1299,10 @@ void retro_run(void)
    }
    else
    {
-	   emu->emulate_skip_frame(pads[0], pads[1]);
+      // SF2000 Fast Forward: Run multiple frames even when video disabled
+      for (int ff_frame = 0; ff_frame < fast_forward_speed; ff_frame++) {
+         emu->emulate_skip_frame(pads[0], pads[1]);
+      }
    }
 
    if (!audioDisabledForThisFrame)
@@ -1311,6 +1328,9 @@ void retro_run(void)
 
    // SF2000 Rewind: Handle rewind functionality
    rewind_check_buttons();
+   
+   // SF2000 Fast Forward: Handle fast forward functionality
+   fast_forward_check_buttons();
    
    // SF2000 Rewind: Save state periodically (not while rewinding)
    if (!rewind_data.rewinding) {
@@ -1647,5 +1667,29 @@ static void rewind_check_buttons()
    } else if (rewind_button_pressed && rewind_button_held) {
       // Button held - continue rewinding
       rewind_load_state();
+   }
+}
+
+// Fast forward functionality for SF2000
+
+static void fast_forward_toggle()
+{
+   // Cycle through speeds: 1x -> 2x -> 3x -> 1x
+   fast_forward_speed++;
+   if (fast_forward_speed > 3) {
+      fast_forward_speed = 1;
+   }
+}
+
+static void fast_forward_check_buttons()
+{
+   // Handle button state changes for SELECT + R
+   if (fast_forward_button_pressed && !fast_forward_button_held) {
+      // Button just pressed - toggle speed
+      fast_forward_toggle();
+      fast_forward_button_held = true;
+   } else if (!fast_forward_button_pressed && fast_forward_button_held) {
+      // Button just released
+      fast_forward_button_held = false;
    }
 }
