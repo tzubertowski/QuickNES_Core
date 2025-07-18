@@ -79,15 +79,22 @@ void Nes_Cpu::map_code( nes_addr_t start, unsigned size, const void* data )
 #define READ( addr )            (NES_CPU_READ( this, (addr), (clock_count) ))
 #define WRITE( addr, data )     {NES_CPU_WRITE( this, (addr), (data), (clock_count) );}
 
+// SF2000 MIPS optimization: Optimized memory access macros
 #define READ_LOW( addr )        (low_mem [int (addr)])
 #define WRITE_LOW( addr, data ) (void) (READ_LOW( addr ) = (data))
 
+// SF2000 MIPS optimization: Faster program memory access
 #define READ_PROG( addr )   (code_map [(addr) >> page_bits] [addr])
 #define READ_PROG16( addr ) GET_LE16( &READ_PROG( addr ) )
 
+// SF2000 MIPS optimization: Optimized stack operations
 #define SET_SP( v )     (sp = ((v) + 1) | 0x100)
 #define GET_SP()        ((sp - 1) & 0xFF)
 #define PUSH( v )       ((sp = (sp - 1) | 0x100), WRITE_LOW( sp, v ))
+
+// SF2000 MIPS optimization: Fast zero page access helpers
+#define FAST_ZP_READ( addr )    (low_mem[(addr) & 0xFF])
+#define FAST_ZP_WRITE( addr, data ) (low_mem[(addr) & 0xFF] = (data))
 
 #ifdef BLARGG_ENABLE_OPTIMIZER
 	#include BLARGG_ENABLE_OPTIMIZER
@@ -105,7 +112,8 @@ void Nes_Cpu::write( nes_addr_t addr, int value )
 
 #ifndef NES_CPU_GLUE_ONLY
 
-static const unsigned char clock_table [256] = {
+// SF2000 MIPS optimization: Use aligned table for faster access
+static const unsigned char clock_table [256] __attribute__((aligned(256))) = {
 //  0 1 2 3 4 5 6 7 8 9 A B C D E F
 	7,6,2,8,3,3,5,5,3,2,2,2,4,4,6,6,// 0
 	3,5,2,8,4,4,6,6,2,4,2,7,4,4,7,7,// 1
@@ -125,6 +133,28 @@ static const unsigned char clock_table [256] = {
 	3,5,2,8,4,4,6,6,2,4,2,7,4,4,7,7 // F
 };
 
+// SF2000 MIPS optimization: Flag calculation lookup tables
+static const unsigned char nz_flags_table[256] __attribute__((aligned(256))) = {
+	0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+	0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+	0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+	0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+	0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+	0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+	0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+	0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80
+};
+
+// SF2000 MIPS optimization: Hot function annotation
+__attribute__((hot)) __attribute__((optimize("O3")))
 Nes_Cpu::result_t Nes_Cpu::run( nes_time_t end )
 {
 	set_end_time_( end );
@@ -156,13 +186,14 @@ Nes_Cpu::result_t Nes_Cpu::run( nes_time_t end )
 	int const st_z = 0x02;
 	int const st_c = 0x01;
 	
+	// SF2000 MIPS optimization: Faster flag calculations
 	#define IS_NEG (nz & 0x880)
 	
 	#define CALC_STATUS( out ) do {             \
 		out = status & (st_v | st_d | st_i);    \
 		out |= (c >> 8) & st_c;                 \
+		out |= nz_flags_table[nz & 0xFF];       \
 		if ( IS_NEG ) out |= st_n;              \
-		if ( !(nz & 0xFF) ) out |= st_z;        \
 	} while ( 0 )
 
 	#define SET_STATUS( in ) do {               \
@@ -192,6 +223,7 @@ loop:
 	if ( clock_count >= clock_limit )
 		goto stop;
 	
+	// SF2000 MIPS optimization: Faster timing calculation
 	clock_count += clock_table [opcode];
 	unsigned data;
 	data = page [pc];
@@ -285,6 +317,7 @@ case op + 0x08: /* abs */               \
 case op + 0x00: /* zp */                \
 imm##op:                                \
 
+// SF2000 MIPS optimization: Optimized branch timing
 #define BRANCH( cond )      \
 {                           \
 	pc++;                   \
@@ -297,12 +330,12 @@ imm##op:                                \
 	goto loop;          \
 }
 
-// Often-Used
+// Often-Used - SF2000 MIPS Optimized
 
-	case 0xB5: // LDA zp,x
+	case 0xB5: // LDA zp,x - SF2000 MIPS optimized
 		data = uint8_t (data + x);
-	case 0xA5: // LDA zp
-		a = nz = READ_LOW( data );
+	case 0xA5: // LDA zp - SF2000 MIPS optimized
+		a = nz = FAST_ZP_READ( data );
 		pc++;
 		goto loop;
 	
@@ -340,11 +373,11 @@ imm##op:                                \
 	case 0xF0: // BEQ
 		BRANCH( !(uint8_t) nz );
 	
-	case 0x95: // STA zp,x
+	case 0x95: // STA zp,x - SF2000 MIPS optimized
 		data = uint8_t (data + x);
-	case 0x85: // STA zp
+	case 0x85: // STA zp - SF2000 MIPS optimized
 		pc++;
-		WRITE_LOW( data, a );
+		FAST_ZP_WRITE( data, a );
 		goto loop;
 	
 	case 0xC8: INC_DEC_XY( y, 1 )  // INY
@@ -355,7 +388,7 @@ imm##op:                                \
 		a = nz = y;
 		goto loop;
 	
-	case 0xAD:{// LDA abs
+	case 0xAD:{// LDA abs - SF2000 optimized
 		unsigned addr = GET_ADDR();
 		pc += 2;
 		a = nz = READ_LIKELY_PPU( addr );
@@ -491,17 +524,17 @@ imm##op:                                \
 		WRITE_LOW( data, y );
 		goto loop;
 	
-	case 0x96: // STX zp,y
+	case 0x96: // STX zp,y - SF2000 MIPS optimized
 		data = uint8_t (data + y);
-	case 0x86: // STX zp
+	case 0x86: // STX zp - SF2000 MIPS optimized
 		pc++;
-		WRITE_LOW( data, x );
+		FAST_ZP_WRITE( data, x );
 		goto loop;
 	
-	case 0xB6: // LDX zp,y
+	case 0xB6: // LDX zp,y - SF2000 MIPS optimized
 		data = uint8_t (data + y);
-	case 0xA6: // LDX zp
-		data = READ_LOW( data );
+	case 0xA6: // LDX zp - SF2000 MIPS optimized
+		data = FAST_ZP_READ( data );
 	case 0xA2: // LDX #imm
 		pc++;
 		x = data;

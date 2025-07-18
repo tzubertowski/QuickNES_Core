@@ -22,6 +22,13 @@
 
 #define CORE_VERSION "1.0-WIP"
 
+// SF2000 MIPS optimization: Fast video output
+#ifdef SF2000
+	#define FAST_VIDEO_OUTPUT __attribute__((always_inline))
+#else
+	#define FAST_VIDEO_OUTPUT
+#endif
+
 #define NES_4_3 (4.0 / 3.0)
 #define NES_PAR (width * (8.0 / 7.0) / height)
 
@@ -46,6 +53,29 @@ static bool libretro_supports_bitmasks = false;
 const int videoBufferWidth = Nes_Emu::image_width + 16;
 const int videoBufferHeight = Nes_Emu::image_height + 2;
 
+// SF2000 Rewind Implementation
+#define REWIND_BUFFER_SIZE 600  // 10 seconds at 60fps
+#define REWIND_GRANULARITY 6    // Save state every 6 frames (10fps)
+
+struct rewind_state {
+    uint8_t* data;
+    size_t size;
+    bool valid;
+};
+
+static struct {
+    struct rewind_state buffer[REWIND_BUFFER_SIZE];
+    int current_index;
+    int frame_count;
+    bool enabled;
+    bool rewinding;
+    uint8_t* temp_buffer;
+    size_t temp_buffer_size;
+} rewind_data = {0};
+
+static bool rewind_button_pressed = false;
+static bool rewind_button_held = false;
+
 Mono_Buffer mono_buffer;
 Nes_Buffer nes_buffer;
 Nes_Effects_Buffer effects_buffer;
@@ -54,6 +84,13 @@ Multi_Buffer *current_buffer = NULL;
 bool use_silent_buffer = false;
 
 bool is_fast_savestate();
+
+// SF2000 Rewind Functions
+static void rewind_init();
+static void rewind_deinit();
+static void rewind_save_state();
+static void rewind_load_state();
+static void rewind_check_buttons();
 
 /* ========================================
  * Palette additions START
@@ -547,6 +584,9 @@ void retro_init(void)
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_INPUT_BITMASKS, NULL))
       libretro_supports_bitmasks = true;
+
+   // SF2000 Rewind: Initialize rewind system
+   rewind_init();
 }
 
 void retro_deinit(void)
@@ -554,6 +594,9 @@ void retro_deinit(void)
    libretro_supports_bitmasks = false;
 
    palette_switch_deinit();
+   
+   // SF2000 Rewind: Cleanup rewind system
+   rewind_deinit();
 }
 
 unsigned retro_api_version(void)
@@ -985,6 +1028,13 @@ static void update_input(int pads[MAX_PLAYERS])
             palette_prev = (bool)(ret & (1 << RETRO_DEVICE_ID_JOYPAD_L));
             palette_next = (bool)(ret & (1 << RETRO_DEVICE_ID_JOYPAD_R));
          }
+
+         // SF2000 Rewind: Check for SELECT + L button combination
+         if (p == 0) {
+            bool select_pressed = (ret & (1 << RETRO_DEVICE_ID_JOYPAD_SELECT));
+            bool l_pressed = (ret & (1 << RETRO_DEVICE_ID_JOYPAD_L));
+            rewind_button_pressed = select_pressed && l_pressed;
+         }
       }
       else
       {
@@ -1000,6 +1050,13 @@ static void update_input(int pads[MAX_PLAYERS])
          {
             palette_prev = input_state_cb(p, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L);
             palette_next = input_state_cb(p, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_R);
+         }
+
+         // SF2000 Rewind: Check for SELECT + L button combination
+         if (p == 0) {
+            bool select_pressed = input_state_cb(p, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_SELECT);
+            bool l_pressed = input_state_cb(p, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L);
+            rewind_button_pressed = select_pressed && l_pressed;
          }
       }
 
@@ -1251,6 +1308,18 @@ void retro_run(void)
    {
 	   emu->read_samples(NULL, 2048);
    }
+
+   // SF2000 Rewind: Handle rewind functionality
+   rewind_check_buttons();
+   
+   // SF2000 Rewind: Save state periodically (not while rewinding)
+   if (!rewind_data.rewinding) {
+      rewind_data.frame_count++;
+      if (rewind_data.frame_count >= REWIND_GRANULARITY) {
+         rewind_save_state();
+         rewind_data.frame_count = 0;
+      }
+   }
 }
 
 bool retro_load_game(const struct retro_game_info *info)
@@ -1462,3 +1531,121 @@ void retro_cheat_reset(void)
 
 void retro_cheat_set(unsigned, bool, const char *)
 {}
+
+// SF2000 Rewind Implementation
+static void rewind_init()
+{
+   // Initialize rewind system
+   rewind_data.enabled = true;
+   rewind_data.rewinding = false;
+   rewind_data.current_index = 0;
+   rewind_data.frame_count = 0;
+   rewind_data.temp_buffer_size = 65536; // 64KB initial buffer
+   rewind_data.temp_buffer = (uint8_t*)malloc(rewind_data.temp_buffer_size);
+   
+   // Initialize all buffer slots
+   for (int i = 0; i < REWIND_BUFFER_SIZE; i++) {
+      rewind_data.buffer[i].data = NULL;
+      rewind_data.buffer[i].size = 0;
+      rewind_data.buffer[i].valid = false;
+   }
+}
+
+static void rewind_deinit()
+{
+   // Free all allocated memory
+   if (rewind_data.temp_buffer) {
+      free(rewind_data.temp_buffer);
+      rewind_data.temp_buffer = NULL;
+   }
+   
+   for (int i = 0; i < REWIND_BUFFER_SIZE; i++) {
+      if (rewind_data.buffer[i].data) {
+         free(rewind_data.buffer[i].data);
+         rewind_data.buffer[i].data = NULL;
+      }
+      rewind_data.buffer[i].valid = false;
+   }
+   
+   rewind_data.enabled = false;
+}
+
+static void rewind_save_state()
+{
+   if (!rewind_data.enabled || !emu) return;
+   
+   // Get current state size
+   size_t state_size = retro_serialize_size();
+   if (state_size == 0) return;
+   
+   // Resize temp buffer if needed
+   if (state_size > rewind_data.temp_buffer_size) {
+      rewind_data.temp_buffer_size = state_size + 8192; // Add some padding
+      rewind_data.temp_buffer = (uint8_t*)realloc(rewind_data.temp_buffer, rewind_data.temp_buffer_size);
+      if (!rewind_data.temp_buffer) return;
+   }
+   
+   // Save current state to temp buffer
+   if (!retro_serialize(rewind_data.temp_buffer, state_size)) return;
+   
+   // Move to next buffer slot
+   rewind_data.current_index = (rewind_data.current_index + 1) % REWIND_BUFFER_SIZE;
+   
+   // Free old data in this slot
+   if (rewind_data.buffer[rewind_data.current_index].data) {
+      free(rewind_data.buffer[rewind_data.current_index].data);
+   }
+   
+   // Allocate new data for this slot
+   rewind_data.buffer[rewind_data.current_index].data = (uint8_t*)malloc(state_size);
+   if (!rewind_data.buffer[rewind_data.current_index].data) return;
+   
+   // Copy state data
+   memcpy(rewind_data.buffer[rewind_data.current_index].data, rewind_data.temp_buffer, state_size);
+   rewind_data.buffer[rewind_data.current_index].size = state_size;
+   rewind_data.buffer[rewind_data.current_index].valid = true;
+}
+
+static void rewind_load_state()
+{
+   if (!rewind_data.enabled || !emu) return;
+   
+   // Find the most recent valid state
+   int load_index = rewind_data.current_index;
+   int attempts = 0;
+   
+   while (attempts < REWIND_BUFFER_SIZE) {
+      load_index = (load_index - 1 + REWIND_BUFFER_SIZE) % REWIND_BUFFER_SIZE;
+      
+      if (rewind_data.buffer[load_index].valid) {
+         // Load this state
+         if (retro_unserialize(rewind_data.buffer[load_index].data, rewind_data.buffer[load_index].size)) {
+            // Successfully loaded, invalidate this state so we don't load it again
+            rewind_data.buffer[load_index].valid = false;
+            rewind_data.current_index = load_index;
+            return;
+         }
+      }
+      attempts++;
+   }
+}
+
+static void rewind_check_buttons()
+{
+   if (!rewind_data.enabled) return;
+   
+   // Handle button state changes
+   if (rewind_button_pressed && !rewind_button_held) {
+      // Button just pressed - start rewinding
+      rewind_data.rewinding = true;
+      rewind_button_held = true;
+      rewind_load_state();
+   } else if (!rewind_button_pressed && rewind_button_held) {
+      // Button just released - stop rewinding
+      rewind_data.rewinding = false;
+      rewind_button_held = false;
+   } else if (rewind_button_pressed && rewind_button_held) {
+      // Button held - continue rewinding
+      rewind_load_state();
+   }
+}

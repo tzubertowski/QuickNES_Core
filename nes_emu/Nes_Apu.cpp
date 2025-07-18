@@ -18,6 +18,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA */
 
 int const amp_range = 15;
 
+// SF2000 MIPS optimization: Fast APU computation
+#ifdef SF2000
+	#define FAST_APU_COMPUTE __attribute__((always_inline))
+#else
+	#define FAST_APU_COMPUTE
+#endif
+
 Nes_Apu::Nes_Apu() :
 	square1( &square_synth ),
 	square2( &square_synth )

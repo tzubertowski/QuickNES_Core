@@ -29,9 +29,16 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA */
 	const  unsigned zero = 0; // compile-time constant on other compilers
 #endif
 
+// SF2000 MIPS optimization: Cache-friendly tile access
+#ifdef SF2000
+	#define FAST_TILE_ACCESS __attribute__((always_inline))
+#else
+	#define FAST_TILE_ACCESS
+#endif
+
 // Nes_Ppu_Impl
 
-inline Nes_Ppu_Impl::cached_tile_t const&
+FAST_TILE_ACCESS inline Nes_Ppu_Impl::cached_tile_t const&
 		Nes_Ppu_Impl::get_sprite_tile( uint8_t const* sprite )
 {
 	cached_tile_t* tiles = tile_cache;
@@ -45,7 +52,7 @@ inline Nes_Ppu_Impl::cached_tile_t const&
 			((uint8_t*) tiles + map_chr_addr( index * bytes_per_tile ));
 }
 
-inline Nes_Ppu_Impl::cached_tile_t const& Nes_Ppu_Impl::get_bg_tile( int index )
+FAST_TILE_ACCESS inline Nes_Ppu_Impl::cached_tile_t const& Nes_Ppu_Impl::get_bg_tile( int index )
 {
 	// use index directly, since cached tile is same size as native tile
 	BOOST_STATIC_ASSERT( sizeof (cached_tile_t) == bytes_per_tile );

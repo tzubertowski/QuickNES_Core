@@ -9,6 +9,15 @@
 #include <stdint.h>
 #include "blargg_common.h"
 
+// SF2000 MIPS optimization: CPU performance enhancements
+#ifdef SF2000
+	#define CPU_FAST_CALL __attribute__((always_inline))
+	#define CPU_HOT_FUNCTION __attribute__((hot))
+#else
+	#define CPU_FAST_CALL
+	#define CPU_HOT_FUNCTION
+#endif
+
 typedef long     nes_time_t; // clock cycle count
 typedef unsigned nes_addr_t; // 16-bit address
 
@@ -25,8 +34,8 @@ public:
 	void map_code( nes_addr_t start, unsigned size, void const* code );
 	
 	// Access memory as the emulated CPU does.
-	int  read( nes_addr_t );
-	void write( nes_addr_t, int data );
+	CPU_FAST_CALL int  read( nes_addr_t );
+	CPU_FAST_CALL void write( nes_addr_t, int data );
 	uint8_t* get_code( nes_addr_t ); // non-const to allow debugger to modify code
 	
 	// Push a byte on the stack
@@ -51,7 +60,7 @@ public:
 		result_badop    // unimplemented/illegal instruction
 	};
 	
-	result_t run( nes_time_t end_time );
+	CPU_HOT_FUNCTION result_t run( nes_time_t end_time );
 	
 	nes_time_t time() const             { return clock_count; }
 	void reduce_limit( int offset );

@@ -357,6 +357,9 @@ else ifeq ($(platform), sf2000)
 	CFLAGS = -EL -march=mips32 -mtune=mips32 -msoft-float -G0 -mno-abicalls -fno-pic
 	CFLAGS += -ffast-math -fomit-frame-pointer -ffunction-sections -fdata-sections 
 	CFLAGS += -DSF2000 -DNO_UNALIGNED_ACCESS
+	# SF2000 MIPS optimization: Aggressive performance flags
+	CFLAGS += -funroll-loops -fprefetch-loop-arrays -fschedule-insns2 
+	CFLAGS += -finline-functions -fgcse-after-reload -fipa-cp-clone
 	CXXFLAGS = $(CFLAGS)
 	STATIC_LINKING = 1
 
