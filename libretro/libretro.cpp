@@ -187,10 +187,15 @@ static void draw_splash_screen(uint16_t *framebuffer, int fb_width, int fb_heigh
    int ff_width = strlen(ff_text) * 8;
    draw_string(center_x - ff_width / 2, center_y + 10, ff_text, framebuffer, fb_width, fb_height, text_color);
    
-   // Discord link: "discord.gg/bvfKkHvsXK" - 30 pixels below center
+   // Slow motion instructions: "SEL + LEFT = SLOW" - 30 pixels below center
+   char slow_text[] = "SEL + LEFT = SLOW";
+   int slow_width = strlen(slow_text) * 8;
+   draw_string(center_x - slow_width / 2, center_y + 30, slow_text, framebuffer, fb_width, fb_height, text_color);
+   
+   // Discord link: "discord.gg/bvfKkHvsXK" - 50 pixels below center
    char discord[] = "discord.gg/bvfKkHvsXK";
    int discord_width = strlen(discord) * 8;
-   draw_string(center_x - discord_width / 2, center_y + 30, discord, framebuffer, fb_width, fb_height, text_color);
+   draw_string(center_x - discord_width / 2, center_y + 50, discord, framebuffer, fb_width, fb_height, text_color);
    
    // Version date: dynamic compilation date - 50 pixels below center
    char version[] = "compiled " __DATE__;
@@ -257,6 +262,12 @@ static int fast_forward_speed = 1;  // 1x, 2x, 3x speed multiplier
 static bool fast_forward_button_pressed = false;
 static bool fast_forward_button_held = false;
 
+// SF2000 Slow Motion Variables
+static int slow_motion_mode = 0;    // 0=normal, 1=0.7x, 2=0.5x
+static bool slow_motion_button_pressed = false;
+static bool slow_motion_button_held = false;
+static int slow_motion_frame_counter = 0;
+
 // Splashscreen timing variables
 static int splashscreen_frame_count = 0;
 static bool splashscreen_active = true;
@@ -277,6 +288,7 @@ static void rewind_save_state();
 static void rewind_load_state();
 static void rewind_check_buttons();
 static void fast_forward_check_buttons();
+static void slow_motion_check_buttons();
 
 /* ========================================
  * Palette additions START
@@ -1242,12 +1254,15 @@ static void update_input(int pads[MAX_PLAYERS])
 
          // SF2000 Rewind: Check for SELECT + L button combination
          // SF2000 Fast Forward: Check for SELECT + R button combination
+         // SF2000 Slow Motion: Check for SELECT + LEFT button combination
          if (p == 0) {
             bool select_pressed = input_state_cb(p, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_SELECT);
             bool l_pressed = input_state_cb(p, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L);
             bool r_pressed = input_state_cb(p, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_R);
+            bool left_pressed = input_state_cb(p, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT);
             rewind_button_pressed = select_pressed && l_pressed;
             fast_forward_button_pressed = select_pressed && r_pressed;
+            slow_motion_button_pressed = select_pressed && left_pressed;
          }
       }
 
@@ -1382,9 +1397,25 @@ void retro_run(void)
 
    if (!videoDisabledForThisFrame)
    {
-      // SF2000 Fast Forward: Run multiple frames based on speed setting
-      for (int ff_frame = 0; ff_frame < fast_forward_speed; ff_frame++) {
-         emu->emulate_frame(pads[0], pads[1]);
+      // SF2000 Slow Motion: Check if we should skip this frame
+      bool should_run_frame = true;
+      if (slow_motion_mode == 1) {  // 0.7x speed
+         slow_motion_frame_counter++;
+         if (slow_motion_frame_counter % 10 >= 7) {
+            should_run_frame = false;
+         }
+      } else if (slow_motion_mode == 2) {  // 0.5x speed
+         slow_motion_frame_counter++;
+         if (slow_motion_frame_counter % 2 == 1) {
+            should_run_frame = false;
+         }
+      }
+      
+      if (should_run_frame) {
+         // SF2000 Fast Forward: Run multiple frames based on speed setting
+         for (int ff_frame = 0; ff_frame < fast_forward_speed; ff_frame++) {
+            emu->emulate_frame(pads[0], pads[1]);
+         }
       }
 	   const Nes_Emu::frame_t &frame = emu->frame();
 #ifdef PSP
@@ -1512,9 +1543,25 @@ void retro_run(void)
    }
    else
    {
-      // SF2000 Fast Forward: Run multiple frames even when video disabled
-      for (int ff_frame = 0; ff_frame < fast_forward_speed; ff_frame++) {
-         emu->emulate_skip_frame(pads[0], pads[1]);
+      // SF2000 Slow Motion: Check if we should skip this frame
+      bool should_run_frame = true;
+      if (slow_motion_mode == 1) {  // 0.7x speed
+         slow_motion_frame_counter++;
+         if (slow_motion_frame_counter % 10 >= 7) {
+            should_run_frame = false;
+         }
+      } else if (slow_motion_mode == 2) {  // 0.5x speed
+         slow_motion_frame_counter++;
+         if (slow_motion_frame_counter % 2 == 1) {
+            should_run_frame = false;
+         }
+      }
+      
+      if (should_run_frame) {
+         // SF2000 Fast Forward: Run multiple frames even when video disabled
+         for (int ff_frame = 0; ff_frame < fast_forward_speed; ff_frame++) {
+            emu->emulate_skip_frame(pads[0], pads[1]);
+         }
       }
    }
 
@@ -1544,6 +1591,9 @@ void retro_run(void)
    
    // SF2000 Fast Forward: Handle fast forward functionality
    fast_forward_check_buttons();
+   
+   // SF2000 Slow Motion: Handle slow motion functionality
+   slow_motion_check_buttons();
    
    // SF2000 Rewind: Save state periodically (not while rewinding)
    if (!rewind_data.rewinding) {
@@ -1904,5 +1954,30 @@ static void fast_forward_check_buttons()
    } else if (!fast_forward_button_pressed && fast_forward_button_held) {
       // Button just released
       fast_forward_button_held = false;
+   }
+}
+
+// Slow motion functionality for SF2000
+
+static void slow_motion_toggle()
+{
+   // Cycle through speeds: 1x -> 0.7x -> 0.5x -> 1x
+   slow_motion_mode++;
+   if (slow_motion_mode > 2) {
+      slow_motion_mode = 0;
+   }
+   slow_motion_frame_counter = 0;  // Reset frame counter
+}
+
+static void slow_motion_check_buttons()
+{
+   // Handle button state changes for SELECT + LEFT
+   if (slow_motion_button_pressed && !slow_motion_button_held) {
+      // Button just pressed - toggle slow motion mode
+      slow_motion_toggle();
+      slow_motion_button_held = true;
+   } else if (!slow_motion_button_pressed && slow_motion_button_held) {
+      // Button just released
+      slow_motion_button_held = false;
    }
 }

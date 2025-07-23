@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls:*)",
+      "Bash(./buildcoresworking.sh:*)",
+      "Bash(/dev/null)",
+      "Bash(grep:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git config:*)",
+      "Bash(make:*)",
+      "Bash(./buildcoresworking QuickNES_Core)",
+      "Bash(git remote add:*)"
+    ],
+    "deny": []
+  }
+}
